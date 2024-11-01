@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>레이아웃</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+</head>
+<body>
+
+    <div id="wrap">
+        <th:block th:replace="fragment/header :: header"></th:block>
+        <div id="middle">
+            <div th:replace="fragment/side :: side"></div>
+            <div layout:fragment="body" id="main"></div>
+        </div>
+    </div>
+
+</body>
+</html>
