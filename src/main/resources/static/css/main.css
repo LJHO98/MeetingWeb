@@ -20,13 +20,22 @@ a{
 #header{
     width: 100%;
     height: 80px;
-    border: 1px solid #B7F0B1;
+    background-color: #fff;
+    box-shadow: 0 8px 10px 0 rgba(89, 218, 80, 0.3);
     position: sticky;
 }
 
 #main{
-    width: calc(100% - 200px);
+    width: calc(100% - 600px);
     position: relative;
+    margin: 0 300px 0 100px;
+}
+
+#listIcon{
+    margin-left: 300px;
+    font-size: 30px;
+    line-height: 80px;
+    cursor: pointer;
 }
 
 #headerWrap{
@@ -47,6 +56,7 @@ a{
     line-height: 80px;
     font-weight: 500;
     font-family: 'NanumSquareAcb';
+    color: #4C4C4C;
 }
 
 #login{
@@ -69,6 +79,13 @@ a{
     left: 0;
     height: calc(100vh - 80px);
     border: 1px solid #B7F0B1;
+    display: none;
+    transition: transform 0.4s ease; /* 부드러운 전환 효과 */
+    transform: translateX(0); /* 사이드바가 보이는 상태 */
+}
+
+#side.toggle{
+    transform: translateX(-100%);
 }
 
 .sidebar{
@@ -79,15 +96,18 @@ a{
     line-height: 100px;
     font-weight: 500;
     font-family: 'NanumSquareAcb';
+    color: #4C4C4C;
 }
 
 .sidebar a:hover{
-    color: #86E57F;
+    color: #65D35D;
 }
 
 .sidebar i{
     font-size: 25px;
     margin-right: 10px;
+    top: 3px;
+    position: relative;
 }
 
 .sidebar a{
