@@ -2,7 +2,25 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
     <div th:fragment="side" id="side">
-        <p>side</p>
+        <div id="introduce" class="sidebar">
+            <a href=""><i class="bi bi-book"></i>소개</a>
+        </div>
+
+        <div id="createGroup" class="sidebar">
+            <a href="/group/createGroup"><i class="bi bi-people"></i>모임</a>
+        </div>
+
+        <div id="createTournament" class="sidebar">
+            <a href="/tournament/createTournament"><i class="bi bi-fire"></i>대회</a>
+        </div>
+
+        <div id="ranking" class="sidebar">
+            <a href=""><i class="bi bi-trophy"></i>랭킹</a>
+        </div>
+
+        <div id="helpline" class="sidebar">
+            <a href=""><i class="bi bi-patch-question"></i>고객센터</a>
+        </div>
     </div>
 
 </html>

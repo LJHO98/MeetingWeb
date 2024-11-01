@@ -1,10 +1,65 @@
 /* main.css */
 
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+#wrap{
+    width: 100%;
+    position: relative;
+    overflow: visible;
+}
+
 #header{
     width: 100%;
-    height: 200px;
-    background: yellow;
+    height: 80px;
+    border: 1px solid #B7F0B1;
     position: sticky;
+}
+
+#main{
+    width: calc(100% - 200px);
+    position: relative;
+}
+
+#headerWrap{
+    top: 0;
+    right: 10px;
+    width: 200px;
+    display: flex;
+    height: 80px;
+    position: absolute;
+    margin-right: 300px;
+}
+
+#headerWrap .headerBox{
+    width: 100px;
+    height: 80px;
+    text-align: center;
+    font-size: 17px;
+    line-height: 80px;
+    font-weight: 500;
+    font-family: 'NanumSquareAcb';
+}
+
+#login{
+}
+
+#join{
+}
+
+#middle{
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
 }
 
 #side{
@@ -12,4 +67,38 @@
     position: sticky;
     top: 0;
     left: 0;
+    height: calc(100vh - 80px);
+    border: 1px solid #B7F0B1;
+}
+
+.sidebar{
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 100px;
+    font-weight: 500;
+    font-family: 'NanumSquareAcb';
+}
+
+.sidebar a:hover{
+    color: #86E57F;
+}
+
+.sidebar i{
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.sidebar a{
+    height: 30px;
+    line-height: 30px;
+}
+#introduce{
+    margin-top: 50px;
+}
+
+#helpline{
+    position: absolute;
+    bottom: 50px;
 }

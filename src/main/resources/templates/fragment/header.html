@@ -2,7 +2,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
     <div th:fragment="header" id="header">
-        <p>header</p>
+        <div id="headerWrap">
+            <div id="login" class="headerBox">
+                <a href="/start/login">로그인</a>
+            </div>
+
+            <div id="join" class="headerBox">
+                <a href="/start/join">회원가입</a>
+            </div>
+        </div>
     </div>
 
 </html>
