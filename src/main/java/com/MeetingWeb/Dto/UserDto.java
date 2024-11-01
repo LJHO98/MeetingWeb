@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,18 +26,18 @@ public class UserDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
     private String activityArea;
-    private String profileImgUrl;
+    private MultipartFile profileImage;
     private String gender;
     private List<Long> selectedCategoryIds;
 
-    public User toEntity(List<GroupCategory> groupCategories, PasswordEncoder passwordEncoder){
+    public User toEntity(List<GroupCategory> groupCategories, PasswordEncoder passwordEncoder, String profileImageUrl){
         User user = new User();
         user.setName(this.name);
         user.setEmail(this.email);
         user.setBirthdate(this.birthdate);
         user.setPassword(passwordEncoder.encode(this.password));
         user.setActivityArea(this.activityArea);
-        user.setProfileImgUrl(this.profileImgUrl);
+        user.setProfileImgUrl(profileImageUrl);
         user.setUserName(this.userName);
         user.setGender(Gender.valueOf(this.gender));
         user.setRole(Role.USER);

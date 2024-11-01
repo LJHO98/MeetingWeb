@@ -16,17 +16,23 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final GroupCategoryRepository groupCategoryRepository;
+    private final ProfileUploadService profileUploadService;
 
     public List<GroupCategory> getGroupCategories() {
         return groupCategoryRepository.findAll();
     }
 
     public void singUp(UserDto userDto, PasswordEncoder passwordEncoder) {
-        //DB에서 모든 GroupCategory 가져오기
-        List<GroupCategory> groupCategories = getGroupCategories();
-        //User 엔티티 생성
-        User user = userDto.toEntity(groupCategories, passwordEncoder);
-        userRepository.save(user);
+        try {
+            String profileImageUrl = profileUploadService.saveUserProfile(userDto.getProfileImage());
+            //DB에서 모든 GroupCategory 가져오기
+            List<GroupCategory> groupCategories = getGroupCategories();
+            //User 엔티티 생성
+            User user = userDto.toEntity(groupCategories, passwordEncoder, profileImageUrl);
+            userRepository.save(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
