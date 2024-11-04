@@ -1,5 +1,7 @@
 package com.MeetingWeb.Entity;
 
+import com.MeetingWeb.Constant.Gender;
+import com.MeetingWeb.Constant.RegistType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,16 +16,20 @@ public class Groups {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groupId;
+
+    @Column(unique = true)
     private String name;
     private String introduce;
     @Lob
     private String description;
     private String category;
     private String location;
-    private String genderPreference;
+    @Enumerated(EnumType.STRING)
+    private Gender genderPreference;
     private Integer minAge;
     private Integer maxAge;
-    private String registrationType;
+    @Enumerated(EnumType.STRING)
+    private RegistType registrationType;
     private Integer currentHeadCount = 0;
     private Integer capacity;
     private String profileImgUrl;

@@ -19,7 +19,7 @@ public class ProfileUploadService {
     @Value("${uploadPath}")
     private String uploadPath;
 
-    public String saveUserProfile(MultipartFile file) throws IOException {
+    public String saveProfile(MultipartFile file) throws IOException {
         //원본 파일명에서 확장자 추출
         String originalFileName = file.getOriginalFilename();
         String fileExtension = "";

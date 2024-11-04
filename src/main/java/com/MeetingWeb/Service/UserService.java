@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
 
     public void singUp(UserDto userDto, PasswordEncoder passwordEncoder) {
         try {
-            String profileImageUrl = profileUploadService.saveUserProfile(userDto.getProfileImage());
+            String profileImageUrl = profileUploadService.saveProfile(userDto.getProfileImage());
             //DB에서 모든 GroupCategory 가져오기
             List<GroupCategory> groupCategories = getGroupCategories();
             //User 엔티티 생성

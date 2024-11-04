@@ -41,9 +41,8 @@ public class GroupController {
 
     @GetMapping("/content")
     public String getGroup(Model model) {
-        GroupDto groupDto = groupService.getGroupById(1L); // 그룹 조회
+        GroupDto groupDto = groupService.getGroupById(2L); // 그룹 조회
         model.addAttribute("groupDto", groupDto);
-        System.out.println("wwwwwwwwwwwwwwwwwwwwww"+groupDto.getDescription());
         return "group/viewContent"; // viewContent.html 페이지로 이동
     }
 }
