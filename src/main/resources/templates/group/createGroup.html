@@ -4,10 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#description',
+            plugins: 'image link',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link',
+            images_upload_url: '/upload',
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            images_upload_handler: function (blobInfo, success, failure) {
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log("Uploaded image URL:", data.location);
+                        success(data.location);
+                    })
+                    .catch(() => failure('Image upload failed'));
+            }
+        });
+    </script>
 </head>
 
 <div layout:fragment="body">
+    <form th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
+        <label th:for="name">Name:</label>
+        <input type="text" th:field="*{name}" required/>
 
+        <label th:for="introduce">Introduce:</label>
+        <input type="text" th:field="*{introduce}" required/>
+
+        <label th:for="description">Description:</label>
+        <textarea id="description" th:field="*{description}"></textarea>
+
+        <label th:for="category">Category:</label>
+        <input type="text" th:field="*{category}" required/>
+
+        <label th:for="location">Location:</label>
+        <input type="text" th:field="*{location}" required/>
+
+        <label th:for="profileImg">Profile Image:</label>
+        <input type="file" th:field="*{profileImg}" accept="image/*"/>
+
+        <button type="submit">Create Group</button>
+    </form>
+    <a href="/content">ㅇㅇㅇㅇㅇㅇㅇ</a>
 </div>
 
 </html>

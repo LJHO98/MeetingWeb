@@ -31,6 +31,8 @@ public class User {
     private LocalDate birthdate;
     private String activityArea;
     private String profileImgUrl;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(updatable = false)
@@ -52,5 +54,6 @@ public class User {
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now(); // 업데이트할 때마다 현재 시간을 설정
     }
+
 
 }

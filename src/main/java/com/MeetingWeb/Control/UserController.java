@@ -27,4 +27,9 @@ public class UserController {
         userService.singUp(userDto, passwordEncoder);
         return "home";
     }
+
+    @GetMapping("/start/login")
+    public String login(Model model) {
+        return "start/login";
+    }
 }
