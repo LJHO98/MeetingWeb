@@ -61,8 +61,8 @@
 <div layout:fragment="body" id="main">
 
     <div id="textBox">
-        <p id="groupListText">모임 목록</p>
-        <p id="groupCreateText">모임 만들기</p>
+        <p id="groupListText"><a href="">모임 목록</a></p>
+        <p id="groupCreateText"><span class="highlight">모임 만들기</span></p>
     </div>
 
     <form id="form" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
@@ -92,12 +92,14 @@
             <input type="text" th:field="*{location}" required/>
         </div>
 
-        <div class="inputBox">
+        <div class="inputBox" id="imgBox">
             <label th:for="profileImg">대표 이미지</label>
             <input type="file" th:field="*{profileImg}" accept="image/*"/>
         </div>
 
-        <button id="bt" type="submit">생성</button>
+        <div id="btWrap">
+            <button id="bt" type="submit">생성</button>
+        </div>
     </form>
     <a href="/content">ㅇㅇㅇㅇㅇㅇㅇ</a>
 </div>

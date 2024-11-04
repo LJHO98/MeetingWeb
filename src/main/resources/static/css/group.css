@@ -12,13 +12,13 @@ a{
 
 #main{
     width: 600px;
-    margin: 0 751.5px 0 351.5px;
+    margin: 0 651.5px 50px 451.5px;
 }
 
 #textBox{
     margin: 50px auto 30px auto;
     display: flex;
-    width: 282px;
+    width: 300px;
 }
 
 #groupListText{
@@ -26,7 +26,11 @@ a{
     font-family: 'NanumSquareAcr';
     margin-right: 30px;
     align-self: end;
-    color: #353535;
+    color: #868686;
+}
+
+#groupListText:hover{
+    font-weight: 600;
 }
 
 #groupCreateText{
@@ -36,32 +40,76 @@ a{
     color: #353535;
 }
 
+.highlight{
+    display: inline;
+    box-shadow: inset 0 -20px 0 #AAFFA3;
+    /*-10px은 highlight의 두께*/
+    opacity: 0.5;
+    z-index: -1;
+}
+
 #form{
     width: 100%;
     margin: 0 auto;
-    border: 2px solid #aaa;
+    border: 3px solid #aaa;
     border-radius: 13px;
     padding: 40px 50px;
 }
 
 label{
-    font-size: 20px;
+    font-size: 18px;
     width: 100%;
     display: block;
     margin-bottom: 5px;
     font-family: 'NanumSquareAcr';
+    color: #626262;
 }
 
 input{
-    width: 400px;
+    width: 100%;
     height: 40px;
     border-radius: 10px;
+    border: 2px solid #aaa;
+    padding: 0 13px;
+}
+
+input:focus{
+    box-shadow: 0 4px 8px rgba(89, 218, 80, 0.3), /* 아래쪽 */
+    0 -4px 8px rgba(89, 218, 80, 0.3), /* 위쪽 */
+    -4px 0 8px rgba(89, 218, 80, 0.3), /* 왼쪽 */
+    4px 0 8px rgba(89, 218, 80, 0.3);  /* 오른쪽 */
 }
 
 #intro input{
     margin-top: 0;
 }
 
+#imgBox input{
+    border: none;
+}
+
 .inputBox{
     margin-bottom: 50px;
+}
+
+#btWrap{
+    align-items: center;
+    display: flex;
+}
+
+#bt{
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-family: 'NanumSquareBold';
+    color: #fff;
+    cursor: pointer;
+    margin: 0 auto;
+    background: #86E57F;
+    border: none;
+}
+
+#bt:hover{
+    background: #47C83E;
 }
