@@ -6,18 +6,40 @@
     <title>Title</title>
     <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
+        // tinymce.init({
+        //     selector: '#description',
+        //     plugins: 'image link',
+        //     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link',
+        //     images_upload_url: '/upload',
+        //     automatic_uploads: true,
+        //     file_picker_types: 'image',
+        //     images_upload_handler: function (blobInfo, success, failure) {
+        //         const formData = new FormData();
+        //         formData.append('file', blobInfo.blob(), blobInfo.filename());
+        //
+        //         fetch('/upload', {
+        //             method: 'POST',
+        //             body: formData
+        //         }).then(response => response.json())
+        //             .then(data => {
+        //                 console.log("Uploaded image URL:", data.location);
+        //                 success(data.location);
+        //             })
+        //             .catch(() => failure('Image upload failed'));
+        //     }
+        // });
         tinymce.init({
             selector: '#description',
             plugins: 'image link',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link',
-            images_upload_url: '/upload',
+            images_upload_url: '/img',
             automatic_uploads: true,
             file_picker_types: 'image',
             images_upload_handler: function (blobInfo, success, failure) {
                 const formData = new FormData();
                 formData.append('file', blobInfo.blob(), blobInfo.filename());
 
-                fetch('/upload', {
+                fetch('/img', {
                     method: 'POST',
                     body: formData
                 }).then(response => response.json())
