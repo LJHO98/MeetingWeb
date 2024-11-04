@@ -9,6 +9,7 @@ import com.MeetingWeb.Repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 
 @Service
@@ -18,8 +19,9 @@ public class GroupService {
     private final GroupDescriptionRepository groupDescriptionRepository;
     private final ProfileUploadService profileUploadService;
 
+    @Transactional
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
-        String profileImageUrl = profileUploadService.saveUserProfile(groupDto.getProfileImg());
+        String profileImageUrl = profileUploadService.saveProfile(groupDto.getProfileImg());
         Groups group = groupDto.toEntity(profileImageUrl,createdBy);
         group = groupRepository.save(group);
 

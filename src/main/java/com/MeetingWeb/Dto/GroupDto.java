@@ -1,5 +1,7 @@
 package com.MeetingWeb.Dto;
 
+import com.MeetingWeb.Constant.Gender;
+import com.MeetingWeb.Constant.RegistType;
 import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.User;
 import lombok.Getter;
@@ -17,10 +19,10 @@ public class GroupDto {
     private String description;
     private String category;
     private String location;
-    private String genderPreference;
+    private Gender genderPreference;
     private Integer minAge;
     private Integer maxAge;
-    private String registrationType;
+    private RegistType registrationType;
     private Integer currentHeadCount;
     private Integer capacity;
     private Long createdBy;
@@ -38,7 +40,7 @@ public class GroupDto {
         group.setGenderPreference(this.genderPreference);
         group.setMinAge(this.minAge);
         group.setMaxAge(this.maxAge);
-        group.setRegistrationType(this.registrationType);
+        group.setRegistrationType(this.getRegistrationType());
         group.setCurrentHeadCount(this.currentHeadCount);
         group.setCapacity(this.capacity);
         group.setProfileImgUrl(profileImageUrl);
