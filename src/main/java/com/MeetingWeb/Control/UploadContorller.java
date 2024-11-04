@@ -17,7 +17,7 @@ import java.util.Map;
 public class UploadContorller {
     private final FileStorageService fileStorageService;
 
-    @PostMapping("/upload")
+    @PostMapping("/img")
     public ResponseEntity<Map<String, String>> handleFileUpload(@RequestParam("file") MultipartFile file) {
         Map<String, String> response = new HashMap<>();
         if (file.isEmpty()) {
