@@ -51,14 +51,11 @@ a{
 #form{
     width: 100%;
     margin: 0 auto;
-    border: 3px solid #aaa;
-    border-radius: 13px;
     padding: 40px 50px;
 }
 
 label{
     font-size: 18px;
-    width: 100%;
     display: block;
     margin-bottom: 5px;
     font-family: 'NanumSquareAcr';
@@ -92,9 +89,27 @@ input:focus{
     margin-bottom: 50px;
 }
 
+.gender-options {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.gender-options label{
+    font-size: 15px;
+}
+
+.gender-options input[type="radio"] {
+    width: 15px; /* 라디오 버튼의 너비 조정 */
+    height: 15px; /* 라디오 버튼의 높이 조정 */
+    margin-right: 5px; /* 버튼과 텍스트 사이 간격 */
+}
+
 #btWrap{
     align-items: center;
     display: flex;
+    margin-top: 20px;
 }
 
 #bt{

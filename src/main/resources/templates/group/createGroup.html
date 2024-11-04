@@ -55,6 +55,20 @@
                     .catch(() => failure('Image upload failed'));
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const selectElement = document.getElementById("numberSelect");
+            const min = 5;  // 시작 숫자
+            const max = 30;  // 끝 숫자
+
+            for (let i = min; i <= max; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = i;
+                selectElement.appendChild(option);
+            }
+        });
+
     </script>
 </head>
 
@@ -96,6 +110,27 @@
             <label th:for="profileImg">대표 이미지</label>
             <input type="file" th:field="*{profileImg}" accept="image/*"/>
         </div>
+
+        <div class="inputBox">
+            <label th:for="gender">성별</label>
+            <div class="gender-options">
+                <label>
+                    <input type="radio" id="male" name="gender" value="MALE" th:field="*{genderPreference}">
+                    남성
+                </label>
+                <label>
+                    <input type="radio" id="female" name="gender" value="FEMALE" th:field="*{genderPreference}">
+                    여성
+                </label>
+                <label>
+                    <input type="radio" id="other" name="gender" value="OTHER" th:field="*{genderPreference}">
+                    선택안함
+                </label>
+            </div>
+        </div>
+
+        <label for="numberSelect">정원</label>
+        <select id="numberSelect" name="numberSelect" th:field="*{capacity}"></select>
 
         <div id="btWrap">
             <button id="bt" type="submit">생성</button>
