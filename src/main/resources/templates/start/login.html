@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}"> <!-- Thymeleaf 문법 사용 -->
 </head>
 <body>
-<form action="/login" method="post">
-    <label for="userName">Username:</label>
-    <input type="text" id="userName" name="userName"/>
+<div layout:fragment="body" id="main">
+    <h5>로그인</h5>
+    <form action="/login" method="post" class="login-form">
+        <div class="input-container">
+            <label for="userName"></label>
+            <input type="text" id="userName" name="userName" placeholder="아이디" required/>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password"/>
+            <label for="password"></label>
+            <input type="password" id="password" name="password" placeholder="비밀번호" required/>
 
-    <button type="submit">Login</button>
-</form>
+            <button type="submit" class="button">로그인</button>
+        </div>
+    </form>
+    <div class="link-container">
+        <a class="link">아이디 찾기</a>
+        <a class="link">비밀번호 찾기</a>
+        <a class="link">회원가입</a>
+    </div>
+</div>
 </body>
 </html>
