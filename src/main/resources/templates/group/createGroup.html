@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
     <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <link rel="stylesheet" href="/css/group.css">
+
     <script>
         // tinymce.init({
         //     selector: '#description',
@@ -53,27 +58,46 @@
     </script>
 </head>
 
-<div layout:fragment="body">
-    <form th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
-        <label th:for="name">Name:</label>
-        <input type="text" th:field="*{name}" required/>
+<div layout:fragment="body" id="main">
 
-        <label th:for="introduce">Introduce:</label>
-        <input type="text" th:field="*{introduce}" required/>
+    <div id="textBox">
+        <p id="groupListText">모임 목록</p>
+        <p id="groupCreateText">모임 만들기</p>
+    </div>
 
-        <label th:for="description">Description:</label>
-        <textarea id="description" th:field="*{description}"></textarea>
+    <form id="form" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
 
-        <label th:for="category">Category:</label>
-        <input type="text" th:field="*{category}" required/>
+        <div class="inputBox">
+            <label th:for="name">이름</label>
+            <input type="text" th:field="*{name}" required/>
+        </div>
 
-        <label th:for="location">Location:</label>
-        <input type="text" th:field="*{location}" required/>
+        <div class="inputBox" id="intro">
+            <label th:for="introduce">소개글</label>
+            <input type="text" th:field="*{introduce}" required/>
+        </div>
 
-        <label th:for="profileImg">Profile Image:</label>
-        <input type="file" th:field="*{profileImg}" accept="image/*"/>
+        <div class="inputBox">
+            <label th:for="description">내용</label>
+            <textarea id="description" th:field="*{description}"></textarea>
+        </div>
 
-        <button type="submit">Create Group</button>
+        <div class="inputBox">
+            <label th:for="category">카테고리</label>
+            <input type="text" th:field="*{category}" required/>
+        </div>
+
+        <div class="inputBox">
+            <label th:for="location">활동 지역</label>
+            <input type="text" th:field="*{location}" required/>
+        </div>
+
+        <div class="inputBox">
+            <label th:for="profileImg">대표 이미지</label>
+            <input type="file" th:field="*{profileImg}" accept="image/*"/>
+        </div>
+
+        <button id="bt" type="submit">생성</button>
     </form>
     <a href="/content">ㅇㅇㅇㅇㅇㅇㅇ</a>
 </div>

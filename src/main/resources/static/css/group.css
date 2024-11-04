@@ -1,0 +1,67 @@
+/* createGroup */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+#main{
+    width: 600px;
+    margin: 0 751.5px 0 351.5px;
+}
+
+#textBox{
+    margin: 50px auto 30px auto;
+    display: flex;
+    width: 282px;
+}
+
+#groupListText{
+    font-size: 25px;
+    font-family: 'NanumSquareAcr';
+    margin-right: 30px;
+    align-self: end;
+    color: #353535;
+}
+
+#groupCreateText{
+    font-size: 35px;
+    font-family: 'NanumSquareAceb';
+    align-self: end;
+    color: #353535;
+}
+
+#form{
+    width: 100%;
+    margin: 0 auto;
+    border: 2px solid #aaa;
+    border-radius: 13px;
+    padding: 40px 50px;
+}
+
+label{
+    font-size: 20px;
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'NanumSquareAcr';
+}
+
+input{
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+#intro input{
+    margin-top: 0;
+}
+
+.inputBox{
+    margin-bottom: 50px;
+}
