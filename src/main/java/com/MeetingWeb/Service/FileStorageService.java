@@ -18,6 +18,7 @@ public class FileStorageService {
     @Value("${groupUploadPath}")
     private String groupUploadPath;
 
+
     public String storeFile(MultipartFile file) throws IOException {
 //        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 //        Path filePath = Paths.get(groupImgPath, fileName);

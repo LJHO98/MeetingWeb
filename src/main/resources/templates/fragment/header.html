@@ -17,7 +17,7 @@
         </div>
 
         <!-- 로그인한 사용자용 (ADMIN 또는 USER 권한) -->
-        <div sec:authorize="hasAnyRole('ADMIN', 'USER')">
+        <div sec:authorize="hasAnyRole('ADMIN', 'USER', 'READER')">
             <div id="notifications" class="headerBox">
                 <a href="">알림</a>
             </div>
@@ -28,7 +28,7 @@
                 <a href="">내모임</a>
             </div>
             <div id="logout" class="headerBox">
-                <a href="">로그아웃</a>
+                <a href="/logout">로그아웃</a>
             </div>
         </div>
     </div>

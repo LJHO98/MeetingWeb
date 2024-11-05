@@ -1,6 +1,7 @@
 package com.MeetingWeb.Service;
 
 import com.MeetingWeb.Dto.GroupDto;
+import com.MeetingWeb.Dto.TournamentCategoryDto;
 import com.MeetingWeb.Dto.TournamentSearchDto;
 import com.MeetingWeb.Dto.TrnDto;
 import com.MeetingWeb.Entity.*;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +33,11 @@ public class TournamentService {
     private final ProfileUploadService profileUploadService;
 
     //대회 카테고리 가져오기
-    public List<TournamentCategory> getTournamentCategories() {
-        return tournamentCategoryRepository.findAllByOrderByTournamentCategoryIdAsc();
+    public List<TournamentCategoryDto> getTournamentCategories() {
+        List<TournamentCategory> categories = tournamentCategoryRepository.findAllByOrderByTournamentCategoryIdAsc();
+        return categories.stream()
+                .map(TournamentCategoryDto::of)  // of 메서드로 변환
+                .collect(Collectors.toList());
     }
 
     //카테고리 선택, 검색창에 입력한 값으로 대회 검색

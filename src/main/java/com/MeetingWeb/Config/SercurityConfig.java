@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +20,8 @@ public class SercurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/img/**").permitAll() // 정적 리소스는 접근 허용
+                .antMatchers("/css/**", "/js/**", "/img/**").permitAll()// 정적 리소스는 접근 허용
+                .mvcMatchers("/home", "/start/**").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 .and()
                 .formLogin()  // 기본 제공 로그인 페이지 사용
@@ -28,7 +30,11 @@ public class SercurityConfig {
                 .usernameParameter("userName")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home", true)
-                .permitAll();
+                .permitAll()
+                .and()
+                .logout()
+                .logoutRequestMatcher( new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/home");
 
 //        http.formLogin().disable();
         http.csrf().disable();

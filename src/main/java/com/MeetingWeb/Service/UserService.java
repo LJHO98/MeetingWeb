@@ -1,5 +1,6 @@
 package com.MeetingWeb.Service;
 
+import com.MeetingWeb.Dto.GroupCategoryDto;
 import com.MeetingWeb.Dto.UserDto;
 import com.MeetingWeb.Entity.GroupCategory;
 import com.MeetingWeb.Entity.User;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +26,14 @@ public class UserService implements UserDetailsService {
     private final GroupCategoryRepository groupCategoryRepository;
     private final ProfileUploadService profileUploadService;
 
-    public List<GroupCategory> getGroupCategories() {
-        return groupCategoryRepository.findAll();
+    public List<GroupCategoryDto> getGroupCategories() {
+        List<GroupCategory> categories = groupCategoryRepository.findAllByOrderByGroupCategoryIdAsc();
+        return categories.stream()
+                .map(GroupCategoryDto::of)  // of 메서드로 변환
+                .collect(Collectors.toList());
     }
+
+
 
     public User findByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
@@ -37,7 +44,7 @@ public class UserService implements UserDetailsService {
         try {
             String profileImageUrl = profileUploadService.saveProfile(userDto.getProfileImage());
             //DB에서 모든 GroupCategory 가져오기
-            List<GroupCategory> groupCategories = getGroupCategories();
+            List<GroupCategoryDto> groupCategories = getGroupCategories();
             //User 엔티티 생성
             User user = userDto.toEntity(groupCategories, passwordEncoder, profileImageUrl);
             userRepository.save(user);

@@ -37,7 +37,7 @@ public class UserDto {
     private String gender;
     private List<Long> selectedCategoryIds;
 
-    public User toEntity(List<GroupCategory> groupCategories, PasswordEncoder passwordEncoder, String profileImageUrl){
+    public User toEntity(List<GroupCategoryDto> groupCategories, PasswordEncoder passwordEncoder, String profileImageUrl){
         User user = new User();
         user.setName(this.name);
         user.setEmail(this.email);
@@ -52,13 +52,13 @@ public class UserDto {
         // 선택한 카테고리 설정
         List<UserSelectCategory> selectedCategories = this.selectedCategoryIds.stream()
                 .map(categoryId -> {
-                    GroupCategory groupCategory = groupCategories.stream()
+                    GroupCategoryDto groupCategory = groupCategories.stream()
                             .filter(gc -> gc.getGroupCategoryId().equals(categoryId))
                             .findFirst()
                             .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
                     UserSelectCategory userSelectCategory = new UserSelectCategory();
                     userSelectCategory.setUser(user);
-                    userSelectCategory.setGroupCategory(groupCategory);
+                    userSelectCategory.setGroupCategory(GroupCategoryDto.toEntity(groupCategory));
                     return userSelectCategory;
                 })
                 .collect(Collectors.toList());

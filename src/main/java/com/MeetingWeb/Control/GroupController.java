@@ -29,10 +29,9 @@ public class GroupController {
     @PostMapping("/group/createGroup")
     public String createGroup(@Valid GroupDto groupDto,BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
        if(bindingResult.hasErrors()) {
-           model.addAttribute("categories",userService.getGroupCategories());
+           model.addAttribute("categories", userService.getGroupCategories());
            return "group/createGroup";
        }
-        model.addAttribute("categories",userService.getGroupCategories());
         // 필요한 경우 User 객체로 캐스팅
         String username = userDetails.getUsername();
         User createdBy = userService.findByUserName(username); // User 서비스에서 User 객체 조회

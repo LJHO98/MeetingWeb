@@ -23,16 +23,16 @@ public class GroupService {
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
         String profileImageUrl = profileUploadService.saveProfile(groupDto.getProfileImg());
         Groups group = groupDto.toEntity(profileImageUrl,createdBy);
-        group = groupRepository.save(group);
+        groupRepository.save(group);
 
-        if (groupDto.getDescriptionImageUrls() != null) {
-            for (String url : groupDto.getDescriptionImageUrls()) {
-                GroupDescriptionImg img = new GroupDescriptionImg();
-                img.setImgUrl(url);
-                img.setGroup(group);
-                groupDescriptionRepository.save(img);
-            }
-        }
+//        if (groupDto.getDescriptionImageUrls() != null) {
+//            for (String url : groupDto.getDescriptionImageUrls()) {
+//                GroupDescriptionImg img = new GroupDescriptionImg();
+//                img.setImgUrl(url);
+//                img.setGroup(group);
+//                groupDescriptionRepository.save(img);
+//            }
+//        }
         return groupDto;
     }
 
