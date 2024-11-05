@@ -3,11 +3,67 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>대회 만들기</title>
 </head>
-
+<body>
 <div layout:fragment="body">
+    <h1>대회 만들기</h1>
 
+    <!-- 알림 메시지 표시 -->
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form action="/tournament/createTournament" th:object="${trnDto}" method="post" enctype="multipart/form-data">
+
+        <!-- 대회 이름 -->
+        <label th:for="title">Name:</label>
+        <input type="text" th:field="*{title}" placeholder="대회 이름" required/><br>
+
+        <!-- 설명 -->
+        <label th:for="description">Description:</label>
+        <textarea id="description" th:field="*{description}" placeholder="대회 설명"></textarea><br>
+
+        <!-- 카테고리 -->
+        <label th:for="category">Category:</label>
+        <input type="text" th:field="*{category}" placeholder="카테고리" required/><br>
+
+        <!-- 대회 이미지 -->
+        <label th:for="tournamentImageUrl">Tournament Image:</label>
+        <input type="file" th:field="*{tournamentImageUrl}" accept="image/*"/><br>
+
+        <!-- 접수 시작 날짜 -->
+        <label th:for="receipStart">Receipt Start:</label>
+        <input type="datetime-local" th:field="*{receipStart}" required/><br>
+
+        <!-- 접수 종료 날짜 -->
+        <label th:for="receipEnd">Receipt End:</label>
+        <input type="datetime-local" th:field="*{receipEnd}" required/><br>
+
+        <!-- 대회 시작 날짜 -->
+        <label th:for="startDate">Start Date:</label>
+        <input type="datetime-local" th:field="*{startDate}" required/><br>
+
+        <!-- 대회 종료 날짜 -->
+        <label th:for="endDate">End Date:</label>
+        <input type="datetime-local" th:field="*{endDate}" required/><br>
+
+        <!-- 상태 -->
+        <label th:for="status">Status:</label>
+        <input type="text" th:field="*{status}" placeholder="상태"/><br>
+
+        <!-- 형식 -->
+        <label th:for="format">Format:</label>
+        <input type="text" th:field="*{format}" placeholder="형식"/><br>
+
+
+
+        <!-- 생성자 ID (hidden field) -->
+        <input type="hidden" th:field="*{createdBy}"/><br>
+
+        <!-- 제출 버튼 -->
+        <button type="submit">대회 생성</button>
+    </form>
 </div>
-
+</body>
 </html>
