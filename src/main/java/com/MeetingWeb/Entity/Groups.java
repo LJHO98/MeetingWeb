@@ -22,6 +22,7 @@ public class Groups {
     private String introduce;
     @Lob
     private String description;
+
     private String category;
     private String location;
     @Enumerated(EnumType.STRING)

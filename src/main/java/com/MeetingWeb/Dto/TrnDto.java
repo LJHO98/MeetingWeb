@@ -14,7 +14,8 @@ import java.util.List;
 @Setter
 public class TrnDto {
     private Long tournamentId;
-    private MultipartFile tournamentImageUrl;
+    private MultipartFile tournamentImg;
+    private String tournamentImgUrl;
     private String title;
     private String description;
     private String category;
@@ -28,10 +29,10 @@ public class TrnDto {
     private Long createdBy;
 
 
-    public Tournaments toEntity(String tournamentImageUrl, User createdBy){
+    public Tournaments toEntity(String tournamentImgUrl, User createdBy){
         Tournaments tournaments = new Tournaments();
         tournaments.setId(tournamentId);
-        tournaments.setTournamentImageUrl(tournamentImageUrl);
+        tournaments.setTournamentImgUrl(tournamentImgUrl);
         tournaments.setTitle(title);
         tournaments.setDescription(description);
         tournaments.setCategory(category);
@@ -47,7 +48,7 @@ public class TrnDto {
     public static TrnDto of(Tournaments tournaments){
         TrnDto trnDto = new TrnDto();
         trnDto.tournamentId = tournaments.getId();
-        //trnDto.tournamentImageUrl = tournaments.getTournamentImageUrl();
+        trnDto.tournamentImgUrl = tournaments.getTournamentImgUrl();
         trnDto.title = tournaments.getTitle();
         trnDto.description = tournaments.getDescription();
         trnDto.category = tournaments.getCategory();

@@ -17,7 +17,7 @@ public class Tournaments{
     @Column(name = "tournamentId")
     private Long id;
 
-    private String tournamentImageUrl;
+    private String tournamentImgUrl;
     private String title;
     @Lob
     private String description;

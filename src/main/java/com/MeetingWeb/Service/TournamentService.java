@@ -78,10 +78,10 @@ public class TournamentService {
     public Tournaments createTournament(TrnDto trnDto, User createdBy)throws Exception {
 
 
-        String tournamentImageUrl = profileUploadService.saveProfile(trnDto.getTournamentImageUrl());
+        String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
 
 
-        Tournaments tournament = trnDto.toEntity(tournamentImageUrl,createdBy);
+        Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy);
 
 
 

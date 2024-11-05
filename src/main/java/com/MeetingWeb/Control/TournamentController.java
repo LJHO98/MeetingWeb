@@ -85,33 +85,33 @@ import java.util.List;
 //
 //            }
 
-        private String saveFile(MultipartFile file) {
-            // 저장할 디렉토리 경로 설정 (예: "uploads" 디렉토리)
-            String uploadDir = "uploads/";
-
-            // 디렉토리가 없으면 생성
-            File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            // 파일 이름 중복 방지를 위해 고유한 파일 이름 생성
-            String originalFileName = file.getOriginalFilename();
-            String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
-
-            // 파일 저장 경로 설정
-            Path filePath = Paths.get(uploadDir, uniqueFileName);
-            try {
-                // 파일 저장
-                Files.write(filePath, file.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("파일 저장에 실패했습니다: " + originalFileName);
-            }
-
-            // 저장된 파일 경로를 반환
-            return filePath.toString();
-        }
+//        private String saveFile(MultipartFile file) {
+//            // 저장할 디렉토리 경로 설정 (예: "uploads" 디렉토리)
+//            String uploadDir = "uploads/";
+//
+//            // 디렉토리가 없으면 생성
+//            File directory = new File(uploadDir);
+//            if (!directory.exists()) {
+//                directory.mkdirs();
+//            }
+//
+//            // 파일 이름 중복 방지를 위해 고유한 파일 이름 생성
+//            String originalFileName = file.getOriginalFilename();
+//            String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
+//
+//            // 파일 저장 경로 설정
+//            Path filePath = Paths.get(uploadDir, uniqueFileName);
+//            try {
+//                // 파일 저장
+//                Files.write(filePath, file.getBytes());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                throw new RuntimeException("파일 저장에 실패했습니다: " + originalFileName);
+//            }
+//
+//            // 저장된 파일 경로를 반환
+//            return filePath.toString();
+//        }
 
 
 
