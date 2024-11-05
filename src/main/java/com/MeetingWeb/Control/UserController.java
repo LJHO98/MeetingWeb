@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,10 +23,31 @@ public class UserController {
         model.addAttribute("categories",userService.getGroupCategories());
         return "start/join";
     }
-    @PostMapping("/join")
-    public String join(@ModelAttribute UserDto userDto) {
+
+    @PostMapping("/start/join")
+    public String join(@Valid @ModelAttribute UserDto userDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories",userService.getGroupCategories());
+            return "start/join";  // 유효성 검사에 실패한 경우, 가입 페이지로 다시 이동
+        }
+
+        // 아이디 중복 검사
+        if (userService.isUserNameTaken(userDto.getUserName())) {
+            bindingResult.rejectValue("userName", "duplicate", "중복된 아이디입니다.");
+            model.addAttribute("categories", userService.getGroupCategories());
+            return "start/join";
+        } else {
+            model.addAttribute("message", "사용 가능한 아이디입니다.");
+        }
+
         userService.singUp(userDto, passwordEncoder);
-        return "home";
+        return "redirect:/home";
+    }
+
+    @PostMapping("/start/check-username")
+    @ResponseBody
+    public boolean checkUsername(@RequestParam String userName) {
+        return !userService.isUserNameTaken(userName);
     }
 
     @GetMapping("/start/login")

@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Service
@@ -57,4 +59,7 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
+    public boolean isUserNameTaken(@Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디는 영어, 숫자만 사용 가능합니다.") @Size(min = 4, max = 10, message = "아이디는 4~10자입니다.") String userName) {
+        return userRepository.findByUserName(userName) != null;
+    }
 }
