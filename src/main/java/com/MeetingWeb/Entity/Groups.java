@@ -26,8 +26,8 @@ public class Groups {
     private String location;
     @Enumerated(EnumType.STRING)
     private Gender genderPreference;
-    private Integer minAge;
-    private Integer maxAge;
+//    private Integer minAge;
+//    private Integer maxAge;
     @Enumerated(EnumType.STRING)
     private RegistType registrationType;
     private Integer currentHeadCount = 0;

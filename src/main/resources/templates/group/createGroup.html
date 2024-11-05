@@ -7,7 +7,7 @@
     <title>Title</title>
 
     <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="/css/group.css">
 
     <script>
@@ -69,7 +69,30 @@
             }
         });
 
+
+        function sample4_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 시와 구 정보 추출
+                    var city = data.sido || ''; // 시/도를 나타내는 필드
+                    var district = data.sigungu || ''; // 구/군 정보를 나타내는 필드
+                    var fullAddress = city;
+
+                    // 시와 구가 모두 있는 경우 "시 구" 형태로 결합
+                    if (city && district) {
+                        fullAddress += ' ' + district;
+                    } else if (city && !district) {
+                        fullAddress = city; // 시만 있는 경우 시만 표시
+                    } else if (!city && district) {
+                        fullAddress = district; // 구만 있는 경우 구만 표시
+                    }
+                    // 출력할 도로명 주소와 시, 구 정보를 설정
+                    document.getElementById("location").value = fullAddress; // 수정된 구/군, 시 정보를 표시
+                }
+            }).open();
+        }
     </script>
+
 </head>
 
 <div layout:fragment="body" id="createGroupmain">
@@ -85,31 +108,41 @@
         <div class="inputBox" id="imgBox">
             <label th:for="profileImg">대표 이미지</label>
             <input type="file" th:field="*{profileImg}" accept="image/*"/>
+            <p th:if="${#fields.hasErrors('profileImg')}" th:errors="*{profileImg}"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="name">이름</label>
             <input type="text" th:field="*{name}" required/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
         </div>
 
         <div class="inputBox" id="intro">
             <label th:for="introduce">소개글</label>
             <input type="text" th:field="*{introduce}" required/>
+            <p th:if="${#fields.hasErrors('introduce')}" th:errors="*{introduce}"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="description">내용</label>
             <textarea id="description" th:field="*{description}"></textarea>
+            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
         </div>
 
         <div class="inputBox">
-            <label th:for="category">카테고리</label>
-            <input type="text" th:field="*{category}" required/>
+            <label>카테고리</label>
+            <div th:each="category : ${categories}">
+                <input type="radio" th:field="*{category}" th:value="${category.groupCategoryId}">
+                <span th:text="${category.category}"></span>
+            </div>
+            <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="location">활동 지역</label>
-            <input type="text" th:field="*{location}" required/>
+            <input type="button" onclick="sample4_execDaumPostcode()" value="주소 검색">
+            <input type="text" th:field="*{location}" placeholder="시,군 또는 구" readonly/>
+            <p th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
         </div>
 
         <div class="inputBox">
@@ -154,6 +187,8 @@
         </div>
     </form>
     <a href="/content">ㅇㅇㅇㅇㅇㅇㅇ</a>
+
+
 </div>
 
 </html>
