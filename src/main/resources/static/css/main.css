@@ -52,7 +52,6 @@ a{
 }
 
 #headerWrap .headerBox{
-    width: 100px;
     height: 80px;
     text-align: center;
     font-size: 17px;
@@ -60,6 +59,7 @@ a{
     font-weight: 500;
     font-family: 'NanumSquareAcb';
     color: #4C4C4C;
+    margin: 0 25px;
 }
 
 #headerWrap div{

@@ -1,0 +1,157 @@
+/* createTournament */
+#createTournamentMain{
+    width: 600px;
+    margin: 0 651.5px 50px 451.5px;
+}
+
+#textBox{
+    margin: 50px auto 30px auto;
+    display: flex;
+    width: 460px;
+}
+
+#tournamentListText{
+    font-size: 22px;
+    font-family: 'NanumSquareAcr';
+    align-self: end;
+    color: #868686;
+}
+
+#tournamentListText:hover{
+    font-weight: 600;
+}
+
+#tournamentCreateText{
+    font-size: 40px;
+    font-family: 'NanumSquareAceb';
+    align-self: end;
+    color: #353535;
+    margin: 0 30px;
+}
+
+#participationText{
+    font-size: 22px;
+    font-family: 'NanumSquareAcr';
+    margin-right: 30px;
+    align-self: end;
+    color: #868686;
+}
+
+#participationText:hover{
+    font-weight: 600;
+}
+
+.highlight{
+    display: inline;
+    box-shadow: inset 0 -20px 0 #AAFFA3;
+    /*-10px은 highlight의 두께*/
+    opacity: 0.5;
+    z-index: -1;
+}
+
+#createTournamentForm{
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 50px;
+}
+
+.inputBox label{
+    font-size: 18px;
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'NanumSquareAcr';
+    color: #5D5D5D;
+}
+
+.inputBox input{
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    padding: 0 13px;
+}
+
+.inputBox input:focus{
+    box-shadow: 0 4px 8px rgba(89, 218, 80, 0.3), /* 아래쪽 */
+    0 -4px 8px rgba(89, 218, 80, 0.3), /* 위쪽 */
+    -4px 0 8px rgba(89, 218, 80, 0.3), /* 왼쪽 */
+    4px 0 8px rgba(89, 218, 80, 0.3);  /* 오른쪽 */
+}
+
+#intro input{
+    margin-top: 0;
+}
+
+#imgBox input{
+    border: none;
+    color: #626262;
+}
+
+.inputBox{
+    margin-bottom: 50px;
+}
+
+#categoryInput {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.inputBox #categoryInput input[type="radio"] {
+    width: 15px; /* 라디오 버튼의 너비 조정 */
+    height: 15px; /* 라디오 버튼의 높이 조정 */
+    margin-right: 5px; /* 버튼과 텍스트 사이 간격 */
+}
+
+#categoryInput div{
+    display: flex;
+    align-items: center;
+}
+
+#categoryInput span{
+    font-size: 16px;
+    font-family: 'NanumSquareAcr';
+    color: #626262;
+}
+
+#btWrap{
+    align-items: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+#createTournamentBt{
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-family: 'NanumSquareBold';
+    color: #fff;
+    cursor: pointer;
+    margin: 0 auto;
+    background: #74D36D;
+    border: none;
+}
+
+#createTournamentBt:hover{
+    background: #47C83E;
+}
+
+#format {
+    width: 100px;             /* 너비 설정 */
+    padding: 8px;             /* 패딩 추가 */
+    font-size: 16px;          /* 폰트 크기 설정 */
+    border: 1px solid #ccc;   /* 테두리 색상 설정 */
+    border-radius: 4px;       /* 테두리 둥글게 */
+    background-color: #f9f9f9; /* 배경 색상 설정 */
+    color: #333;              /* 텍스트 색상 설정 */
+    font-family: 'NanumSquareAcr';
+}
+
+/* select 요소가 포커스를 받을 때 스타일 */
+#format:focus {
+    border-color: #86E57F; /* 포커스 시 테두리 색상을 #86E57F로 설정 */
+    outline: none;         /* 기본 아웃라인 제거 */
+    box-shadow: 0 0 5px rgba(134, 229, 127, 0.6); /* 그림자 효과에 #86E57F 계열 색상 적용 */
+}

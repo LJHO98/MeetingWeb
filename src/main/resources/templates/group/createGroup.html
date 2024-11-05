@@ -8,7 +8,8 @@
 
     <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link rel="stylesheet" href="/css/group.css">
+
+    <link rel="stylesheet" href="/css/createGroup.css">
 
     <script>
         // tinymce.init({
@@ -95,14 +96,14 @@
 
 </head>
 
-<div layout:fragment="body" id="createGroupmain">
+<div layout:fragment="body" id="createGroupMain">
 
     <div id="textBox">
         <p id="groupListText"><a href="">모임 목록</a></p>
         <p id="groupCreateText"><span class="highlight">모임 만들기</span></p>
     </div>
 
-    <form id="createGroupform" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
+    <form id="createGroupForm" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
 
 
         <div class="inputBox" id="imgBox">
@@ -112,7 +113,7 @@
         </div>
 
         <div class="inputBox">
-            <label th:for="name">이름</label>
+            <label th:for="name">모임 이름</label>
             <input type="text" th:field="*{name}" required/>
             <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
         </div>

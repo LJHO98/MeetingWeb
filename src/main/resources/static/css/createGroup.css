@@ -1,16 +1,5 @@
 /* createGroup */
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-a{
-    text-decoration: none;
-    color: inherit;
-}
-
-#createGroupmain{
+#createGroupMain{
     width: 600px;
     margin: 0 651.5px 50px 451.5px;
 }
@@ -22,7 +11,7 @@ a{
 }
 
 #groupListText{
-    font-size: 25px;
+    font-size: 22px;
     font-family: 'NanumSquareAcr';
     margin-right: 30px;
     align-self: end;
@@ -34,7 +23,7 @@ a{
 }
 
 #groupCreateText{
-    font-size: 35px;
+    font-size: 40px;
     font-family: 'NanumSquareAceb';
     align-self: end;
     color: #353535;
@@ -48,7 +37,7 @@ a{
     z-index: -1;
 }
 
-#createGroupform{
+#createGroupForm{
     width: 100%;
     margin: 0 auto;
     padding: 40px 50px;
