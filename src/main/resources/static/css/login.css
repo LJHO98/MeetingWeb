@@ -1,28 +1,10 @@
 /* login.css */
-body {
-    font-family: Arial, sans-serif; /* 기본 글꼴 설정 */
-    display: flex; /* 플렉스 박스 사용 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-    height: 100vh; /* 화면 전체 높이 사용 */
-    margin: 0; /* 기본 마진 제거 */
-}
-
-#main {
-    text-align: center; /* 텍스트 중앙 정렬 */
-    display: flex; /* 플렉스 박스 사용 */
-    flex-direction: column; /* 세로로 배치 */
-    justify-content: center; /* 세로 가운데 정렬 */
-    align-items: center; /* 가로 가운데 정렬 */
-    height: 100%; /* 높이 100% 설정 */
-    margin-top: 150px;
-}
-
-#main p{
+#loginText{
     font-size: 38px;
     font-family: 'NanumSquareAceb';
     color: #4C4C4C;
-    margin-bottom: 50px;
+    margin: 150px auto 50px auto;
+    width: 99px;
 }
 
 .login-form {

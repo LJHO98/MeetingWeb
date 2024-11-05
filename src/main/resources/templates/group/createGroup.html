@@ -57,7 +57,7 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            const selectElement = document.getElementById("numberSelect");
+            const selectElement = document.getElementById("capacity");
             const min = 5;  // 시작 숫자
             const max = 30;  // 끝 숫자
 
@@ -72,14 +72,20 @@
     </script>
 </head>
 
-<div layout:fragment="body" id="main">
+<div layout:fragment="body" id="createGroupmain">
 
     <div id="textBox">
         <p id="groupListText"><a href="">모임 목록</a></p>
         <p id="groupCreateText"><span class="highlight">모임 만들기</span></p>
     </div>
 
-    <form id="form" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
+    <form id="createGroupform" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
+
+
+        <div class="inputBox" id="imgBox">
+            <label th:for="profileImg">대표 이미지</label>
+            <input type="file" th:field="*{profileImg}" accept="image/*"/>
+        </div>
 
         <div class="inputBox">
             <label th:for="name">이름</label>
@@ -106,34 +112,45 @@
             <input type="text" th:field="*{location}" required/>
         </div>
 
-        <div class="inputBox" id="imgBox">
-            <label th:for="profileImg">대표 이미지</label>
-            <input type="file" th:field="*{profileImg}" accept="image/*"/>
-        </div>
-
         <div class="inputBox">
             <label th:for="gender">성별</label>
             <div class="gender-options">
                 <label>
-                    <input type="radio" id="male" name="gender" value="MALE" th:field="*{genderPreference}">
+                    <input type="radio" id="male" name="genderPreference" value="MALE" th:field="*{genderPreference}">
                     남성
                 </label>
                 <label>
-                    <input type="radio" id="female" name="gender" value="FEMALE" th:field="*{genderPreference}">
+                    <input type="radio" id="female" name="genderPreference" value="FEMALE" th:field="*{genderPreference}">
                     여성
                 </label>
                 <label>
-                    <input type="radio" id="other" name="gender" value="OTHER" th:field="*{genderPreference}">
+                    <input type="radio" id="other" name="genderPreference" value="OTHER" th:field="*{genderPreference}">
                     선택안함
                 </label>
             </div>
         </div>
 
-        <label for="numberSelect">정원</label>
-        <select id="numberSelect" name="numberSelect" th:field="*{capacity}"></select>
+        <div class="inputBox">
+            <label th:for="capacity">정원</label>
+            <select id="capacity" name="capacity" th:field="*{capacity}"></select>
+        </div>
+
+        <div class="inputBox">
+            <label th:for="registrationType">가입 방식</label>
+            <div id="registerTypeWrap">
+                <label>
+                    <input type="radio" id="free" name="registrationType" value="FREE" th:field="*{registrationType}">
+                    자유
+                </label>
+                <label>
+                    <input type="radio" id="approval" name="registrationType" value="APPROVAL" th:field="*{registrationType}">
+                    승인
+                </label>
+            </div>
+        </div>
 
         <div id="btWrap">
-            <button id="bt" type="submit">생성</button>
+            <button id="createGroupBt" type="submit">생성</button>
         </div>
     </form>
     <a href="/content">ㅇㅇㅇㅇㅇㅇㅇ</a>
