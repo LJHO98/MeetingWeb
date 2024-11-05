@@ -4,6 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <title>대회 만들기</title>
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#description',
+            plugins: 'image link',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link',
+            images_upload_url: '/img',
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            images_upload_handler: function (blobInfo, success, failure) {
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                fetch('/img', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log("Uploaded image URL:", data.location);
+                        success(data.location);
+                    })
+                    .catch(() => failure('Image upload failed'));
+            }
+        });
+    </script>
 </head>
 <body>
 <div layout:fragment="body">
@@ -25,8 +50,11 @@
         <textarea id="description" th:field="*{description}" placeholder="대회 설명"></textarea><br>
 
         <!-- 카테고리 -->
-        <label th:for="category">Category:</label>
-        <input type="text" th:field="*{category}" placeholder="카테고리" required/><br>
+        <label>카테고리</label>
+        <div th:each="tournamentCategory : ${categories}">
+            <input type="radio" th:field="*{category}" th:value="${tournamentCategory.getTournamentCategoryId()}">
+            <span th:text="${tournamentCategory.category}"></span>
+        </div>
 
         <!-- 대회 이미지 -->
         <label th:for="tournamentImg">Tournament Image:</label>
@@ -34,11 +62,11 @@
 
         <!-- 접수 시작 날짜 -->
         <label th:for="receipStart">Receipt Start:</label>
-        <input type="datetime-local" th:field="*{receipStart}" required/><br>
+        <input type="datetime-local" th:field="*{receiptStart}" required/><br>
 
         <!-- 접수 종료 날짜 -->
         <label th:for="receipEnd">Receipt End:</label>
-        <input type="datetime-local" th:field="*{receipEnd}" required/><br>
+        <input type="datetime-local" th:field="*{receiptEnd}" required/><br>
 
         <!-- 대회 시작 날짜 -->
         <label th:for="startDate">Start Date:</label>
@@ -48,13 +76,14 @@
         <label th:for="endDate">End Date:</label>
         <input type="datetime-local" th:field="*{endDate}" required/><br>
 
-        <!-- 상태 -->
-        <label th:for="status">Status:</label>
-        <input type="text" th:field="*{status}" placeholder="상태"/><br>
 
         <!-- 형식 -->
         <label th:for="format">Format:</label>
-        <input type="text" th:field="*{format}" placeholder="형식"/><br>
+        <select th:field="*{format}">
+            <option value="4">4강</option>
+            <option value="8">8강</option>
+            <option value="16">16강</option>
+        </select>
 
 
 

@@ -52,6 +52,7 @@ import java.util.List;
         @GetMapping("/tournament/createTournament")
         public String createTournamentForm(Model model) {
             model.addAttribute("trnDto", new TrnDto());
+            model.addAttribute("categories",tournamentService.getTournamentCategories());
             return "tournament/createTournament";
         }
 

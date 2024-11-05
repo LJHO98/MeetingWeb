@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class TournamentCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long TournamentCategoryId;
+    private Long tournamentCategoryId;
 
     @Column(unique = true)
     private String category;

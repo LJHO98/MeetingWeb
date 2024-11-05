@@ -3,9 +3,7 @@ package com.MeetingWeb.Service;
 import com.MeetingWeb.Dto.GroupDto;
 import com.MeetingWeb.Dto.TournamentSearchDto;
 import com.MeetingWeb.Dto.TrnDto;
-import com.MeetingWeb.Entity.Groups;
-import com.MeetingWeb.Entity.Tournaments;
-import com.MeetingWeb.Entity.User;
+import com.MeetingWeb.Entity.*;
 import com.MeetingWeb.Repository.TournamentCategoryRepository;
 import com.MeetingWeb.Repository.TournamentRepository;
 import com.MeetingWeb.Repository.TournamentSearchRepository;
@@ -32,6 +30,10 @@ public class TournamentService {
     private final TournamentRepository tournamentRepository;
     private final ProfileUploadService profileUploadService;
 
+    //대회 카테고리 가져오기
+    public List<TournamentCategory> getTournamentCategories() {
+        return tournamentCategoryRepository.findAllByOrderByTournamentCategoryIdAsc();
+    }
 
     //카테고리 선택, 검색창에 입력한 값으로 대회 검색
     public List<TrnDto> searchTournament(TournamentSearchDto tournamentSearchDto) {
@@ -76,15 +78,12 @@ public class TournamentService {
     //대회 만들기
     @Transactional
     public Tournaments createTournament(TrnDto trnDto, User createdBy)throws Exception {
-
+        TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
 
         String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
 
-
-        Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy);
-
-
-
+        Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy, tournamentCategory);
 
         return tournamentRepository.save(tournament);
 

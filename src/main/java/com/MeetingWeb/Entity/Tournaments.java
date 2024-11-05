@@ -2,8 +2,6 @@ package com.MeetingWeb.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,23 +19,23 @@ public class Tournaments{
     private String title;
     @Lob
     private String description;
-    private String category;
 
-    private LocalDateTime receipStart;
-    private LocalDateTime receipEnd;
+    @ManyToOne(fetch = FetchType.LAZY) // 카테고리와의 다대일 관계 설정
+    @JoinColumn(name = "category" ) // 외래 키 설정
+    private TournamentCategory category;
+
+    private LocalDateTime receiptStart;
+    private LocalDateTime receiptEnd;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
     private String status;
-    private String format;
+    private int format;
     private Long groupId;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-
-
 
     @PrePersist
     public void prePersist() {
@@ -54,8 +52,6 @@ public class Tournaments{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
     private User createdBy;
-
-
 
 
 
