@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>대회 목록</title>
+    <link rel="stylesheet" th:href="@{/css/tournament.css}">
+</head>
+<body>
+<div layout:fragment="body" id="main-container">
+    <!-- 고정 메뉴 -->
+    <div class="menu-bar">
+        <div class="menu-item">대회 목록</div>
+        <div class="menu-item">대회 만들기</div>
+        <div class="menu-item">참가 대회</div>
+    </div>
+
+    <!-- 검색 섹션 -->
+    <div class="search-section">
+        <div class="search-item">
+            <span>제목검색</span>
+            <i class="bi bi-search"></i>
+        </div>
+        <div class="button-row"> <!-- 버튼들을 한 행으로 배치할 div -->
+            <div class="category-item">게임<i class="bi bi-caret-down-fill"></i></div>
+            <div class="category-item">스포츠<i class="bi bi-caret-down-fill"></i></div>
+            <button class="search-button">검색</button>
+        </div>
+    </div>
+
+    <!-- 상태 필터 -->
+    <div class="status-filter">
+        <button class="status-button">모집중</button>
+        <button class="status-button">진행중</button>
+        <button class="status-button">종료</button>
+    </div>
+
+    <!-- 대회 목록 -->
+    <div class="tournament-list">
+        <div class="tournament-item">
+            <div class="thumbnail thumbnail-1">
+                <span class="status-badge">진행중</span>대표사진1
+            </div>
+            <div class="info">
+                <h3>2024 충남대 e스포츠 대회</h3>
+                <p>주최: 충남대</p>
+                <p>팀 수: 19/32팀</p>
+                <p>종목: LOL</p>
+                <p>일정: 10월 30일 18:00</p>
+                <p>라운드: 32강</p>
+            </div>
+        </div>
+        <div class="tournament-item">
+            <div class="thumbnail thumbnail-2">
+                <span class="status-badge">모집중</span>대표사진2
+            </div>
+            <div class="info">
+                <h3>발로란트 급식전</h3>
+                <p>주최: 급식충</p>
+                <p>팀 수: 4/4팀</p>
+                <p>종목: 발로란트</p>
+                <p>일정: 11월 16일 14:00</p>
+                <p>라운드: 16강</p>
+            </div>
+        </div>
+        <div class="tournament-item">
+            <div class="thumbnail thumbnail-3">
+                <span class="status-badge">종료</span>대표사진3
+            </div>
+            <div class="info">
+                <h3>대전 2030 풋살 대회</h3>
+                <p>주최: 대전 풋살짱 모임</p>
+                <p>팀 수: 12/12팀</p>
+                <p>종목: 풋살</p>
+                <p>일정: 10월 20일 16:00</p>
+                <p>라운드: 8강</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
