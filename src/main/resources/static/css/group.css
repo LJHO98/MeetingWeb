@@ -83,16 +83,17 @@ a{
 
 #imgBox input{
     border: none;
+    color: #626262;
 }
 
 .inputBox{
     margin-bottom: 50px;
 }
 
-.inputBox .gender-options, #registerTypeWrap {
+.inputBox .gender-options, #registerTypeWrap, #categoryInput {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
@@ -101,10 +102,33 @@ a{
 }
 
 .inputBox .gender-options input[type="radio"],
-.inputBox #registerTypeWrap input[type="radio"] {
+.inputBox #registerTypeWrap input[type="radio"],
+.inputBox #categoryInput input[type="radio"] {
     width: 15px; /* 라디오 버튼의 너비 조정 */
     height: 15px; /* 라디오 버튼의 높이 조정 */
     margin-right: 5px; /* 버튼과 텍스트 사이 간격 */
+}
+
+#categoryInput div{
+    display: flex;
+    align-items: center;
+}
+
+#categoryInput span{
+    font-size: 16px;
+    font-family: 'NanumSquareAcr';
+    color: #626262;
+}
+
+#locationBt{
+    width: 130px;
+    height: 30px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'NanumSquare';
+    margin-bottom: 5px;
+    color: #626262;
 }
 
 #btWrap{

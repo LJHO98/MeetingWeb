@@ -131,16 +131,18 @@
 
         <div class="inputBox">
             <label>카테고리</label>
-            <div th:each="category : ${categories}">
-                <input type="radio" th:field="*{category}" th:value="${category.groupCategoryId}">
-                <span th:text="${category.category}"></span>
+            <div id="categoryInput">
+                <div th:each="category : ${categories}">
+                    <input type="radio" th:field="*{category}" th:value="${category.groupCategoryId}">
+                    <span th:text="${category.category}"></span>
+                </div>
             </div>
             <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="location">활동 지역</label>
-            <input type="button" onclick="sample4_execDaumPostcode()" value="주소 검색">
+            <input id="locationBt" type="button" onclick="sample4_execDaumPostcode()" value="주소 검색">
             <input type="text" th:field="*{location}" placeholder="시,군 또는 구" readonly/>
             <p th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
         </div>
