@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>고객센터</title>
+
+    <link rel="stylesheet" href="/css/helpline.css">
+</head>
+<body>
+
+<div layout:fragment="body" id="main">
+    <div id="helplineMain">
+        <div id="helplineText"><span class="highlight">고객센터</span></div>
+        <div id="helplineNum">123-4567</div>
+
+        <div id="helplineWrap">
+            <div id="helplineTitle">자주 묻는 질문</div>
+
+            <div class="helplineBox">
+                <div class="questionBox">
+                    <div class="question">Q</div>
+                    <div class="questionText">아이디는 변경할 수 없나요?</div>
+                </div>
+                <div class="answerBox">
+                    <div class="answerText">아이디는 변경할 수 없습니다.</div>
+                    <div class="answer">A</div>
+                </div>
+            </div>
+
+            <div class="helplineBox">
+                <div class="questionBox">
+                    <div class="question">Q</div>
+                    <div class="questionText">회원가입할 때 설정한 카테고리는 어떻게 변경하나요?</div>
+                </div>
+                <div class="answerBox">
+                    <div class="answerText">마이페이지에서 변경 가능합니다.</div>
+                    <div class="answer">A</div>
+                </div>
+            </div>
+
+            <div class="helplineBox">
+                <div class="questionBox">
+                    <div class="question">Q</div>
+                    <div class="questionText">모임의 최대 정원은 몇 명인가요?</div>
+                </div>
+                <div class="answerBox">
+                    <div class="answerText">모임의 최대 정원은 30명입니다.</div>
+                    <div class="answer">A</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

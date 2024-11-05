@@ -1,48 +1,82 @@
-// '모두 동의' 체크박스가 변경될 때 개별 체크박스 모두 체크 또는 해제
-document.getElementById("chk_all").addEventListener("change", function() {
-    const checkboxes = document.querySelectorAll(".chk");
-    checkboxes.forEach((checkbox) => {
-        checkbox.checked = this.checked;
-    });
-});
+$(document).ready(function() {
+    $('#profileImage').on('change', function(event) {
+        const file = event.target.files[0];
+        const imagePreview = $('#imagePreview');
 
-// 개별 체크박스 변경 시 '모두 동의' 체크박스 상태 업데이트
-document.querySelectorAll(".chk").forEach((checkbox) => {
-    checkbox.addEventListener("change", function() {
-        const allChecked = document.querySelectorAll(".chk:checked").length === document.querySelectorAll(".chk").length;
-        document.getElementById("chk_all").checked = allChecked;
-    });
-});
-
-function checkAgreement() {
-    const allChecked = document.querySelectorAll(".chk:checked").length === document.querySelectorAll(".chk").length;
-    if (!allChecked) {
-        alert("모든 필수 약관에 동의하셔야 합니다.");
-        return;
-    }
-
-    // 모든 필수 약관이 체크되면 가입 폼을 서서히 나타나게 함
-    const joinForm = document.getElementById("joinForm");
-    const agreementContainer = document.querySelector(".agreement-container");
-
-    // 약관 동의 섹션 숨기기
-    agreementContainer.classList.add("hidden");
-
-    // 가입 폼을 부드럽게 나타나게 함
-    joinForm.style.display = "block";
-    joinForm.style.opacity = "0";
-    joinForm.style.transform = "scale(0.95)";
-
-    let opacity = 0;
-    const fadeIn = setInterval(() => {
-        opacity += 0.05;
-        joinForm.style.opacity = opacity.toString();
-        joinForm.style.transform = `scale(${0.95 + 0.05 * (opacity / 1)})`;
-
-        if (opacity >= 1) {
-            clearInterval(fadeIn);
-            joinForm.style.opacity = "1";
-            joinForm.style.transform = "scale(1)";
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.attr('src', e.target.result);
+                imagePreview.show();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.attr('src', '');
+            imagePreview.hide();
         }
-    }, 30); // 30ms 간격으로 서서히 나타남
+    });
+
+    const maxChecked = 3; // 최대 체크 개수
+    const checkboxes = document.querySelectorAll('.categoryCheck');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const checkedCount = document.querySelectorAll('.categoryCheck:checked').length;
+
+            if (checkedCount >= maxChecked) {
+                checkboxes.forEach(cb => {
+                    if (!cb.checked) {
+                        cb.disabled = true; // 체크 개수를 초과하면 나머지 체크박스를 비활성화
+                    }
+                });
+            } else {
+                checkboxes.forEach(cb => cb.disabled = false); // 조건 미충족 시 모든 체크박스를 활성화
+            }
+        });
+    });
+});
+
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 시와 구 정보 추출
+            var city = data.sido || ''; // 시/도를 나타내는 필드
+            var district = data.sigungu || ''; // 구/군 정보를 나타내는 필드
+            var fullAddress = city;
+
+            // 시와 구가 모두 있는 경우 "시 구" 형태로 결합
+            if (city && district) {
+                fullAddress += ' ' + district;
+            } else if (city && !district) {
+                fullAddress = city; // 시만 있는 경우 시만 표시
+            } else if (!city && district) {
+                fullAddress = district; // 구만 있는 경우 구만 표시
+            }
+            // 출력할 도로명 주소와 시, 구 정보를 설정
+            document.getElementById("activityArea").value = fullAddress; // 수정된 구/군, 시 정보를 표시
+        }
+    }).open();
 }
+
+$(document).ready(function() {
+    $('#checkUsernameButton').on('click', function() {
+        let userName = $('#userName').val();
+        if (userName.length >= 4 && userName.length <= 10) {
+            $.ajax({
+                type: "POST",
+                url: "/start/check-username",
+                data: { userName: userName },
+                success: function(response) {
+                    let messageElement = $('#usernameMessage');
+                    if (response) {
+                        messageElement.text("사용 가능한 아이디입니다.").css("color", "green");
+                    } else {
+                        messageElement.text("중복된 아이디입니다.").css("color", "red");
+                    }
+                }
+            });
+        } else {
+            $('#usernameMessage').text("아이디는 4~10자여야 합니다.").css("color", "red");
+        }
+    });
+});

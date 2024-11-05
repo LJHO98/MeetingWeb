@@ -17,6 +17,11 @@ public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/start/agreement")
+    public String agreement(){
+        return "start/agreement";
+    }
+
     @GetMapping("/start/join")
     public String signUp(Model model) {
         model.addAttribute("userDto", new UserDto());

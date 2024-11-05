@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <div th:fragment="header" id="header">
-        <div id="listIcon"><i class="bi bi-list"></i></div>
+<div th:fragment="header" id="header">
+    <div id="listIcon"><i class="bi bi-list"></i></div>
 
-        <div id="headerWrap">
+    <div id="headerWrap">
+        <!-- 비로그인 사용자용 -->
+        <div sec:authorize="isAnonymous()">
             <div id="login" class="headerBox">
                 <a href="/start/login">로그인</a>
             </div>
-
             <div id="join" class="headerBox">
-                <a href="/start/join">회원가입</a>
+                <a href="/start/agreement">회원가입</a>
+            </div>
+        </div>
+
+        <!-- 로그인한 사용자용 (ADMIN 또는 USER 권한) -->
+        <div sec:authorize="hasAnyRole('ADMIN', 'USER')">
+            <div id="notifications" class="headerBox">
+                <a href="">알림</a>
+            </div>
+            <div id="mypage" class="headerBox">
+                <a href="">마이페이지</a>
+            </div>
+            <div id="myGroups" class="headerBox">
+                <a href="">내모임</a>
+            </div>
+            <div id="logout" class="headerBox">
+                <a href="">로그아웃</a>
             </div>
         </div>
     </div>
+</div>
 
 </html>

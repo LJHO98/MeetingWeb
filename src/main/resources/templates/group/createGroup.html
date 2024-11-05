@@ -4,7 +4,7 @@
       layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>모임 만들기</title>
 
     <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -142,8 +142,10 @@
 
         <div class="inputBox">
             <label th:for="location">활동 지역</label>
-            <input id="locationBt" type="button" onclick="sample4_execDaumPostcode()" value="주소 검색">
-            <input type="text" th:field="*{location}" placeholder="시,군 또는 구" readonly/>
+            <div id="locationWrap">
+                <input type="text" th:field="*{location}" placeholder="시,군 또는 구" readonly/>
+                <input id="locationBt" type="button" onclick="sample4_execDaumPostcode()" value="주소 검색">
+            </div>
             <p th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></p>
         </div>
 
