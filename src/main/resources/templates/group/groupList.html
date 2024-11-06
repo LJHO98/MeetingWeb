@@ -1,30 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
-  <meta charset="UTF-8">
-  <title>모임 목록</title>
+    <meta charset="UTF-8">
+    <title>모임 목록</title>
+
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <link rel="stylesheet" href="/css/groupList.css">
+
 </head>
-<body>
-<h1>모임 목록</h1>
-<table>
-  <tr>
-    <th>모임명</th>
-    <th>소개글</th>
-    <th>카테고리</th>
-    <th>현재 인원 수</th>
-    <th>정원</th>
-    <th>모임 이미지</th>
-  </tr>
-  <tr th:each="group : ${groupList}">
-    <td><a th:href="@{|/group/${group.groupId}|}" th:text="${group.name}"></a></td>
-    <td th:text="${group.introduce}"></td>
-    <td th:text="${group.categoryName}"></td> <!-- 각 그룹의 카테고리 정보 -->
-    <td th:text="${group.currentHeadCount}"></td>
-    <td th:text="${group.capacity}"></td>
-    <td style="width:100px; height:100px;">
-      <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">
-    </td>
-  </tr>
-</table>
-</body>
+
+<div layout:fragment="body" id="groupListMain">
+
+    <div id="textBox">
+      <p id="groupListText"><span class="highlight">모임 목록</span></p>
+      <p id="groupCreateText"><a href="/group/createGroup">모임 만들기</a></p>
+    </div>
+
+    <div id="groupListWrap">
+        <div class="groupListBox" th:each="group : ${groupList}">
+            <a th:href="@{|/group/${group.groupId}|}">
+                <div class="img">
+                    <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
+                    <p class="category" th:text="${group.categoryName}"></p>
+                </div>
+                <div class="detail">
+                    <p class="title" th:text="${group.name}"></p>
+                    <p class="description" th:text="${group.introduce}"></p>
+                    <p class="capacity" th:text="${group.currentHeadCount + ' / ' + group.capacity}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+<!--<table>-->
+<!--  <tr th:each="group : ${groupList}">-->
+<!--    <td><a th:href="@{|/group/${group.groupId}|}" th:text="${group.name}"></a></td>-->
+<!--    <td th:text="${group.introduce}"></td>-->
+<!--    <td th:text="${group.categoryName}"></td> &lt;!&ndash; 각 그룹의 카테고리 정보 &ndash;&gt;-->
+<!--    <td th:text="${group.currentHeadCount}"></td>-->
+<!--    <td th:text="${group.capacity}"></td>-->
+<!--    <td style="width:100px; height:100px;">-->
+<!--      <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--</table>-->
+</div>
+
 </html>

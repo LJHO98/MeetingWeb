@@ -1,7 +1,9 @@
 /* createTournament */
 #createTournamentMain{
-    width: 600px;
-    margin: 0 651.5px 50px 451.5px;
+    width: 70%;
+    margin: 0 auto;
+    top: 80px;
+    position: relative;
 }
 
 #textBox{
@@ -50,8 +52,8 @@
 }
 
 #createTournamentForm{
-    width: 100%;
-    margin: 0 auto;
+    width: 600px;
+    margin: 0 auto 50px auto;
     padding: 40px 50px;
 }
 

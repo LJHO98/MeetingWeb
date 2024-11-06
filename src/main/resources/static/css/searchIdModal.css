@@ -10,6 +10,7 @@
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 .pwModal {
     display: none;
     position: fixed;
@@ -26,10 +27,10 @@
 .idModal_content1 {
     display: block;
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin: 250px auto 0 auto;
+    padding: 20px 40px;
     border: 1px solid #888;
-    width: 400px;
+    width: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -38,20 +39,22 @@
 .idModal_content2 {
     display: none;
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin: 250px auto 0 auto;
+    padding: 20px 40px;
     border: 1px solid #888;
-    width: 400px;
+    width: 500px;
+    height: 451px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .pwModal_content1 {
     display: block;
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin: 250px auto 0 auto;
+    padding: 20px 40px;
     border: 1px solid #888;
-    width: 400px;
+    width: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -60,21 +63,53 @@
 .pwModal_content2 {
     display: none;
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin: 250px auto 0 auto;
+    padding: 20px 40px;
     border: 1px solid #888;
-    width: 400px;
-    border-radius: 8px;
+    width: 500px;
+    height: 451px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 헤더 */
+.findHeader{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.findTitle{
+    font-size: 27px;
+    font-family: 'NanumSquareAceb';
+    color: #5D5D5D;
+    margin: 0 117px 0 145px;
+    line-height: 44px;
+}
+
+#getId{
+    font-size: 27px;
+    font-family: 'NanumSquareAceb';
+    color: #5D5D5D;
+    margin: 150px auto 0 auto;
+}
+
+#newPw{
+    margin-bottom: 80px;
 }
 
 /* 닫기 버튼 스타일 */
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 33px;
+    font-weight: 700;
     cursor: pointer;
+    top: 0;
+    right: 0;
+    position: absolute;
 }
 
 .close:hover,
@@ -82,3 +117,67 @@
     color: #000;
     text-decoration: none;
 }
+
+/* 메인 */
+.inputBox{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.inputBox label{
+    font-size: 18px;
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'NanumSquareAcr';
+    color: #5D5D5D;
+    width: 100%;
+}
+
+.inputBox input{
+    width: 80%;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    padding: 0 13px;
+}
+
+.inputBox input:focus{
+    box-shadow: 0 4px 8px rgba(89, 218, 80, 0.3), /* 아래쪽 */
+    0 -4px 8px rgba(89, 218, 80, 0.3), /* 위쪽 */
+    -4px 0 8px rgba(89, 218, 80, 0.3), /* 왼쪽 */
+    4px 0 8px rgba(89, 218, 80, 0.3);  /* 오른쪽 */
+}
+
+.inputBox Button{
+    width: 15%;
+    margin-left: 5%;
+    border-radius: 8px;
+    font-family: 'NanumSquareAcr';
+    border: 1px solid #aaa;
+    cursor: pointer;
+}
+
+.btWrap{
+    align-items: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+.btWrap button{
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-family: 'NanumSquareBold';
+    color: #fff;
+    cursor: pointer;
+    margin: 0 auto;
+    background: #74D36D;
+    border: none;
+}
+
+.btWrap button:hover{
+    background: #47C83E;
+}
+

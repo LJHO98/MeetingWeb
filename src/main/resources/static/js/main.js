@@ -1,3 +1,4 @@
+
 // 리스트 아이콘 클릭
 $(document).off('click', '#listIcon').on('click', '#listIcon', function() {
     var $side = $("#side");

@@ -99,12 +99,11 @@
 <div layout:fragment="body" id="createGroupMain">
 
     <div id="textBox">
-        <p id="groupListText"><a href="">모임 목록</a></p>
+        <p id="groupListText"><a href="/grouplist">모임 목록</a></p>
         <p id="groupCreateText"><span class="highlight">모임 만들기</span></p>
     </div>
 
     <form id="createGroupForm" th:action="@{/group/createGroup}" th:object="${groupDto}" method="post" enctype="multipart/form-data">
-
 
         <div class="inputBox" id="imgBox">
             <label th:for="profileImg">대표 이미지</label>

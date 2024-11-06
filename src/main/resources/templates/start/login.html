@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{fragment/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
@@ -22,27 +24,46 @@
     <div class="link-container">
         <a href="#" class="link" onclick="idOpenModal(this)">아이디 찾기</a>
         <a href="#" class="link" onclick="pwOpenModal(this)">비밀번호 찾기</a>
-        <a href="" class="link">회원가입</a>
+        <a href="/start/agreement" class="link">회원가입</a>
     </div>
 
     <!-- 아이디 찾기 모달 -->
     <div id="search_Id" class="idModal">
         <div class="idModal_content1">
-            <span class="close" onclick="idCloseModal()"><i class="bi bi-x"></i></span>
-            <h2>아이디 찾기</h2>
+            <div class="findHeader">
+                <div class="findTitle">아이디 찾기</div>
+                <span class="close" onclick="idCloseModal()"><i class="bi bi-x"></i></span>
+            </div>
+
             <form id="searchIdForm" method="post" action="/login/searchId">
-                이름 <input type="text" class="name"><br>
-                이메일 <input type="email" class="email">
-                <button type="button" class="register">인증번호</button><br>
-                인증번호 <input type="text" class="number">
-                <button type="button" class="certification">인증</button><br>
-                <button type="button" onclick="idNextModal()">다음</button>
+                <div class="inputBox">
+                    <label>이름</label>
+                    <input type="text"><br>
+                </div>
+
+                <div class="inputBox">
+                    <label>이메일</label>
+                    <input type="email" class="email">
+                    <button type="button" class="register">인증번호</button>
+                </div>
+
+                <div class="inputBox">
+                    <label>인증번호</label>
+                    <input type="text" class="number">
+                    <button type="button" class="certification">인증</button>
+                </div>
+
+                <div class="btWrap">
+                    <button type="button" onclick="idNextModal()">다음</button>
+                </div>
             </form>
         </div>
         <div class="idModal_content2">
             <form id="searchIdFormNext" method="post" action="/login/searchId">
-                <h2>고객님의 정보와 일치하는 아이디입니다</h2>
-                <button type="button" onclick="idCloseModal()">닫기</button>
+                <div class="findHeader">
+                    <span class="close" onclick="idCloseModal()"><i class="bi bi-x"></i></span>
+                </div>
+                <div id="getId">고객님의 정보와 일치하는 아이디입니다</div>
             </form>
         </div>
     </div>
@@ -50,22 +71,51 @@
     <!-- 비밀번호 찾기 모달 -->
     <div id="search_Pw" class="pwModal">
         <div class="pwModal_content1">
-            <span class="close" onclick="pwCloseModal()"><i class="bi bi-x"></i></span>
-            <h2>비밀번호 찾기</h2>
+            <div class="findHeader">
+                <div class="findTitle">비밀번호 찾기</div>
+                <span class="close" onclick="pwCloseModal()"><i class="bi bi-x"></i></span>
+            </div>
+
             <form id="searchPwForm" method="post" action="/login/searchPw">
-                아이디 <input type="text" class="name"><br>
-                이메일 <input type="email" class="email">
-                <button type="button" class="register">인증번호</button><br>
-                인증번호 <input type="text" class="number">
-                <button type="button" class="certification">인증</button><br>
-                <button type="button" onclick="pwNextModal()">다음</button>
+                <div class="inputBox">
+                    <label>아이디</label>
+                    <input type="text">
+                </div>
+
+                <div class="inputBox">
+                    <label>이메일</label>
+                    <input type="email" class="email">
+                    <button type="button" class="register">인증번호</button>
+                </div>
+
+                <div class="inputBox">
+                    <label>인증번호</label>
+                    <input type="text" class="number">
+                    <button type="button" class="certification">인증</button>
+                </div>
+
+                <div class="btWrap">
+                    <button type="button" onclick="pwNextModal()">다음</button>
+                </div>
             </form>
         </div>
         <div class="pwModal_content2">
             <form id="searchPwFormNext" method="post" action="/login/searchPw">
-                새 비밀번호 <input type="text" class="pw"><br>
-                비밀번호 확인 <input type="text" class="pwCheck"><br>
-                <button type="button" onclick="pwCloseModal()">닫기</button>
+                <div class="findHeader" id="newPw">
+                    <div class="findTitle">비밀번호 변경</div>
+                    <span class="close" onclick="pwCloseModal()"><i class="bi bi-x"></i></span>
+                </div>
+
+                <div class="inputBox">
+                    <label>새 비밀번호</label>
+                    <input type="text" class="pw">
+                </div>
+
+                <div class="inputBox">
+                    <label>비밀번호 확인</label>
+                    <input type="text" class="pwCheck">
+                    <button type="button" class="newPassword">확인</button>
+                </div>
             </form>
         </div>
     </div>

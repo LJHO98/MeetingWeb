@@ -1,7 +1,9 @@
 /* createGroup */
 #createGroupMain{
-    width: 600px;
-    margin: 0 651.5px 50px 451.5px;
+    width: 70%;
+    margin: 0 auto;
+    top: 80px;
+    position: relative;
 }
 
 #textBox{
@@ -11,7 +13,7 @@
 }
 
 #groupListText{
-    font-size: 22px;
+    font-size: 25px;
     font-family: 'NanumSquareAcr';
     margin-right: 30px;
     align-self: end;
@@ -23,7 +25,7 @@
 }
 
 #groupCreateText{
-    font-size: 40px;
+    font-size: 35px;
     font-family: 'NanumSquareAceb';
     align-self: end;
     color: #353535;
@@ -38,8 +40,8 @@
 }
 
 #createGroupForm{
-    width: 100%;
-    margin: 0 auto;
+    width: 600px;
+    margin: 0 auto 50px auto;
     padding: 40px 50px;
 }
 
@@ -73,6 +75,10 @@
 #imgBox input{
     border: none;
     color: #626262;
+}
+
+#imgBox{
+    top: 0;
 }
 
 .inputBox{
