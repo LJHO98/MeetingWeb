@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface GroupRepository extends JpaRepository<Groups, Long> {
     Groups findByGroupId(Long id);
+    List<Groups> findAllByOrderByCreatedAtDesc();
 
 }

@@ -53,7 +53,7 @@ public class GroupController {
         model.addAttribute("groupDto", groupDto);
         return "group/viewContent"; // viewContent.html 페이지로 이동
     }
-    @GetMapping("/grouplist") // 모임 목록
+    @GetMapping("/group/list") // 모임 목록
     public String groupList(Model model) {
         List<GroupDto> groupDtoList = groupService.getAllGroups();
         model.addAttribute("groupList", groupDtoList);

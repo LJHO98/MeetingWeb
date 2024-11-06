@@ -46,25 +46,27 @@ public class TournamentService {
     }
 
 
-    //대회 목록 페이지에 보여줄 기본 대회 목록
-    public  List<TrnDto> defaultTournament() {
+//    //대회 목록 페이지에 보여줄 기본 대회 목록
+//    public  List<TrnDto> defaultTournament() {
+//
+//        // Repository를 통해 모든 Tournaments 데이터를 조회
+//        List<Tournaments> tournamentsList = tournamentRepository.findAll();
+//
+//        // TrnDto 리스트 생성
+//        List<TrnDto> trnDtoList = new ArrayList<>();
+//
+//        // 각 Tournaments 객체를 TrnDto로 변환하여 리스트에 추가
+//        for (Tournaments tournament : tournamentsList) {
+//            TrnDto trnDto = TrnDto.of(tournament); // Tournaments 객체를 TrnDto로 변환
+//            trnDtoList.add(trnDto); // 변환된 TrnDto를 리스트에 추가
+//        }
+//
+//        // 최종적으로 TrnDto 리스트 반환
+//        return trnDtoList;
+//    }
 
-        // Repository를 통해 모든 Tournaments 데이터를 조회
-        List<Tournaments> tournamentsList = tournamentRepository.findAll();
 
-        // TrnDto 리스트 생성
-        List<TrnDto> trnDtoList = new ArrayList<>();
 
-        // 각 Tournaments 객체를 TrnDto로 변환하여 리스트에 추가
-        for (Tournaments tournament : tournamentsList) {
-            TrnDto trnDto = TrnDto.of(tournament); // Tournaments 객체를 TrnDto로 변환
-            trnDtoList.add(trnDto); // 변환된 TrnDto를 리스트에 추가
-        }
-
-        // 최종적으로 TrnDto 리스트 반환
-        return trnDtoList;
-    }
-    //
     private boolean hasLeaderRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
@@ -94,4 +96,11 @@ public class TournamentService {
 
     }
 
+    //대회 목록 조회(내림차순)
+    public List<TrnDto> getTournamentList() {
+        List<Tournaments> tournamentsList = tournamentRepository.findAllByOrderByCreatedAtDesc();
+        return tournamentsList.stream()
+                .map(TrnDto::of)  // of 메서드로 변환
+                .collect(Collectors.toList());
+    }
 }

@@ -52,7 +52,7 @@ public class GroupService {
     }
     public List<GroupDto> getAllGroups() {
         // 전체 그룹을 가져오고 GroupDto로 변환하면서 카테고리 이름을 설정
-        return groupRepository.findAll().stream()
+        return groupRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(group -> {
                     GroupDto dto = GroupDto.of(group);
 //                    if (group.getCategory() != null) {

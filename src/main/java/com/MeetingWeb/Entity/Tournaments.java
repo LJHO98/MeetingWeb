@@ -32,6 +32,7 @@ public class Tournaments{
     private String status;
     private int format;
     private Long groupId;
+    private int capacity;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;

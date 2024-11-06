@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>대회 목록</title>
+</head>
+<body>
+<h1>대회 목록</h1>
+<table>
+  <tr>
+    <th>대회명</th>
+    <th>주최자</th>
+    <th>카테고리</th>
+    <th>정원</th>
+    <th>대회 이미지</th>
+    <th>대회 시작일</th>
+    <th>대진형식</th>
+  </tr>
+  <tr th:each="tournament : ${tournamentList}">
+    <td><a th:href="@{|/tournament/${tournament.tournamentId}|}" th:text="${tournament.title}"></a></td>
+    <td th:text="${tournament.organizer}"></td>
+    <td th:text="${tournament.categoryName}"></td> <!-- 각 그룹의 카테고리 정보 -->
+    <td th:text="${tournament.capacity}"></td>
+    <td style="width:100px; height:100px;">
+      <img th:src="@{|..${tournament.tournamentImgUrl}|}" alt="tournamentImage" style="width: 50px; height: 50px;">
+    </td>
+    <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd a HH:mm')}"></td>
+    <td th:text="${tournament.format}"></td>
+  </tr>
+</table>
+</body>
+</html>

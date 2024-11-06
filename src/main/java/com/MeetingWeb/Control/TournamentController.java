@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,9 +44,11 @@ import java.util.List;
             return "";
         }
         //대회 목록
+        @GetMapping("/tournament/list")
         public String tournamentListPage(Model model) {
-
-            return "";
+            List<TrnDto> TournamentList = tournamentService.getTournamentList();
+            model.addAttribute("tournamentList", TournamentList);
+            return "/tournament/tournamentList";
         }
         //대회 만들기 폼
         // 대회 생성 폼을 보여주는 메서드
@@ -58,7 +61,7 @@ import java.util.List;
 
         // 대회 생성 요청 처리 메서드
         @PostMapping("/tournament/createTournament")
-        public String createTournament(TrnDto trnDto, Principal principal, RedirectAttributes redirectAttributes) {
+        public String createTournament(@Valid TrnDto trnDto, Principal principal, RedirectAttributes redirectAttributes) {
             String username = principal.getName();
             User createdBy = userService.findByUserName(username); // User 서비스에서 User 객체 조회
             try {
@@ -76,46 +79,6 @@ import java.util.List;
             //return "redirect:/tournament/list"; // 성공 시 대회 목록으로 이동
             return "redirect:/home";
         }
-        //    //대회 만들기
-//            @PostMapping("/home")
-//            public String createTournament(@ModelAttribute TrnDto trnDto,User createdBy) throws Exception {
-//
-//                tournamentService.createTournament(trnDto,createdBy);
-//
-//                return "home";
-//
-//            }
-
-//        private String saveFile(MultipartFile file) {
-//            // 저장할 디렉토리 경로 설정 (예: "uploads" 디렉토리)
-//            String uploadDir = "uploads/";
-//
-//            // 디렉토리가 없으면 생성
-//            File directory = new File(uploadDir);
-//            if (!directory.exists()) {
-//                directory.mkdirs();
-//            }
-//
-//            // 파일 이름 중복 방지를 위해 고유한 파일 이름 생성
-//            String originalFileName = file.getOriginalFilename();
-//            String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
-//
-//            // 파일 저장 경로 설정
-//            Path filePath = Paths.get(uploadDir, uniqueFileName);
-//            try {
-//                // 파일 저장
-//                Files.write(filePath, file.getBytes());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                throw new RuntimeException("파일 저장에 실패했습니다: " + originalFileName);
-//            }
-//
-//            // 저장된 파일 경로를 반환
-//            return filePath.toString();
-//        }
-
-
-
 
         //대회 상세 페이지
         public String tournamentInfo(Principal principal,Long tournamentId , Model model) {
