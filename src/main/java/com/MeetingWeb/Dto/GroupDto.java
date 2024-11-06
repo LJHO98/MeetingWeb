@@ -53,7 +53,7 @@ public class GroupDto {
     @NotNull(message="프로필 이미지가 필요합니다.")
     private MultipartFile profileImg;
     private String profileImgUrl;
-    private List<String> descriptionImageUrls;
+//    private List<String> descriptionImageUrls;
 
     public Groups toEntity(String profileImageUrl,User createdBy) {
         Groups group = new Groups();

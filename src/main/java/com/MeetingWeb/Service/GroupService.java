@@ -1,10 +1,10 @@
 package com.MeetingWeb.Service;
 
 import com.MeetingWeb.Dto.GroupDto;
-import com.MeetingWeb.Entity.GroupDescriptionImg;
+//import com.MeetingWeb.Entity.GroupDescriptionImg;
 import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.User;
-import com.MeetingWeb.Repository.GroupDescriptionRepository;
+//import com.MeetingWeb.Repository.GroupDescriptionRepository;
 import com.MeetingWeb.Repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GroupService {
     private final GroupRepository groupRepository;
-    private final GroupDescriptionRepository groupDescriptionRepository;
+//    private final GroupDescriptionRepository groupDescriptionRepository;
     private final ProfileUploadService profileUploadService;
 
     @Transactional

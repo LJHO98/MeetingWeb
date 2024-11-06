@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,6 +54,9 @@ public class Groups {
     @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
     private User createdBy;
 
-   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<GroupDescriptionImg> descriptionImages;
+//   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+//   private List<GroupDescriptionImg> descriptionImages;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<GroupMember> groupMembers = new ArrayList<>();
 }

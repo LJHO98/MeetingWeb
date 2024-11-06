@@ -21,7 +21,7 @@ public class Tournaments{
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY) // 카테고리와의 다대일 관계 설정
-    @JoinColumn(name = "category" ) // 외래 키 설정
+    @JoinColumn(name = "category_id") // 외래 키 설정
     private TournamentCategory category;
 
     private LocalDateTime receiptStart;
