@@ -2,6 +2,7 @@ package com.MeetingWeb.Dto;
 
 import com.MeetingWeb.Constant.Gender;
 import com.MeetingWeb.Constant.RegistType;
+import com.MeetingWeb.Entity.GroupCategory;
 import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.User;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class GroupDto {
     private String description;
 
     @NotNull(message="필수 선택입니다.")
-    private String category;
+    private Long category;
 
     private String location;
 
@@ -50,17 +51,19 @@ public class GroupDto {
     private Integer capacity;
     private Long createdBy;
 
+    private String categoryName;
+
     @NotNull(message="프로필 이미지가 필요합니다.")
     private MultipartFile profileImg;
     private String profileImgUrl;
 //    private List<String> descriptionImageUrls;
 
-    public Groups toEntity(String profileImageUrl,User createdBy) {
+    public Groups toEntity(String profileImageUrl, User createdBy, GroupCategory groupCategory) {
         Groups group = new Groups();
         group.setName(this.name);
         group.setIntroduce(this.introduce);
         group.setDescription(this.description);
-        group.setCategory(this.category);
+        group.setCategory(groupCategory);
         group.setLocation(this.location);
         group.setGenderPreference(this.genderPreference);
 //        group.setMinAge(this.minAge);
@@ -78,7 +81,8 @@ public class GroupDto {
         groupDto.name = groups.getName();
         groupDto.introduce = groups.getIntroduce();
         groupDto.description = groups.getDescription();
-        groupDto.category = groups.getCategory();
+        groupDto.category = groups.getCategory().getGroupCategoryId();
+        groupDto.categoryName = groups.getCategory().getCategory();
         groupDto.location = groups.getLocation();
         groupDto.genderPreference = groups.getGenderPreference();
 //        groupDto.minAge = groups.getMinAge();

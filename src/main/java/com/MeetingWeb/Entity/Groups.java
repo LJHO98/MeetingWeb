@@ -24,7 +24,10 @@ public class Groups {
     @Lob
     private String description;
 
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY) // 카테고리와의 다대일 관계 설정
+    @JoinColumn(name = "category_id")
+    private GroupCategory category;
+
     private String location;
     @Enumerated(EnumType.STRING)
     private Gender genderPreference;

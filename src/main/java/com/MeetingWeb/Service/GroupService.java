@@ -2,9 +2,12 @@ package com.MeetingWeb.Service;
 
 import com.MeetingWeb.Dto.GroupDto;
 //import com.MeetingWeb.Entity.GroupDescriptionImg;
+import com.MeetingWeb.Entity.GroupCategory;
 import com.MeetingWeb.Entity.Groups;
+import com.MeetingWeb.Entity.TournamentCategory;
 import com.MeetingWeb.Entity.User;
 //import com.MeetingWeb.Repository.GroupDescriptionRepository;
+import com.MeetingWeb.Repository.GroupCategoryRepository;
 import com.MeetingWeb.Repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +21,16 @@ public class GroupService {
     private final GroupRepository groupRepository;
 //    private final GroupDescriptionRepository groupDescriptionRepository;
     private final ProfileUploadService profileUploadService;
+    private final GroupCategoryRepository groupCategoryRepository;
 
     @Transactional
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
         String profileImageUrl = profileUploadService.saveProfile(groupDto.getProfileImg());
-        Groups group = groupDto.toEntity(profileImageUrl,createdBy);
+
+        GroupCategory groupCategory = groupCategoryRepository.findById(groupDto.getCategory())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + groupDto.getCategory()));
+
+        Groups group = groupDto.toEntity(profileImageUrl,createdBy, groupCategory);
         groupRepository.save(group);
 
 //        if (groupDto.getDescriptionImageUrls() != null) {
