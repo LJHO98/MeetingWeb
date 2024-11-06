@@ -62,4 +62,13 @@ public class GroupService {
                 })
                 .collect(Collectors.toList());
     }
+    public GroupDto findGroupById(Long id) { //목록상세
+        Groups group = groupRepository.findByGroupId(id);
+        if(group!=null) {//객체안에 값 존재여부//있다면 안에 내용 실행
+            GroupDto dto = GroupDto.of(group);
+            return dto;
+        }else {//없다면 null
+            return null;
+        }
+    }
 }

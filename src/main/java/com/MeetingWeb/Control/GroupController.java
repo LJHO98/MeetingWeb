@@ -59,4 +59,10 @@ public class GroupController {
         model.addAttribute("groupList", groupDtoList);
         return "group/groupList";
     }
+    @GetMapping("/group/{id}")
+    public String groupDetail(@PathVariable Long id, Model model) {
+        GroupDto groupDto = groupService.findGroupById(id);
+        model.addAttribute("groupDetail", groupDto);
+        return "group/groupDetail";
+    }
 }

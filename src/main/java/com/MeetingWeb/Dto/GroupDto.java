@@ -79,6 +79,7 @@ public class GroupDto {
     public static GroupDto of(Groups groups) {
         GroupDto groupDto = new GroupDto();
         groupDto.name = groups.getName();
+        groupDto.groupId = groups.getGroupId();
         groupDto.introduce = groups.getIntroduce();
         groupDto.description = groups.getDescription();
         groupDto.category = groups.getCategory().getGroupCategoryId();
