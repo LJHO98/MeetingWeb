@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>모임 목록</title>
+</head>
+<body>
+<h1>모임 목록</h1>
+<table>
+  <tr>
+    <th>모임명</th>
+    <th>소개글</th>
+    <th>카테고리</th>
+    <th>현재 인원 수</th>
+    <th>정원</th>
+    <th>모임 이미지</th>
+  </tr>
+  <tr th:each="group : ${groupList}">
+    <td><a th:href="@{|/group/${group.groupId}|}" th:text="${group.name}"></a></td>
+    <td th:text="${group.introduce}"></td>
+    <td th:text="${group.categoryName}"></td> <!-- 각 그룹의 카테고리 정보 -->
+    <td th:text="${group.currentHeadCount}"></td>
+    <td th:text="${group.capacity}"></td>
+    <td style="width:100px; height:100px;">
+      <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">
+    </td>
+  </tr>
+</table>
+</body>
+</html>

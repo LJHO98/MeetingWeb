@@ -36,7 +36,7 @@ public class SercurityConfig {
                 .logoutRequestMatcher( new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/home");
 
-//        http.formLogin().disable();
+        //http.formLogin().disable();
         http.csrf().disable();
 
 

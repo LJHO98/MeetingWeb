@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,5 +52,11 @@ public class GroupController {
         GroupDto groupDto = groupService.getGroupById(2L); // 그룹 조회
         model.addAttribute("groupDto", groupDto);
         return "group/viewContent"; // viewContent.html 페이지로 이동
+    }
+    @GetMapping("/grouplist") // 모임 목록
+    public String groupList(Model model) {
+        List<GroupDto> groupDtoList = groupService.getAllGroups();
+        model.addAttribute("groupList", groupDtoList);
+        return "group/groupList";
     }
 }
