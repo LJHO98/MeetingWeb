@@ -1,8 +1,11 @@
 package com.MeetingWeb.Control;
 
 import com.MeetingWeb.Dto.UserDto;
+import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +50,16 @@ public class UserController {
 
         userService.singUp(userDto, passwordEncoder);
         return "redirect:/home";
+    }
+    @PostMapping("/login/searchId")
+    public @ResponseBody ResponseEntity<String> searchLoginId(String email) {
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            String id = user.getUserName();
+            return ResponseEntity.ok(id); // 성공 시 id 반환
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"); // 사용자 없을 경우
+        }
     }
 
     @PostMapping("/start/check-username")

@@ -21,7 +21,7 @@ public class SercurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/img/**").permitAll()// 정적 리소스는 접근 허용
-                .mvcMatchers("/home", "/start/**").permitAll()
+                .mvcMatchers("/home", "/start/**","/mail","/verifyCode","/login/searchId" ).permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 .and()
                 .formLogin()  // 기본 제공 로그인 페이지 사용
