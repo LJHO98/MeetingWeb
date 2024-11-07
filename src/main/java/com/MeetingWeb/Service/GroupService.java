@@ -24,6 +24,7 @@ public class GroupService {
 //    private final GroupDescriptionRepository groupDescriptionRepository;
     private final ProfileUploadService profileUploadService;
     private final GroupCategoryRepository groupCategoryRepository;
+    private final  UserService userService;
 
     @Transactional
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
@@ -70,5 +71,13 @@ public class GroupService {
         }else {//없다면 null
             return null;
         }
+    }
+    public List<GroupDto> getCustomGroupsForUser(String userName) {
+        // 유저가 선택한 카테고리를 가져오고, 모임 카테고리와 일치하는 모임들을 찾은 후 GroupDto 형식의 리스트로 변환
+        List<GroupCategory> selectedCategories = userService.getUserSelectedCategories(userName);
+        return groupRepository.findByCategoryIn(selectedCategories)
+                .stream()
+                .map(GroupDto::of)
+                .collect(Collectors.toList());
     }
 }

@@ -5,6 +5,7 @@ import com.MeetingWeb.Dto.GroupDto;
 import com.MeetingWeb.Dto.UserDto;
 import com.MeetingWeb.Entity.GroupCategory;
 import com.MeetingWeb.Entity.User;
+import com.MeetingWeb.Entity.UserSelectCategory;
 import com.MeetingWeb.Repository.GroupCategoryRepository;
 import com.MeetingWeb.Repository.GroupRepository;
 import com.MeetingWeb.Repository.UserRepository;
@@ -71,6 +72,15 @@ public class UserService implements UserDetailsService {
 
     public boolean isUserNameTaken(@Pattern(regexp = "^[a-zA-Z0-9]*$", message = "아이디는 영어, 숫자만 사용 가능합니다.") @Size(min = 4, max = 10, message = "아이디는 4~10자입니다.") String userName) {
         return userRepository.findByUserName(userName) != null;
+    }
+
+    public List<GroupCategory> getUserSelectedCategories(String userName) {
+        //// 유저가 선택한 카테고리를 가져와 리스트로 반환하는 메서드입니다.
+        User user = userRepository.findByUserName(userName);
+        return user.getSelectedCategories()
+                .stream()
+                .map(UserSelectCategory::getGroupCategory)
+                .collect(Collectors.toList());
     }
 
 
