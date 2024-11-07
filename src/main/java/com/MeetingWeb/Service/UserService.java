@@ -56,6 +56,18 @@ public class UserService implements UserDetailsService {
             e.printStackTrace();
         }
     }
+    //member 테이블에 이메일 존재여부 확인
+    public void isExistEmail(String email) {
+        User find = userRepository.findByEmail(email);
+        if( find == null){
+            throw new IllegalArgumentException("존재하지 않는 이메일입니다. 다시 입력하세요.");
+        }
+    }
+
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
