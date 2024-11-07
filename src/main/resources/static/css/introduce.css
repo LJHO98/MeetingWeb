@@ -2,7 +2,6 @@
 #introduceMain{
     width: calc(100% - 400px);
     margin: 0 auto;
-    top: 80px;
     position: relative;
 }
 

@@ -1,32 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
-  <meta charset="UTF-8">
-  <title>대회 목록</title>
+    <meta charset="UTF-8">
+    <title>대회 목록</title>
+
+  <link rel="stylesheet" href="/css/tournament/tournamentList.css">
+
 </head>
-<body>
-<h1>대회 목록</h1>
-<table>
-  <tr>
-    <th>대회명</th>
-    <th>주최자</th>
-    <th>카테고리</th>
-    <th>정원</th>
-    <th>대회 이미지</th>
-    <th>대회 시작일</th>
-    <th>대진형식</th>
-  </tr>
-  <tr th:each="tournament : ${tournamentList}">
-    <td><a th:href="@{|/tournament/${tournament.tournamentId}|}" th:text="${tournament.title}"></a></td>
-    <td th:text="${tournament.organizer}"></td>
-    <td th:text="${tournament.categoryName}"></td> <!-- 각 그룹의 카테고리 정보 -->
-    <td th:text="${tournament.capacity}"></td>
-    <td style="width:100px; height:100px;">
-      <img th:src="@{|..${tournament.tournamentImgUrl}|}" alt="tournamentImage" style="width: 50px; height: 50px;">
-    </td>
-    <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd a HH:mm')}"></td>
-    <td th:text="${tournament.format}"></td>
-  </tr>
-</table>
-</body>
-</html>
+
+<div layout:fragment="body" id="tournamentListMain">
+
+    <div id="textBox">
+        <p id="tournamentListText"><span class="highlight">대회 목록</span></p>
+      <p id="tournamentCreateText"><a href="/tournament/createTournament">대회 만들기</a></p>
+        <p id="participationText"><a href="">참가 대회</a></p>
+    </div>
+
+    <div id="tournamentListWrap">
+        <div class="tournamentListBox" th:each="tournament : ${tournamentList}">
+            <a th:href="@{|/tournament/${tournament.tournamentId}|}">
+                <div class="img">
+                    <img th:src="@{|..${tournament.tournamentImgUrl}|}" alt="tournamentImage">
+                    <p class="categoryT" th:text="${tournament.categoryName + ' / ' + tournament.format + '강'}"></p>
+                    <div class="status" th:text="${tournament.status != null ?
+                (tournament.status.name() == 'UPCOMING' ? '접수전' :
+                tournament.status.name() == 'RECRUITING' ? '접수중' :
+                tournament.status.name() == 'CLOSED' ? '접수마감' :
+                tournament.status.name() == 'IN_PROGRESS' ? '대회중' :
+                tournament.status.name() == 'COMPLETED' ? '대회종료' : '알 수 없는 상태') :
+                '알 수 없는 상태'}"></div>
+
+
+                </div>
+                <div class="detail">
+                    <p class="title" th:text="${tournament.title}"></p>
+                    <p class="description" th:text="${tournament.organizer}"></p>
+                    <p class="capacityT" th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd  a HH:mm')}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!--<table>-->
+<!--  <tr>-->
+<!--    <th>대회명</th>-->
+<!--    <th>주최자</th>-->
+<!--    <th>카테고리</th>-->
+<!--    <th>정원</th>-->
+<!--    <th>대회 이미지</th>-->
+<!--    <th>대회 시작일</th>-->
+<!--    <th>대진형식</th>-->
+<!--  </tr>-->
+<!--  <tr th:each="tournament : ${tournamentList}">-->
+<!--    <td><a th:href="@{|/tournament/${tournament.tournamentId}|}" th:text="${tournament.title}"></a></td>-->
+<!--    <td th:text="${tournament.organizer}"></td>-->
+<!--    <td th:text="${tournament.categoryName}"></td> &lt;!&ndash; 각 그룹의 카테고리 정보 &ndash;&gt;-->
+<!--    <td th:text="${tournament.capacity}"></td>-->
+<!--    <td style="width:100px; height:100px;">-->
+<!--      <img th:src="@{|..${tournament.tournamentImgUrl}|}" alt="tournamentImage" style="width: 50px; height: 50px;">-->
+<!--    </td>-->
+<!--    <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd a HH:mm')}"></td>-->
+<!--    <td th:text="${tournament.format}"></td>-->
+<!--  </tr>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->

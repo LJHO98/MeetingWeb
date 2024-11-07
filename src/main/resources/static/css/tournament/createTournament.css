@@ -1,45 +1,100 @@
-/* createGroup */
-#createGroupMain{
+/* createTournament */
+#header a{
+    color: #db5af5;
+}
+
+#logo{
+    animation: shimmer 1s infinite alternate;
+}
+
+@keyframes shimmer {
+    0% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+    50% {
+        text-shadow: 0 0 20px #e68df8, 0 0 40px #ffffff, 0 0 60px #ffffff;
+    }
+    100% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+}
+
+#side {
+    border: none;
+    background: linear-gradient(to right, rgba(217, 65, 140, 0.8), rgba(110, 47, 199, 0.6));
+    color: #fff;
+}
+
+.sidebar{
+    color: #fff;
+}
+
+.sidebar i{
+    color: #fff;
+}
+
+.sidebar a{
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.sidebar a:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+#createTournamentMain{
     width: 70%;
     margin: 0 auto;
-    top: 80px;
     position: relative;
 }
 
 #textBox{
     margin: 50px auto 30px auto;
     display: flex;
-    width: 300px;
+    width: 435px;
 }
 
-#groupListText{
-    font-size: 25px;
+#tournamentListText{
+    font-size: 22px;
+    font-family: 'NanumSquareAcr';
+    align-self: end;
+    color: #868686;
+}
+
+#tournamentListText:hover{
+    font-weight: 600;
+}
+
+#tournamentCreateText{
+    font-size: 40px;
+    font-family: 'NanumSquareAceb';
+    align-self: end;
+    color: #353535;
+    margin: 0 30px;
+}
+
+#participationText{
+    font-size: 22px;
     font-family: 'NanumSquareAcr';
     margin-right: 30px;
     align-self: end;
     color: #868686;
 }
 
-#groupListText:hover{
+#participationText:hover{
     font-weight: 600;
-}
-
-#groupCreateText{
-    font-size: 35px;
-    font-family: 'NanumSquareAceb';
-    align-self: end;
-    color: #353535;
 }
 
 .highlight{
     display: inline;
-    box-shadow: inset 0 -20px 0 #AAFFA3;
+    box-shadow: inset 0 -20px 0 #ed9aff;
     /*-10px은 highlight의 두께*/
     opacity: 0.5;
     z-index: -1;
 }
 
-#createGroupForm{
+#createTournamentForm{
     width: 600px;
     margin: 0 auto 50px auto;
     padding: 40px 50px;
@@ -62,10 +117,10 @@
 }
 
 .inputBox input:focus{
-    box-shadow: 0 4px 8px rgba(89, 218, 80, 0.3), /* 아래쪽 */
-    0 -4px 8px rgba(89, 218, 80, 0.3), /* 위쪽 */
-    -4px 0 8px rgba(89, 218, 80, 0.3), /* 왼쪽 */
-    4px 0 8px rgba(89, 218, 80, 0.3);  /* 오른쪽 */
+    box-shadow: 0 4px 8px rgba(209, 178, 255, 0.5), /* 아래쪽 */
+    0 -4px 8px rgba(209, 178, 255, 0.5), /* 위쪽 */
+    -4px 0 8px rgba(209, 178, 255, 0.5), /* 왼쪽 */
+    4px 0 8px rgba(209, 178, 255, 0.5);  /* 오른쪽 */
 }
 
 #intro input{
@@ -77,27 +132,17 @@
     color: #626262;
 }
 
-#imgBox{
-    top: 0;
-}
-
 .inputBox{
     margin-bottom: 50px;
 }
 
-.inputBox .gender-options, #registerTypeWrap, #categoryInput {
+#categoryInput {
     display: flex;
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
 }
 
-.inputBox .gender-options label, #registerTypeWrap label{
-    font-size: 16px;
-}
-
-.inputBox .gender-options input[type="radio"],
-.inputBox #registerTypeWrap input[type="radio"],
 .inputBox #categoryInput input[type="radio"] {
     width: 15px; /* 라디오 버튼의 너비 조정 */
     height: 15px; /* 라디오 버튼의 높이 조정 */
@@ -115,53 +160,13 @@
     color: #626262;
 }
 
-#locationBt{
-    width: 130px;
-    height: 30px;
-    border: 1px solid #aaa;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: 'NanumSquare';
-    margin-bottom: 5px;
-    color: #626262;
-}
-
-#locationWrap{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#locationWrap input{
-    width: 80%;
-    padding: 0 13px;
-    margin-top: 5px;
-    border-radius: 10px;
-    border: 1px solid #aaa;
-    box-sizing: border-box;
-    height: 40px;
-}
-
-#locationWrap #locationBt{
-    width: 15%;
-    height: 30px;
-    padding: 3px;
-    background: #fff;
-    font-family: 'NanumSquare';
-    margin: auto 0 auto 22px;
-    border: 2px solid #aaa;
-    border-radius: 10px;
-    color: #5D5D5D;
-    background: #CEFBC9;
-    cursor: pointer;
-}
-
 #btWrap{
     align-items: center;
     display: flex;
     margin-top: 20px;
 }
 
-#createGroupBt{
+#createTournamentBt{
     width: 100px;
     height: 40px;
     font-size: 18px;
@@ -170,15 +175,15 @@
     color: #fff;
     cursor: pointer;
     margin: 0 auto;
-    background: #74D36D;
+    background: #BFA0ED;
     border: none;
 }
 
-#createGroupBt:hover{
-    background: #47C83E;
+#createTournamentBt:hover{
+    background: #B778FF;
 }
 
-#capacity {
+#format {
     width: 100px;             /* 너비 설정 */
     padding: 8px;             /* 패딩 추가 */
     font-size: 16px;          /* 폰트 크기 설정 */
@@ -190,8 +195,11 @@
 }
 
 /* select 요소가 포커스를 받을 때 스타일 */
-#capacity:focus {
-    border-color: #86E57F; /* 포커스 시 테두리 색상을 #86E57F로 설정 */
+#format:focus {
+    border-color: #8041D9; /* 포커스 시 테두리 색상을 #86E57F로 설정 */
     outline: none;         /* 기본 아웃라인 제거 */
-    box-shadow: 0 0 5px rgba(134, 229, 127, 0.6); /* 그림자 효과에 #86E57F 계열 색상 적용 */
+    box-shadow: 0 4px 8px rgba(209, 178, 255, 0.5), /* 아래쪽 */
+    0 -4px 8px rgba(209, 178, 255, 0.5), /* 위쪽 */
+    -4px 0 8px rgba(209, 178, 255, 0.5), /* 왼쪽 */
+    4px 0 8px rgba(209, 178, 255, 0.5);  /* 오른쪽 */
 }

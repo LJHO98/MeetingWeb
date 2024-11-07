@@ -1,0 +1,20 @@
+/* groupDetail */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+#logo{
+    color: #86E57F;
+}
+
+#headerWrap .headerBox{
+    color: #86E57F;
+    position: relative;
+}

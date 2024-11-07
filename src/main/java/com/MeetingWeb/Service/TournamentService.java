@@ -99,7 +99,7 @@ public class TournamentService {
         if(trnDto.getReceiptStart().isAfter(now)){
             tournament.setStatus(TournamentStatus.UPCOMING);
         }else{
-            tournament.setStatus(TournamentStatus.IN_PROGRESS);
+            tournament.setStatus(TournamentStatus.RECRUITING);
         }
 
         return tournamentRepository.save(tournament);
