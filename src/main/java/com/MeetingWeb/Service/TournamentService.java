@@ -1,5 +1,6 @@
 package com.MeetingWeb.Service;
 
+import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Dto.GroupDto;
 import com.MeetingWeb.Dto.TournamentCategoryDto;
 import com.MeetingWeb.Dto.TournamentSearchDto;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,6 +93,14 @@ public class TournamentService {
         String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
 
         Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy, tournamentCategory);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        if(trnDto.getReceiptStart().isAfter(now)){
+            tournament.setStatus(TournamentStatus.UPCOMING);
+        }else{
+            tournament.setStatus(TournamentStatus.IN_PROGRESS);
+        }
 
         return tournamentRepository.save(tournament);
 

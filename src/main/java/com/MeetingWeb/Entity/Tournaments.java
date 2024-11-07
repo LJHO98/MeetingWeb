@@ -1,5 +1,6 @@
 package com.MeetingWeb.Entity;
 
+import com.MeetingWeb.Constant.TournamentStatus;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
@@ -29,7 +30,8 @@ public class Tournaments{
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TournamentStatus status;
     private int format;
     private Long groupId;
     private int capacity;

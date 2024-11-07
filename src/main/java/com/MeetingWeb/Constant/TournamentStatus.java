@@ -1,5 +1,5 @@
 package com.MeetingWeb.Constant;
 
 public enum TournamentStatus {
-    RECRUITING, IN_PROGRESS, COMPLETED
+    UPCOMING ,RECRUITING, CLOSED ,IN_PROGRESS, COMPLETED
 }

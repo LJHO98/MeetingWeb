@@ -1,5 +1,6 @@
 package com.MeetingWeb.Dto;
 
+import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Entity.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,8 +38,7 @@ public class TrnDto {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
-
-    private String status;
+    private TournamentStatus status;
     private int format;
     private List<String> imgList;
     private Long createdBy;
