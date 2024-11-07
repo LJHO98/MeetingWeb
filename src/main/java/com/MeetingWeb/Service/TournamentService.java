@@ -1,24 +1,15 @@
 package com.MeetingWeb.Service;
 
 import com.MeetingWeb.Constant.TournamentStatus;
-import com.MeetingWeb.Dto.GroupDto;
-import com.MeetingWeb.Dto.TournamentCategoryDto;
-import com.MeetingWeb.Dto.TournamentSearchDto;
-import com.MeetingWeb.Dto.TrnDto;
+import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.*;
-import com.MeetingWeb.Repository.TournamentCategoryRepository;
-import com.MeetingWeb.Repository.TournamentRepository;
-import com.MeetingWeb.Repository.TournamentSearchRepository;
+import com.MeetingWeb.Repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +25,9 @@ public class TournamentService {
     private final TournamentCategoryRepository tournamentCategoryRepository;
     private final TournamentRepository tournamentRepository;
     private final ProfileUploadService profileUploadService;
+    private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
+    private final TournamentParticipantRepository tournamentParticipantRepository;
 
     //대회 카테고리 가져오기
     public List<TournamentCategoryDto> getTournamentCategories() {
@@ -43,29 +37,9 @@ public class TournamentService {
                 .collect(Collectors.toList());
     }
 
-    //카테고리 선택, 검색창에 입력한 값으로 대회 검색
-    public List<TrnDto> searchTournament(TournamentSearchDto tournamentSearchDto) {
-        return null;
-    }
-
-
-//    //대회 목록 페이지에 보여줄 기본 대회 목록
-//    public  List<TrnDto> defaultTournament() {
-//
-//        // Repository를 통해 모든 Tournaments 데이터를 조회
-//        List<Tournaments> tournamentsList = tournamentRepository.findAll();
-//
-//        // TrnDto 리스트 생성
-//        List<TrnDto> trnDtoList = new ArrayList<>();
-//
-//        // 각 Tournaments 객체를 TrnDto로 변환하여 리스트에 추가
-//        for (Tournaments tournament : tournamentsList) {
-//            TrnDto trnDto = TrnDto.of(tournament); // Tournaments 객체를 TrnDto로 변환
-//            trnDtoList.add(trnDto); // 변환된 TrnDto를 리스트에 추가
-//        }
-//
-//        // 최종적으로 TrnDto 리스트 반환
-//        return trnDtoList;
+//    //카테고리 선택, 검색창에 입력한 값으로 대회 검색
+//    public List<TrnDto> searchTournament(TournamentSearchDto tournamentSearchDto) {
+//        return null;
 //    }
 
 //    private boolean hasLeaderRole() {
@@ -89,9 +63,12 @@ public class TournamentService {
         TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
 
+        Groups group = groupRepository.findByCreatedById(createdBy.getId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
+
         String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
 
-        Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy, tournamentCategory);
+        Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy, tournamentCategory, group);
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -118,4 +95,35 @@ public class TournamentService {
         Optional<Tournaments> tournament = tournamentRepository.findById(id);
         return tournament.map(TrnDto::of).orElse(null);
     }
+
+    //신청 가능한 모임 목록
+    public List<GroupDto> getMyGroupList(String userName){
+        User user = userRepository.findByUserName(userName);
+        List<Groups> groups = groupRepository.findByCreatedBy(user);
+        return groups.stream().map(GroupDto::of).collect(Collectors.toList());
+    }
+    //대회 신청
+    public void applyTournament(Long tournamentId, Long groupId) {
+        Tournaments tournament = tournamentRepository.findById(tournamentId)
+                .orElseThrow(() -> new EntityNotFoundException("대회 조회실패"));
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
+
+        TournamentParticipant participant = new TournamentParticipant();
+        participant.setTournament(tournament);
+        participant.setGroup(group);
+        tournamentParticipantRepository.save(participant);
+    }
+
+    //참가 모임
+    public List<TournamentParticipantDto> getParticipantList(Long tournamentId) {
+        List<TournamentParticipant> participants = tournamentParticipantRepository.findByTournamentId(tournamentId);
+
+        // TournamentParticipant 객체에서 TournamentParticipantDto로 변환
+        return participants.stream()
+                .map(participant -> TournamentParticipantDto.of(participant.getGroup()))
+                .collect(Collectors.toList());
+    }
+
+
 }

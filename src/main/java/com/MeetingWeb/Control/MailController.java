@@ -21,7 +21,6 @@ public class MailController {
     // 인증코드 전송(회원가입 이메일)
     @PostMapping("/mail")
     public @ResponseBody ResponseEntity<String> sendEmailPath(String email) throws MessagingException {
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+email);
         try{
            userService.isExistEmail(email);
         }catch(IllegalStateException e1){

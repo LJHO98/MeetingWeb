@@ -34,7 +34,10 @@ public class Tournaments{
     private TournamentStatus status;
     private int format;
 
-    private Long groupId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Groups group; // 어떤 모임이 대회를 만들었는지 저장
+
     private int capacity;
     private int currentTeamCount;
 

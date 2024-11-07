@@ -1,0 +1,17 @@
+<!-- tournament/participantList.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>참가자 목록</title>
+</head>
+<body>
+<h1>참가자 목록</h1>
+<ul>
+    <li th:each="participant : ${participantList}">
+        <span th:text="${participant.name}">참가자 이름</span> -
+        <img th:src="${participant.profileImgUrl}" alt="프로필 이미지" />
+    </li>
+</ul>
+</body>
+</html>

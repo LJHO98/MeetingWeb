@@ -46,7 +46,7 @@ public class TrnDto {
     private String organizer;
 
 
-    public Tournaments toEntity(String tournamentImgUrl, User createdBy, TournamentCategory tournamentCategory) {
+    public Tournaments toEntity(String tournamentImgUrl, User createdBy, TournamentCategory tournamentCategory, Groups group) {
         Tournaments tournaments = new Tournaments();
 
         tournaments.setId(this.tournamentId);
@@ -62,6 +62,7 @@ public class TrnDto {
         tournaments.setFormat(this.format);
         tournaments.setCapacity(this.format);
         tournaments.setCreatedBy(createdBy);
+        tournaments.setGroup(group);
         return tournaments;
     }
     public static TrnDto of(Tournaments tournaments){
