@@ -33,6 +33,7 @@ public class Tournaments{
     private int format;
     private Long groupId;
     private int capacity;
+    private int currentTeamCount;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -53,7 +54,5 @@ public class Tournaments{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
     private User createdBy;
-
-
 
 }
