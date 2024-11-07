@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
@@ -72,7 +73,7 @@
                 </div>
             </div>
 
-            <div class="groupWrap">
+            <div class="groupWrap" sec:authorize="hasAnyRole('ADMIN', 'USER', 'READER')">
                 <div class="name">맞춤 모임</div>
                 <div class="boxWrap">
                     <div class="box">

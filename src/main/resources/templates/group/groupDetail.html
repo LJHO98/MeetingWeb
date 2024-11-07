@@ -15,62 +15,33 @@
 
 <div layout:fragment="body" id="groupDetailMain">
 
-<table>
-  <tr>
-    <th>모임명</th>
-    <td th:text="${groupDetail.name}"></td>
-  </tr>
-  <tr>
-    <th>소개글</th>
-    <td th:text="${groupDetail.introduce}"></td>
-  </tr>
-  <tr>
-    <th>카테고리</th>
-    <td th:text="${groupDetail.categoryName}"></td>
-  </tr>
-  <tr>
-    <th>모임이미지</th>
-    <td style="width:100px; height:100px;">
-      <img th:src="'..' + ${groupDetail.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">
-    </td>
-  </tr>
-  <tr>
-    <th>지역</th>
-    <td th:text="${groupDetail.location}"></td>
-  </tr>
-</table>
+  <th:block th:replace="group/groupTop :: groupTop"></th:block>
+  <div layout:fragment="groupMain" id="groupMain"></div>
 
-
-<!-- 모임 신청 버튼 -->
-<button type="button" class="btn custom-green-button mt-3" data-toggle="modal" data-target="#applyModal">모임 신청하기</button>
-
-<!-- 모달 -->
-<div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"  id="applyModalLabel">모임 신청</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- 가입 신청서 -->
-        <form th:action="@{/group/미정}" method="post">
-          <div class="form-group">
-            <label for="applicationForm">가입 이유</label>
-            <textarea class="form-control" id="applicationForm" name="applicationForm" rows="3" placeholder="가입 이유를 작성해주세요"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="reason">하고 싶은 말</label>
-            <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="하고 싶은 말을 작성해주세요"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">신청</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<table>-->
+<!--  <tr>-->
+<!--    <th>모임명</th>-->
+<!--    <td th:text="${groupDetail.name}"></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>소개글</th>-->
+<!--    <td th:text="${groupDetail.introduce}"></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>카테고리</th>-->
+<!--    <td th:text="${groupDetail.categoryName}"></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>모임이미지</th>-->
+<!--    <td style="width:100px; height:100px;">-->
+<!--      <img th:src="'..' + ${groupDetail.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>지역</th>-->
+<!--    <td th:text="${groupDetail.location}"></td>-->
+<!--  </tr>-->
+<!--</table>-->
 
 </div>
 </html>

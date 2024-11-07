@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="groupTop" id="groupTop">
+    <div id="groupImg">
+        <img th:src="'..' + ${groupDetail.profileImgUrl}" alt="Profile Image">
+        <div id="groupCategory" th:text="${groupDetail.categoryName}"></div>
+        <div id="groupLocation" th:text="${groupDetail.location}"></div>
+    </div>
+
+    <div id="groupTitle">
+        <div id="groupName" th:text="${groupDetail.name}"></div>
+        <div id="groupIntroduce" th:text="${groupDetail.introduce}"></div>
+    </div>
+
+
+    <div id="groupMenu">
+        <div id="home"><a href="">홈</a></div>
+        <div id="board"><a href="">게시판</a></div>
+        <div id="chat"><a href="">채팅</a></div>
+        <div id="groupTournament"><a href="">참가대회</a></div>
+        <button type="button" class="btn custom-green-button mt-3" data-toggle="modal" data-target="#applyModal">가입</button>
+    </div>
+
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"  id="applyModalLabel">모임 신청</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- 가입 신청서 -->
+                    <form th:action="@{/group/미정}" method="post">
+                        <div class="form-group">
+                            <label for="applicationForm">가입 이유</label>
+                            <textarea class="form-control" id="applicationForm" name="applicationForm" rows="3" placeholder="가입 이유를 작성해주세요"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">하고 싶은 말</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="하고 싶은 말을 작성해주세요"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">신청</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
