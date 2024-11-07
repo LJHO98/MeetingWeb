@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,22 +68,20 @@ public class TournamentService {
 //        return trnDtoList;
 //    }
 
-
-
-    private boolean hasLeaderRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-
-        // for 루프를 사용하여 권한 확인
-        for (GrantedAuthority authority : authentication.getAuthorities()) {
-            if (authority.getAuthority().equals("ROLE_LEADER")) {
-                return true;  // ROLE_LEADER 권한이 있는 경우 true 반환
-            }
-        }
-        return false;  // ROLE_LEADER 권한이 없는 경우 false 반환
-    }
+//    private boolean hasLeaderRole() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication == null) {
+//            return false;
+//        }
+//
+//        // for 루프를 사용하여 권한 확인
+//        for (GrantedAuthority authority : authentication.getAuthorities()) {
+//            if (authority.getAuthority().equals("ROLE_LEADER")) {
+//                return true;  // ROLE_LEADER 권한이 있는 경우 true 반환
+//            }
+//        }
+//        return false;  // ROLE_LEADER 권한이 없는 경우 false 반환
+//    }
 
     //대회 만들기
     @Transactional
@@ -112,5 +111,11 @@ public class TournamentService {
         return tournamentsList.stream()
                 .map(TrnDto::of)  // of 메서드로 변환
                 .collect(Collectors.toList());
+    }
+
+    //대회 상세 페이지
+    public TrnDto getTournamentInfo(Long id) {
+        Optional<Tournaments> tournament = tournamentRepository.findById(id);
+        return tournament.map(TrnDto::of).orElse(null);
     }
 }

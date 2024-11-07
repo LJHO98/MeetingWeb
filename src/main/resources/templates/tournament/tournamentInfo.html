@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table th:object="${tournament}">
+    <tr>
+        <th>모임명</th>
+        <td th:field="*{title}"></td>
+    </tr>
+    <tr>
+        <th>소개글</th>
+        <td th:utext="*{description}"></td>
+    </tr>
+    <tr>
+        <th>카테고리</th>
+        <td th:text="*{category}"></td>
+    </tr>
+    <tr>
+        <th>대표이미지</th>
+        <td style="width:100px; height:100px;">
+            <img th:src="'..' + *{tournamentImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">
+        </td>
+    </tr>
+    <tr>
+        <th>경기방식</th>
+        <td th:text="*{format}"></td>
+    </tr>
+
+</table>
+</body>
+</html>

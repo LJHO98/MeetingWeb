@@ -24,11 +24,12 @@ public class MainController {
         List<GroupDto> groupDtoList=groupService.getAllGroups();
         model.addAttribute("groups",groupDtoList);
 
-//        //맞춤모임 리스트
-//        String username = userDetails.getUsername();
-//        userDetails.
-//        List<GroupDto> groupDto = groupService.getCustomGroupsForUser(username);
-//        model.addAttribute("groups", groupDto);
+        //맞춤모임 리스트
+        if (userDetails != null) {
+            String username = userDetails.getUsername();
+            List<GroupDto> groupDto = groupService.getCustomGroupsForUser(username);
+            model.addAttribute("groups", groupDto);
+        }
 
         return "home";
     }

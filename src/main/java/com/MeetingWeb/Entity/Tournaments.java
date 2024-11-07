@@ -13,7 +13,7 @@ import java.util.List;
 public class Tournaments{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tournamentId")
+    @Column(name = "tournament_id")
     private Long id;
 
     private String tournamentImgUrl;
@@ -33,6 +33,7 @@ public class Tournaments{
     @Enumerated(EnumType.STRING)
     private TournamentStatus status;
     private int format;
+
     private Long groupId;
     private int capacity;
     private int currentTeamCount;

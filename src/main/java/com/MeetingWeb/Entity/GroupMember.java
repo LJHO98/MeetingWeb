@@ -1,6 +1,5 @@
 package com.MeetingWeb.Entity;
 
-import com.MeetingWeb.Listeners.GroupMemberListener;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@EntityListeners(GroupMemberListener.class)
+//@EntityListeners(GroupMemberListener.class)
 public class GroupMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

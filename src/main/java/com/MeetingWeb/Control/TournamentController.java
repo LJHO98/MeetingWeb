@@ -11,10 +11,7 @@ import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -63,7 +60,9 @@ import java.util.List;
         @PostMapping("/tournament/createTournament")
         public String createTournament(@Valid TrnDto trnDto, Principal principal, RedirectAttributes redirectAttributes) {
             String username = principal.getName();
-            User createdBy = userService.findByUserName(username); // User 서비스에서 User 객체 조회
+            User createdBy = userService.findByUserName(username);
+            
+            // User 서비스에서 User 객체 조회
             try {
                 // 대회 생성 호출
                 tournamentService.createTournament(trnDto,createdBy);
@@ -81,8 +80,11 @@ import java.util.List;
         }
 
         //대회 상세 페이지
-        public String tournamentInfo(Principal principal,Long tournamentId , Model model) {
-            return "";
+        @GetMapping("/tournament/{tournamentId}")
+        public String tournamentInfo(@PathVariable Long tournamentId , Model model) {
+                TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
+                model.addAttribute("tournament", trnDto);
+                return "tournament/tournamentInfo";
         }
         //대회 정보 업데이트
         public String updateTournament(TrnDto trnDto, Model model) {
