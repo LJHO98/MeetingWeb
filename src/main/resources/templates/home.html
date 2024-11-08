@@ -76,15 +76,16 @@
             <div class="groupWrap" sec:authorize="hasAnyRole('ADMIN', 'USER', 'READER')">
                 <div class="name">맞춤 모임</div>
                 <div class="boxWrap">
-                    <div class="box">
-                        <a href="">
+                    <div class="box" th:each="group : ${groups}">
+                        <a th:href="@{|/group/${group.groupId}|}">
                             <div class="img">
-                                <p class="category">카테고리</p>
+                                <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
+                                <p class="category" th:text="${group.categoryName}"></p>
                             </div>
                             <div class="detail">
-                                <p class="title">모임 이름</p>
-                                <p class="description">여기는 모임 설명</p>
-                                <p class="capacity">18/20</p>
+                                <p class="title" th:text="${group.name}"></p>
+                                <p class="description" th:text="${group.introduce}"></p>
+                                <p class="capacity" th:text="${group.currentHeadCount + ' / ' + group.capacity}"></p>
                             </div>
                         </a>
                     </div>
@@ -112,20 +113,22 @@
             <div class="groupWrap">
                 <div class="name">신규 모임</div>
                 <div class="boxWrap">
-                    <div class="box">
-                        <a href="">
+                    <div class="box" th:each="groups, iterStat : ${newGroups}" th:if="${iterStat.index < 4}">
+                        <a th:href="@{|/group/${groups.groupId}|}">
                             <div class="img">
-                                <p class="category">카테고리</p>
+                                <img th:src="'..' + ${groups.profileImgUrl}" alt="Profile Image">
+                                <p class="category" th:text="${groups.categoryName}"></p>
                             </div>
                             <div class="detail">
-                                <p class="title">모임 이름</p>
-                                <p class="description">여기는 모임 설명</p>
-                                <p class="capacity">18/20</p>
+                                <p class="title" th:text="${groups.name}"></p>
+                                <p class="description" th:text="${groups.introduce}"></p>
+                                <p class="capacity" th:text="${groups.currentHeadCount + ' / ' + groups.capacity}"></p>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 

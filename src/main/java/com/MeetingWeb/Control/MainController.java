@@ -22,7 +22,7 @@ public class MainController {
     public String home(Model model, @AuthenticationPrincipal UserDetails userDetails){
         //신규모임 리스트
         List<GroupDto> groupDtoList=groupService.getAllGroups();
-        model.addAttribute("groups",groupDtoList);
+        model.addAttribute("newGroups",groupDtoList);
 
         //맞춤모임 리스트
         if (userDetails != null) {

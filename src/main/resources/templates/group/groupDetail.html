@@ -9,39 +9,27 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+
     <link rel="stylesheet" href="/css/group/groupDetail.css">
+
+    <script>
+        // 페이지가 로드된 후에 HTML 태그를 제거하고 텍스트만 표시
+        document.addEventListener("DOMContentLoaded", function() {
+            var descriptionElement = document.getElementById("description");
+            var text = descriptionElement.innerHTML.replace(/&lt;p&gt;|&lt;\/p&gt;/g, '');  // 엔티티 태그 제거
+            descriptionElement.innerText = text;  // 텍스트만 업데이트
+        });
+    </script>
 
 </head>
 
 <div layout:fragment="body" id="groupDetailMain">
 
-  <th:block th:replace="group/groupTop :: groupTop"></th:block>
-  <div layout:fragment="groupMain" id="groupMain"></div>
-
-<!--<table>-->
-<!--  <tr>-->
-<!--    <th>모임명</th>-->
-<!--    <td th:text="${groupDetail.name}"></td>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <th>소개글</th>-->
-<!--    <td th:text="${groupDetail.introduce}"></td>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <th>카테고리</th>-->
-<!--    <td th:text="${groupDetail.categoryName}"></td>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <th>모임이미지</th>-->
-<!--    <td style="width:100px; height:100px;">-->
-<!--      <img th:src="'..' + ${groupDetail.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">-->
-<!--    </td>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <th>지역</th>-->
-<!--    <td th:text="${groupDetail.location}"></td>-->
-<!--  </tr>-->
-<!--</table>-->
+    <th:block th:replace="group/groupTop :: groupTop"></th:block>
+    <div id="description" th:text="${groupDetail.description}"></div>
 
 </div>
+
 </html>

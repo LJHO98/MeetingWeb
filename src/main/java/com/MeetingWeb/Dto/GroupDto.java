@@ -29,7 +29,7 @@ public class GroupDto {
     private String introduce;
 
     @NotNull(message="필수 입력입니다.")
-    @Size(min = 0, max=500 , message="500자 이하로 입력해주세요")
+//    @Size(min = 0, max=1000 , message="1000자 이하로 입력해주세요")
     private String description;
 
     @NotNull(message="필수 선택입니다.")

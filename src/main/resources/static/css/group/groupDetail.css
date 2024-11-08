@@ -9,6 +9,11 @@ a{
     color: inherit;
 }
 
+a:hover {
+    text-decoration: none; /* hover 상태에서 밑줄 제거 */
+    color: inherit; /* hover 상태에서도 색상 변화 없음 */
+}
+
 #logo{
     color: #86E57F;
 }
@@ -21,7 +26,15 @@ a{
 #groupMain{
     width: 100%;
     position: relative;
-    margin: 0 auto 50px auto;
+    box-sizing: border-box;
+    display: flex;
+}
+
+#groupWrap{
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
 }
 
 /* groupTop */
@@ -32,7 +45,7 @@ a{
 
 #groupTop{
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
 }
 
 #groupImg{
@@ -75,12 +88,14 @@ a{
     font-size: 33px;
     font-family: 'NanumSquareAceb';
     text-align: center;
+    color: #353535;
 }
 
 #groupIntroduce{
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'NanumSquareAcb';
     text-align: center;
+    color: #5D5D5D;
 }
 
 #groupMenu{
@@ -94,38 +109,60 @@ a{
     position: relative;
     justify-content: center;
     align-items: center;
-    height: 40px;
+    height: 60px;
 }
 
 #home{
     font-size: 33px;
     font-family: 'NanumSquareAceb';
-    align-self: end;
     color: #353535;
+    height: 50px;
+    padding-top: 5px;
 }
 
 #board{
     font-size: 23px;
     font-family: 'NanumSquareAcr';
-    align-self: end;
     color: #868686;
+    height: 50px;
+    padding-top: 15px;
 }
 
 #chat{
     font-size: 23px;
     font-family: 'NanumSquareAcr';
-    align-self: end;
     color: #868686;
+    height: 50px;
+    padding-top: 15px;
 }
 
 #groupTournament{
     font-size: 23px;
     font-family: 'NanumSquareAcr';
-    align-self: end;
     color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#board a:hover, #chat a:hover, #groupTournament a:hover{
+    font-weight: 600;
 }
 
 #groupMenu button{
     position: absolute;
     right: 10px;
+    border: 2px solid #BDBDBD;
+    font-family: 'NanumSquareAceb';
+    font-size: 17px;
+    background: linear-gradient(145deg, #f1f1f1, #dcdcdc); /* 연한 회색 그라데이션 */
+    color: #818181; /* 글자 색상 (어두운 회색) */
+    padding: 7px 17px; /* 패딩 조정 */
+    border-radius: 13px; /* 둥근 모서리 */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.8); /* 입체감을 위한 그림자 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+#groupMenu button:hover {
+    background: linear-gradient(145deg, #dcdcdc, #f1f1f1); /* 호버 시 그라데이션 반전 */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.6); /* 입체감 증가 */
 }
