@@ -1,15 +1,17 @@
 package com.MeetingWeb.Service;
 
 import com.MeetingWeb.Dto.GroupCategoryDto;
-import com.MeetingWeb.Dto.GroupDto;
 import com.MeetingWeb.Dto.UserDto;
+import com.MeetingWeb.Dto.UserProfileDto;
 import com.MeetingWeb.Entity.GroupCategory;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Entity.UserSelectCategory;
 import com.MeetingWeb.Repository.GroupCategoryRepository;
 import com.MeetingWeb.Repository.GroupRepository;
 import com.MeetingWeb.Repository.UserRepository;
+import com.MeetingWeb.Repository.UserSelectCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +33,11 @@ public class UserService implements UserDetailsService {
     private final GroupCategoryRepository groupCategoryRepository;
     private final ProfileUploadService profileUploadService;
     private final GroupRepository groupRepository;
+    private final UserSelectCategoryRepository userSelectCategoryRepository;
+
+    @Value("${userProfileImgPath}")
+    private String userProfileImgPath;
+
 
     public List<GroupCategoryDto> getGroupCategories() {
         List<GroupCategory> categories = groupCategoryRepository.findAllByOrderByGroupCategoryIdAsc();
@@ -93,6 +102,123 @@ public class UserService implements UserDetailsService {
                 .stream()
                 .map(UserSelectCategory::getGroupCategory)
                 .collect(Collectors.toList());
+    }
+
+    //사용자 정보 조회
+    public UserProfileDto getUserProfile(String userName) {
+        // 사용자 이름으로 사용자 정보를 조회하고 DTO로 변환
+        User user = userRepository.findByUserName(userName);
+        if (user == null) {
+            throw new IllegalArgumentException("유저정보 조회 실패");
+        }
+        return UserProfileDto.of(user);
+    }
+
+
+    public void updateUserProfile(UserProfileDto userProfileDto) throws IOException {
+        // 사용자 이름을 통해 사용자 찾기
+        User user = userRepository.findByUserName(userProfileDto.getUserName());
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        // 프로필 이미지 업데이트 처리
+        profileImageUpdate(userProfileDto, user);
+
+        // DTO 필드를 User 엔티티에 적용
+        userProfileDto.updateEntity(user);
+
+        // 선택한 카테고리 업데이트
+        updateUserCategories(userProfileDto, user);
+
+        // 변경된 사용자 정보 저장
+        userRepository.save(user);
+    }
+
+    /**
+     * 프로필 이미지 업데이트 처리 메서드.
+     * 새로운 이미지가 있을 경우 기존 이미지를 삭제하고 새로운 이미지를 저장합니다.
+     */
+    private void profileImageUpdate(UserProfileDto userProfileDto, User user) throws IOException {
+        // 새 프로필 이미지가 있는 경우에만 처리
+        if (userProfileDto.getProfileImg() != null && !userProfileDto.getProfileImg().isEmpty()) {
+            // 기존 프로필 이미지 삭제
+            deleteExistingProfileImage(user.getProfileImgUrl());
+
+            // 새 이미지 저장 및 URL 설정
+            String newProfileImgUrl = profileUploadService.saveProfile(userProfileDto.getProfileImg());
+            userProfileDto.setProfileImgUrl(newProfileImgUrl);
+        }
+    }
+
+    /**
+     * 기존 프로필 이미지 삭제 메서드.
+     * 이미지 URL을 통해 파일 시스템에서 삭제를 시도합니다.
+     */
+    private void deleteExistingProfileImage(String profileImgUrl) {
+        if (profileImgUrl != null) {
+            // 파일 경로 생성
+            String existingFilePath = userProfileImgPath + profileImgUrl.replaceFirst("/img", "");
+            File existingFile = new File(existingFilePath);
+
+            // 파일이 존재하면 삭제
+            if (existingFile.exists()) {
+                existingFile.delete();
+            }
+        }
+    }
+
+    /**
+     * 사용자 선택 카테고리 업데이트 메서드.
+     * 기존 카테고리와 새로운 카테고리를 비교하여 추가 및 삭제를 수행합니다.
+     */
+    private void updateUserCategories(UserProfileDto userProfileDto, User user) {
+        // 현재 유저가 선택한 기존 카테고리 ID 목록
+        List<Long> existingCategoryIds = user.getSelectedCategories().stream()
+                .map(usc -> usc.getGroupCategory().getGroupCategoryId())
+                .collect(Collectors.toList());
+
+        // 새로운 선택된 카테고리 ID 목록
+        List<Long> newCategoryIds = userProfileDto.getSelectedCategoryIds();
+
+        // 기존 카테고리에서 제거할 항목과 추가할 항목 처리
+        removeCategories(user, existingCategoryIds, newCategoryIds);
+        addCategories(user, existingCategoryIds, newCategoryIds);
+    }
+
+    /**
+     * 카테고리 제거 메서드.
+     * 기존 카테고리 중 새로운 목록에 없는 항목을 삭제합니다.
+     */
+    private void removeCategories(User user, List<Long> existingCategoryIds, List<Long> newCategoryIds) {
+        // 삭제할 카테고리 목록 추출
+        List<UserSelectCategory> categoriesToRemove = user.getSelectedCategories().stream()
+                .filter(usc -> !newCategoryIds.contains(usc.getGroupCategory().getGroupCategoryId()))
+                .collect(Collectors.toList());
+
+        // 기존 컬렉션에서 삭제할 항목 제거 및 DB에서 삭제
+        categoriesToRemove.forEach(user.getSelectedCategories()::remove);
+        userSelectCategoryRepository.deleteAll(categoriesToRemove);
+    }
+
+    /**
+     * 카테고리 추가 메서드.
+     * 새로운 선택된 카테고리 목록에 있지만 기존에 없는 항목을 추가합니다.
+     */
+    private void addCategories(User user, List<Long> existingCategoryIds, List<Long> newCategoryIds) {
+        // 추가할 카테고리 목록 추출 및 추가
+        newCategoryIds.stream()
+                .filter(id -> !existingCategoryIds.contains(id))
+                .forEach(categoryId -> {
+                    GroupCategory category = groupCategoryRepository.findById(categoryId)
+                            .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+
+                    // 새로운 UserSelectCategory 생성 후 추가
+                    UserSelectCategory userSelectCategory = new UserSelectCategory();
+                    userSelectCategory.setUser(user);
+                    userSelectCategory.setGroupCategory(category);
+                    user.getSelectedCategories().add(userSelectCategory);
+                });
     }
 
 

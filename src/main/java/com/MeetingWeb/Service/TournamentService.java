@@ -109,10 +109,12 @@ public class TournamentService {
         Groups group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
 
+        if(tournamentParticipantRepository.findByParticipantId(groupId) == null){
         TournamentParticipant participant = new TournamentParticipant();
         participant.setTournament(tournament);
         participant.setGroup(group);
         tournamentParticipantRepository.save(participant);
+        }
     }
 
     //참가 모임

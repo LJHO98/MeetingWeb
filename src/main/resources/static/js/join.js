@@ -36,7 +36,7 @@ $(document).ready(function() {
     });
 });
 
-function sample4_execDaumPostcode() {
+function addAddr() {
     new daum.Postcode({
         oncomplete: function(data) {
             // 시와 구 정보 추출
