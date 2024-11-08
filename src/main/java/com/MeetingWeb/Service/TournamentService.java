@@ -109,7 +109,7 @@ public class TournamentService {
         Groups group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
 
-        if(tournamentParticipantRepository.findByParticipantId(groupId) == null){
+        if(tournamentParticipantRepository.findByGroup_GroupId(groupId) == null){
         TournamentParticipant participant = new TournamentParticipant();
         participant.setTournament(tournament);
         participant.setGroup(group);
@@ -126,6 +126,9 @@ public class TournamentService {
                 .map(participant -> TournamentParticipantDto.of(participant.getGroup()))
                 .collect(Collectors.toList());
     }
+
+    //내 대회(내가 만든 대회, 내가 가입한 모임이 참가하는 대회)
+
 
 
 }

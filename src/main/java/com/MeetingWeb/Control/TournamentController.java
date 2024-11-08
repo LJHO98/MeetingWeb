@@ -1,9 +1,6 @@
 package com.MeetingWeb.Control;
 
-import com.MeetingWeb.Dto.GroupDto;
-import com.MeetingWeb.Dto.TournamentParticipantDto;
-import com.MeetingWeb.Dto.TournamentSearchDto;
-import com.MeetingWeb.Dto.TrnDto;
+import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
@@ -70,9 +67,11 @@ public class TournamentController {
     @GetMapping("/tournament/{tournamentId}")
     public String tournamentInfo(@PathVariable Long tournamentId , Model model, Principal principal) {
         TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
+        GroupProfileDto groupProfileDto = groupService.getGruopProfile(trnDto.getCreatedBy());
         List<GroupDto> groupDtoList = tournamentService.getMyGroupList(principal.getName());
         model.addAttribute("groupList", groupDtoList);
         model.addAttribute("tournament", trnDto);
+        model.addAttribute("groupProfileDto", groupProfileDto);
         return "tournament/tournamentInfo";
     }
 

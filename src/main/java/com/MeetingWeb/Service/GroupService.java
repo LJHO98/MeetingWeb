@@ -4,6 +4,7 @@ import com.MeetingWeb.Constant.RegistType;
 import com.MeetingWeb.Dto.GroupApplicationDto;
 import com.MeetingWeb.Dto.GroupDto;
 //import com.MeetingWeb.Entity.GroupDescriptionImg;
+import com.MeetingWeb.Dto.GroupProfileDto;
 import com.MeetingWeb.Entity.*;
 //import com.MeetingWeb.Repository.GroupDescriptionRepository;
 import com.MeetingWeb.Repository.*;
@@ -123,5 +124,10 @@ public class GroupService {
             return true;
         }
         return false;
+    }
+
+    public GroupProfileDto getGruopProfile(Long createdBy) {
+        Groups group = groupRepository.findByGroupId(createdBy);
+        return GroupProfileDto.of(group);
     }
 }

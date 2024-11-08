@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TournamentParticipantRepository extends JpaRepository<TournamentParticipant, Long> {
     List<TournamentParticipant> findByTournamentId(Long tournamentId);
-    TournamentParticipant findByParticipantId(Long participantId);
+    TournamentParticipant findByGroup_GroupId(Long participantId);
 }
