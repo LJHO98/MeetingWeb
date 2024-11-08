@@ -23,23 +23,9 @@ a:hover {
     position: relative;
 }
 
-#groupMain{
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-    display: flex;
-}
-
-#groupWrap{
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-    display: flex;
-}
-
 /* groupTop */
 #groupDetailMain{
-    width: 600px;
+    width: 800px;
     margin: 50px auto;
 }
 
@@ -165,4 +151,10 @@ a:hover {
 #groupMenu button:hover {
     background: linear-gradient(145deg, #dcdcdc, #f1f1f1); /* 호버 시 그라데이션 반전 */
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.6); /* 입체감 증가 */
+}
+
+#description{
+    font-family: 'NanumSquareAcr';
+    font-size: 18px;
+    line-height: 1.6;
 }

@@ -64,7 +64,7 @@ public class GroupController {
     public String groupDetail(@PathVariable Long id, Model model) {
         GroupDto groupDto = groupService.findGroupById(id);
         model.addAttribute("groupDetail", groupDto);
-        return "group/groupDetail";
+        return "group/groupInfo";
     }
     @PostMapping("/group/join/{groupId}")//자유가입
     public String joinGroup(@PathVariable Long groupId, @AuthenticationPrincipal UserDetails userDetails) {
