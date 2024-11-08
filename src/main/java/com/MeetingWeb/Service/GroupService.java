@@ -1,14 +1,12 @@
 package com.MeetingWeb.Service;
 
+import com.MeetingWeb.Constant.RegistType;
+import com.MeetingWeb.Dto.GroupApplicationDto;
 import com.MeetingWeb.Dto.GroupDto;
 //import com.MeetingWeb.Entity.GroupDescriptionImg;
-import com.MeetingWeb.Entity.GroupCategory;
-import com.MeetingWeb.Entity.Groups;
-import com.MeetingWeb.Entity.TournamentCategory;
-import com.MeetingWeb.Entity.User;
+import com.MeetingWeb.Entity.*;
 //import com.MeetingWeb.Repository.GroupDescriptionRepository;
-import com.MeetingWeb.Repository.GroupCategoryRepository;
-import com.MeetingWeb.Repository.GroupRepository;
+import com.MeetingWeb.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +23,9 @@ public class GroupService {
     private final ProfileUploadService profileUploadService;
     private final GroupCategoryRepository groupCategoryRepository;
     private final  UserService userService;
+    private final UserRepository userRepository;
+    private final GroupMemberRepository groupMemberRepository;
+    private final GroupApplicationRepository groupApplicationRepository;
 
     @Transactional
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
@@ -35,6 +36,7 @@ public class GroupService {
 
         Groups group = groupDto.toEntity(profileImageUrl,createdBy, groupCategory);
         groupRepository.save(group);
+
 
 //        if (groupDto.getDescriptionImageUrls() != null) {
 //            for (String url : groupDto.getDescriptionImageUrls()) {
@@ -79,5 +81,47 @@ public class GroupService {
                 .stream()
                 .map(GroupDto::of)
                 .collect(Collectors.toList());
+    }
+    public boolean joinGroup(Long groupId, String userName) {//자유가입
+        Groups group = groupRepository.findById(groupId).orElse(null);
+        User user = userRepository.findByUserName(userName);
+
+        if (group != null && user != null && group.getRegistrationType() == RegistType.FREE) {
+            if(groupMemberRepository.existsByGroupAndUser(group, user)) {//중복가입방지
+
+                return false;
+            }
+            GroupMember groupMember = new GroupMember();
+            groupMember.setUser(user);
+            groupMember.setGroup(group);
+
+            groupMemberRepository.save(groupMember);  // GroupMember 저장
+
+            return true;
+        }
+        return false;
+    }
+    //승인가입
+    public boolean approve(Long groupId, String userName, GroupApplicationDto groupApplicationDto) {
+        Groups group = groupRepository.findById(groupId).orElse(null);
+        User user = userRepository.findByUserName(userName);
+        if (group != null && user != null && group.getRegistrationType() == RegistType.APPROVAL) {
+            if(groupApplicationRepository.existsByGroupAndUser(group, user)) {
+                return false;
+            }
+            GroupApplication groupApplication = new GroupApplication();
+            groupApplication.setUser(user);
+            groupApplication.setGroup(group);
+            groupApplication.setSay(groupApplicationDto.getSay());
+            groupApplication.setReason(groupApplicationDto.getReason());
+
+
+
+            groupApplicationRepository.save(groupApplication);
+
+
+            return true;
+        }
+        return false;
     }
 }
