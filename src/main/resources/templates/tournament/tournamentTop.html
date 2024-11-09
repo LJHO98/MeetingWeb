@@ -22,9 +22,9 @@
         </div>
         <div id="periodWrap">
             <div class="period">모집 기간</div>
-            <div id="recruitPeriod"></div>
+            <div id="recruitPeriod" th:text="${tournament.receiptStart + ' ~ ' + tournament.receiptEnd"></div>
             <div class="period">대회 기간</div>
-            <div id="progressPeriod"></div>
+            <div id="progressPeriod" th:text="${tournament.startDate + ' ~ ' + tournament.endDate"></div>
         </div>
     </div>
 
@@ -32,6 +32,35 @@
         <div id="info"><a href="">대회 정보</a></div>
         <div id="matchingList"><a th:href="'/tournament/vs/'+${tournament.tournamentId}">대진표</a></div>
         <div id="participatingGroup"><a href="">참가모임</a></div>
+        <button type="button" id="applyBtn">신청</button>
+    </div>
+
+    <!-- Modal HTML -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>대회 신청</h3>
+            <p><strong>모임 선택</strong></p>
+
+            <!-- 신청 폼 -->
+            <form id="applyForm" action="/tournament/apply" method="post">
+                <!-- 대회 ID (숨겨진 필드로 전송) -->
+                <input type="hidden" id="tournamentId" name="tournamentId" th:value="${tournament.tournamentId}">
+
+                <!-- groupList 반복 -->
+                <div id="groupList">
+                    <th:block th:each="group : ${groupList}">
+                        <label class="group-option">
+                            <input type="radio" name="groupId" th:value="${group.groupId}">
+                            <img th:src="${group.profileImgUrl}" alt="Profile Image" class="group-image">
+                            <span th:text="${group.name}">모임 이름</span>
+                        </label>
+                    </th:block>
+                </div>
+                <p><label><input type="checkbox" id="agreeRules"> 대회 규정 동의</label></p>
+                <button type="button" class="button" id="submitApplication">신청</button>
+            </form>
+        </div>
     </div>
 
 </div>

@@ -1,0 +1,156 @@
+/* myPage */
+#myPageMain{
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+}
+
+#myPageText{
+    margin: 50px auto 30px auto;
+    display: flex;
+    width: 300px;
+    font-size: 35px;
+    font-family: 'NanumSquareAceb';
+    color: #353535;
+    justify-content: center;
+}
+
+#myPageForm{
+    width: 600px;
+    margin: 0 auto 50px auto;
+    padding: 40px 50px;
+}
+
+.inputBox{
+    margin-bottom: 50px;
+}
+
+.inputBox label{
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'NanumSquareAcr';
+    color: #5D5D5D;
+}
+
+.inputBox input{
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    padding: 0 13px;
+}
+
+.inputBox input:focus{
+    box-shadow: 0 4px 8px rgba(89, 218, 80, 0.3), /* 아래쪽 */
+    0 -4px 8px rgba(89, 218, 80, 0.3), /* 위쪽 */
+    -4px 0 8px rgba(89, 218, 80, 0.3), /* 왼쪽 */
+    4px 0 8px rgba(89, 218, 80, 0.3);  /* 오른쪽 */
+}
+
+#imgBox input{
+    border: none;
+    color: #626262;
+}
+
+.genderBox{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.genderBox div{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 30px;
+}
+
+.categoryList div{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 30px 15px 0;
+}
+
+.inputBox .genderBox input[type="radio"]{
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.inputBox .genderBox label{
+    font-size: 16px;
+}
+
+#locationWrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#locationWrap input{
+    width: 80%;
+    padding: 0 13px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    height: 40px;
+}
+
+#locationWrap #locationBt{
+    width: 15%;
+    height: 30px;
+    padding: 3px;
+    background: #fff;
+    font-family: 'NanumSquare';
+    margin: auto 0 auto 22px;
+    border: 2px solid #aaa;
+    border-radius: 10px;
+    color: #5D5D5D;
+    background: #CEFBC9;
+    cursor: pointer;
+}
+
+.categoryList{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.categoryList span{
+    font-size: 16px;
+    font-family: 'NanumSquareAcr';
+    color: #626262;
+}
+
+.categoryList label{
+    width: 100%;
+}
+
+.inputBox input[type="checkbox"]{
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+}
+
+#btWrap{
+    align-items: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+#btWrap button{
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-family: 'NanumSquareBold';
+    color: #fff;
+    cursor: pointer;
+    margin: 0 auto;
+    background: #74D36D;
+    border: none;
+}
+
+#btWrap button:hover{
+    background: #47C83E;
+}

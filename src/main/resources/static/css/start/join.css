@@ -23,7 +23,7 @@
 
 .form-group label {
     display: block;
-    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 18px;
     color: #626262;
     font-family: 'NanumSquareAcr';
@@ -59,7 +59,7 @@
 }
 
 .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 .joinCheck{
@@ -102,15 +102,21 @@
     object-position: center;
 }
 
-.form-group .gender-options, .terms, .categoryList {
+.form-group .gender-options, .terms{
     display: flex;
     align-items: center;
-    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.categoryList{
+    display: flex;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 .form-group .gender-options label{
-    font-size: 15px;
+    font-size: 16px;
+    margin-right: 30px;
 }
 
 .categoryList label{
@@ -121,6 +127,13 @@
     font-size: 16px;
     font-family: 'NanumSquareAcr';
     color: #626262;
+}
+
+.categoryList div{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 30px 15px 0;
 }
 
 #submitBt {
