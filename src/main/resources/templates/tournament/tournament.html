@@ -1,0 +1,17 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form action="/match" th:object="${trnDto}">
+    <input type="hidden" th:field="*{tournamentId}">
+    <button>랜덤</button>
+  </form>
+  <ul>
+    <li th:each="participant : ${groupList}" th:text="${participant.groupId}"></li>
+  </ul>
+
+</body>
+</html>

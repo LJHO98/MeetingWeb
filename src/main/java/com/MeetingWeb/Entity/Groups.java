@@ -38,6 +38,8 @@ public class Groups {
     private Integer currentHeadCount = 0;
     private Integer capacity;
     private String profileImgUrl;
+    private int win;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

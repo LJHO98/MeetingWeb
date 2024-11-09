@@ -1,7 +1,10 @@
 package com.MeetingWeb.Control;
 
 import com.MeetingWeb.Dto.*;
+import com.MeetingWeb.Entity.Groups;
+import com.MeetingWeb.Entity.TournamentParticipant;
 import com.MeetingWeb.Entity.User;
+import com.MeetingWeb.Repository.TournamentParticipantRepository;
 import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
@@ -21,7 +24,7 @@ public class TournamentController {
     private final TournamentService tournamentService;
     private final UserService userService;
     private final GroupService groupService;
-
+    private final TournamentParticipantRepository tournamentParticipantRepository;
 
 
     //대회 목록
@@ -67,7 +70,7 @@ public class TournamentController {
     @GetMapping("/tournament/{tournamentId}")
     public String tournamentInfo(@PathVariable Long tournamentId , Model model, Principal principal) {
         TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
-        GroupProfileDto groupProfileDto = groupService.getGruopProfile(trnDto.getCreatedBy());
+        GroupProfileDto groupProfileDto = groupService.getGroupProfile(trnDto.getCreatedBy());
         List<GroupDto> groupDtoList = tournamentService.getMyGroupList(principal.getName());
         model.addAttribute("groupList", groupDtoList);
         model.addAttribute("tournament", trnDto);
@@ -99,15 +102,41 @@ public class TournamentController {
         return "";
     }
     //내 대회
-    public String myTournamentPage(Principal principal ,Model model) {
-        return "";
+    @GetMapping("/tournament/myTournament")
+    public String myTournamentPage(Principal principal, Model model) {
+        List<TrnDto> myTournament = tournamentService.getMyTournament(principal.getName());
+        List<TrnDto> myGroupTournament = tournamentService.getMyGroupTournament(principal.getName());
+
+        if (myTournament.isEmpty()) {
+            model.addAttribute("myTournamentMessage", "내가 만든 대회가 없습니다.");
+        } else {
+            model.addAttribute("myTournament", myTournament);
+        }
+
+        if (myGroupTournament.isEmpty()) {
+            model.addAttribute("myGroupTournamentMessage", "내가 가입한 모임이 참가하는 대회가 없습니다.");
+        } else {
+            model.addAttribute("myGroupTournament", myGroupTournament);
+        }
+
+        return "tournament/myTournament";
     }
     //대진표 페이지 맵핑
-    public String tournamentGraph(Long tournamentId,Model model) {
-        return "";
-
+    @GetMapping("/tournament/vs/{tournamentId}")
+    public String tournamentGraph(@PathVariable Long tournamentId,Model model) {
+        TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
+        model.addAttribute("trnDto", trnDto);
+        List<TournamentParticipantDto> groupList = tournamentService.getParticipantList(tournamentId);
+        model.addAttribute("groupList", groupList);
+        return "tournament/tournament";
     }
 
+    @GetMapping("/match")
+    public String random(@RequestParam("tournamentId") Long tournamentId, Model model) {
+        tournamentService.random(tournamentId);
+
+        return"redirect:/tournament/vs/"+tournamentId;
+    }
 
     //대회 검색 페이지, 검색 값이 있다면 검색결과에 맞는 결과 보여주기 없다면 default 목록 보여주기
 

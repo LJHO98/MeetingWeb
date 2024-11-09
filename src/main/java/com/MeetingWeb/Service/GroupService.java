@@ -1,6 +1,7 @@
 package com.MeetingWeb.Service;
 
 import com.MeetingWeb.Constant.RegistType;
+import com.MeetingWeb.Constant.Role;
 import com.MeetingWeb.Dto.GroupApplicationDto;
 import com.MeetingWeb.Dto.GroupDto;
 //import com.MeetingWeb.Entity.GroupDescriptionImg;
@@ -11,6 +12,7 @@ import com.MeetingWeb.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +38,7 @@ public class GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + groupDto.getCategory()));
 
         Groups group = groupDto.toEntity(profileImageUrl,createdBy, groupCategory);
+        createdBy.setRole(Role.READER);
         groupRepository.save(group);
 
 
@@ -126,8 +129,9 @@ public class GroupService {
         return false;
     }
 
-    public GroupProfileDto getGruopProfile(Long createdBy) {
-        Groups group = groupRepository.findByGroupId(createdBy);
+    public GroupProfileDto getGroupProfile(Long createdBy) {
+        Groups group = groupRepository.findByCreatedById(createdBy)
+                .orElseThrow(() -> new IllegalArgumentException("해당 그룹을 찾을 수 없습니다. groupId: " + createdBy));
         return GroupProfileDto.of(group);
     }
 }

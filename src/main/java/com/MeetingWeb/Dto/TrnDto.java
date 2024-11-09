@@ -80,6 +80,7 @@ public class TrnDto {
         trnDto.status = tournaments.getStatus();
         trnDto.format = tournaments.getFormat();
         trnDto.capacity = tournaments.getCapacity();
+        trnDto.createdBy = tournaments.getCreatedBy().getId();
         trnDto.organizer = tournaments.getCreatedBy().getName();
 
         return trnDto;

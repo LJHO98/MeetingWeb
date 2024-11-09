@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class TournamentService {
 
     //대회 만들기
     @Transactional
-    public Tournaments createTournament(TrnDto trnDto, User createdBy)throws Exception {
+    public void createTournament(TrnDto trnDto, User createdBy) throws Exception {
         TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
 
@@ -68,18 +69,22 @@ public class TournamentService {
 
         String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
 
-        Tournaments tournament = trnDto.toEntity(tournamentImgUrl,createdBy, tournamentCategory, group);
+        Tournaments tournament = trnDto.toEntity(tournamentImgUrl, createdBy, tournamentCategory, group);
 
         LocalDateTime now = LocalDateTime.now();
 
-        if(trnDto.getReceiptStart().isAfter(now)){
+        if (trnDto.getReceiptStart().isAfter(now)) {
             tournament.setStatus(TournamentStatus.UPCOMING);
-        }else{
+        } else {
             tournament.setStatus(TournamentStatus.RECRUITING);
         }
-
-        return tournamentRepository.save(tournament);
-
+        tournamentRepository.save(tournament);
+        //참가팀 저장
+        TournamentParticipant tournamentParticipant = new TournamentParticipant();
+        tournamentParticipant.setTournament(tournament);
+        tournamentParticipant.setGroup(group);
+        tournamentParticipant.setMatchNumber(1);
+        tournamentParticipantRepository.save(tournamentParticipant);
     }
 
     //대회 목록 조회(내림차순)
@@ -97,29 +102,32 @@ public class TournamentService {
     }
 
     //신청 가능한 모임 목록
-    public List<GroupDto> getMyGroupList(String userName){
+    public List<GroupDto> getMyGroupList(String userName) {
         User user = userRepository.findByUserName(userName);
         List<Groups> groups = groupRepository.findByCreatedBy(user);
         return groups.stream().map(GroupDto::of).collect(Collectors.toList());
     }
+
     //대회 신청
     public void applyTournament(Long tournamentId, Long groupId) {
         Tournaments tournament = tournamentRepository.findById(tournamentId)
                 .orElseThrow(() -> new EntityNotFoundException("대회 조회실패"));
         Groups group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
-
-        if(tournamentParticipantRepository.findByGroup_GroupId(groupId) == null){
-        TournamentParticipant participant = new TournamentParticipant();
-        participant.setTournament(tournament);
-        participant.setGroup(group);
-        tournamentParticipantRepository.save(participant);
+        if (tournamentParticipantRepository.findByGroup_GroupId(groupId) == null) {
+            TournamentParticipant participant = new TournamentParticipant();
+            participant.setTournament(tournament);
+            participant.setGroup(group);
+            int count = tournamentParticipantRepository.getCount(tournament);
+            System.out.println(count);
+            participant.setMatchNumber(count+1);
+            tournamentParticipantRepository.save(participant);
         }
     }
 
     //참가 모임
     public List<TournamentParticipantDto> getParticipantList(Long tournamentId) {
-        List<TournamentParticipant> participants = tournamentParticipantRepository.findByTournamentId(tournamentId);
+        List<TournamentParticipant> participants = tournamentParticipantRepository.findByTournamentIdOrderByMatchNumberAsc(tournamentId);
 
         // TournamentParticipant 객체에서 TournamentParticipantDto로 변환
         return participants.stream()
@@ -127,8 +135,67 @@ public class TournamentService {
                 .collect(Collectors.toList());
     }
 
-    //내 대회(내가 만든 대회, 내가 가입한 모임이 참가하는 대회)
+    //내가 만든 대회
+    public List<TrnDto> getMyTournament(String userName) {
+        User user = userRepository.findByUserName(userName);
+        List<Tournaments> tournaments = tournamentRepository.findByCreatedBy(user);
 
+        if (tournaments.isEmpty()) {
+            return Collections.emptyList(); // 대회가 없는 경우 빈 리스트 반환
+        }
 
+        return tournaments.stream()
+                .map(TrnDto::of)
+                .collect(Collectors.toList());
+    }
 
+    //내가 가입한 모임이 참가하는 대회
+    public List<TrnDto> getMyGroupTournament(String userName) {
+        User user = userRepository.findByUserName(userName);
+        List<Tournaments> tournaments = tournamentRepository.findByCreatedBy(user);
+
+        if (tournaments.isEmpty()) {
+            return Collections.emptyList(); // 대회가 없는 경우 빈 리스트 반환
+        }
+
+        List<Long> myCreateTournaments = tournaments.stream()
+                .map(Tournaments::getId)
+                .collect(Collectors.toList());
+
+        List<Tournaments> myGroupTournament = tournamentRepository.findAllExcludingIds(myCreateTournaments);
+
+        if (myGroupTournament.isEmpty()) {
+            return Collections.emptyList(); // 내가 가입한 모임의 대회가 없는 경우 빈 리스트 반환
+        }
+
+        return myGroupTournament.stream()
+                .map(TrnDto::of)
+                .collect(Collectors.toList());
+    }
+
+    public void random(Long tournamentId) {
+        Tournaments tournaments = tournamentRepository.findById(tournamentId).get();
+        final int format = tournaments.getFormat();
+        int[] a= new int[format];
+
+        for (int i = 0; i < format; i++) {
+            a[i] = i+1;
+        }
+        for(int i=0;i<a.length;i++){
+            int j = (int)(Math.random()*a.length);
+            int k = (int)(Math.random()*a.length);
+
+            int tmp = a[j];
+            a[j] = a[k];
+            a[k] = tmp;
+        }
+
+        List<TournamentParticipant> participants = tournamentParticipantRepository.findByTournamentId(tournamentId);
+        int i=0;
+        for(TournamentParticipant tournamentParticipant : participants){
+            tournamentParticipant.setMatchNumber(a[i++]);
+            System.out.println(tournamentParticipant.getMatchNumber());
+        }
+        tournamentParticipantRepository.saveAll(participants);
+    }
 }

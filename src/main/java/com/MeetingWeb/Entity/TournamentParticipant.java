@@ -22,6 +22,11 @@ public class TournamentParticipant {
     @JoinColumn(name = "group_id")
     private Groups group;
 
+    private int matchNumber;
+
+    private int score=0;
+    private String matchResult;
+
     @Column(updatable = false)
     private LocalDateTime joinedAt;
 
