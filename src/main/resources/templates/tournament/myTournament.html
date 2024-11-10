@@ -1,83 +1,87 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
     <title>내 대회</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/tournament/myTournament.css">
 </head>
-<body>
 
-<div class="container mt-5">
-    <h2>내가 만든 대회</h2>
+<div layout:fragment="body" id="myTournamentMain">
+    <div class="container mt-5">
+        <div id="makingText">내가 만든 대회</div>
 
-    <div th:if="${myTournamentMessage != null}">
-        <p th:text="${myTournamentMessage}" class="text-muted"></p>
+        <div th:if="${myTournamentMessage != null}">
+            <p th:text="${myTournamentMessage}" class="text-muted"></p>
+        </div>
+
+        <table class="table table-bordered mt-3" th:if="${myTournament != null}">
+            <thead>
+            <tr>
+                <th>대회 이미지</th>
+                <th>대회 제목</th>
+                <th>카테고리</th>
+                <th>접수 시작일</th>
+                <th>접수 마감일</th>
+                <th>대회 시작일</th>
+                <th>대회 종료일</th>
+                <th>대회 상태</th>
+                <th>주최자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tournament : ${myTournament}">
+                <td><img th:src="@{${tournament.tournamentImgUrl}}" alt="대회 이미지" style="width: 100px; height: auto;"></td>
+                <td th:text="${tournament.title}"></td>
+                <td th:text="${tournament.categoryName}"></td>
+                <td th:text="${#temporals.format(tournament.receiptStart, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(tournament.receiptEnd, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(tournament.endDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${tournament.status}"></td>
+                <td th:text="${tournament.organizer}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div id="participatingText">참가하는 대회</div>
+
+        <div th:if="${myGroupTournamentMessage != null}">
+            <p th:text="${myGroupTournamentMessage}" class="text-muted"></p>
+        </div>
+
+        <table class="table table-bordered mt-3" th:if="${myGroupTournament != null}">
+            <thead>
+            <tr>
+                <th>대회 이미지</th>
+                <th>대회 제목</th>
+                <th>카테고리</th>
+                <th>접수 시작일</th>
+                <th>접수 마감일</th>
+                <th>대회 시작일</th>
+                <th>대회 종료일</th>
+                <th>대회 상태</th>
+                <th>주최자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tournament : ${myGroupTournament}">
+                <td><img th:src="@{${tournament.tournamentImgUrl}}" alt="대회 이미지" style="width: 100px; height: auto;"></td>
+                <td th:text="${tournament.title}"></td>
+                <td th:text="${tournament.categoryName}"></td>
+                <td th:text="${#temporals.format(tournament.receiptStart, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(tournament.receiptEnd, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(tournament.endDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${tournament.status}"></td>
+                <td th:text="${tournament.organizer}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
-    <table class="table table-bordered mt-3" th:if="${myTournament != null}">
-        <thead>
-        <tr>
-            <th>대회 이미지</th>
-            <th>대회 제목</th>
-            <th>카테고리</th>
-            <th>접수 시작일</th>
-            <th>접수 마감일</th>
-            <th>대회 시작일</th>
-            <th>대회 종료일</th>
-            <th>대회 상태</th>
-            <th>주최자</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="tournament : ${myTournament}">
-            <td><img th:src="@{${tournament.tournamentImgUrl}}" alt="대회 이미지" style="width: 100px; height: auto;"></td>
-            <td th:text="${tournament.title}"></td>
-            <td th:text="${tournament.categoryName}"></td>
-            <td th:text="${#temporals.format(tournament.receiptStart, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(tournament.receiptEnd, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(tournament.endDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${tournament.status}"></td>
-            <td th:text="${tournament.organizer}"></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <h2 class="mt-5">내가 가입한 모임이 참가하는 대회</h2>
-
-    <div th:if="${myGroupTournamentMessage != null}">
-        <p th:text="${myGroupTournamentMessage}" class="text-muted"></p>
-    </div>
-
-    <table class="table table-bordered mt-3" th:if="${myGroupTournament != null}">
-        <thead>
-        <tr>
-            <th>대회 이미지</th>
-            <th>대회 제목</th>
-            <th>카테고리</th>
-            <th>접수 시작일</th>
-            <th>접수 마감일</th>
-            <th>대회 시작일</th>
-            <th>대회 종료일</th>
-            <th>대회 상태</th>
-            <th>주최자</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="tournament : ${myGroupTournament}">
-            <td><img th:src="@{${tournament.tournamentImgUrl}}" alt="대회 이미지" style="width: 100px; height: auto;"></td>
-            <td th:text="${tournament.title}"></td>
-            <td th:text="${tournament.categoryName}"></td>
-            <td th:text="${#temporals.format(tournament.receiptStart, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(tournament.receiptEnd, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(tournament.startDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(tournament.endDate, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${tournament.status}"></td>
-            <td th:text="${tournament.organizer}"></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 
-</body>
 </html>

@@ -27,7 +27,7 @@
         <!-- 자유 가입 (FREE) 방식: POST로 그룹 가입 요청 -->
         <form th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).FREE}"
               th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
-            <button type="submit" class="btn custom-green-button mt-3">모임 신청하기</button>
+            <button type="submit" class="btn custom-green-button mt-3">가입</button>
         </form>
 
         <!-- 승인 필요 (APPROVAL) 방식: 모달을 통해 신청서 작성 -->
