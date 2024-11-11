@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -60,5 +61,9 @@ public class Tournaments{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
     private User createdBy;
+
+    // TournamentParticipant와의 OneToMany 관계 설정
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<TournamentParticipant> participants = new ArrayList<>();
 
 }

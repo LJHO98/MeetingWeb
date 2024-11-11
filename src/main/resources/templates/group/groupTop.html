@@ -25,13 +25,13 @@
         <div id="groupTournament"><a href="">참가대회</a></div>
 <!--        <button type="button" data-toggle="modal" data-target="#applyModal">가입</button>-->
         <!-- 자유 가입 (FREE) 방식: POST로 그룹 가입 요청 -->
-        <form th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).FREE}"
+        <form th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).FREE)}"
               th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
             <button type="submit" class="btn custom-green-button mt-3">가입</button>
         </form>
 
         <!-- 승인 필요 (APPROVAL) 방식: 모달을 통해 신청서 작성 -->
-        <button type="button" th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL}"
+        <button type="button" th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).APPROVAL)}"
                 class="btn custom-green-button mt-3" data-toggle="modal" data-target="#applyModal">
             가입
         </button>

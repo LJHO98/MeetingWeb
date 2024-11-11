@@ -1,8 +1,8 @@
 package com.MeetingWeb.Control;
 
 import com.MeetingWeb.Dto.*;
-import com.MeetingWeb.Entity.Groups;
-import com.MeetingWeb.Entity.TournamentParticipant;
+import com.MeetingWeb.Entity.TournamentCategory;
+import com.MeetingWeb.Entity.Tournaments;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Repository.TournamentParticipantRepository;
 import com.MeetingWeb.Service.GroupService;
@@ -32,9 +32,27 @@ public class TournamentController {
     public String tournamentListPage(Model model) {
         List<TrnDto> TournamentList = tournamentService.getTournamentList();
         model.addAttribute("tournamentList", TournamentList);
+        model.addAttribute("categories",tournamentService.getTournamentCategories());
         return "/tournament/tournamentList";
     }
-    //대회 만들기 폼
+
+    // 대회 검색 처리
+    @GetMapping("/tournament/search")
+    public String searchTournaments(
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "inputText", required = false) String inputText,
+            Model model) {
+
+        List<TrnDto> tournamentList = tournamentService.searchTournament(categoryId, inputText);
+
+        model.addAttribute("tournamentList", tournamentList);
+        model.addAttribute("categories",tournamentService.getTournamentCategories());
+        model.addAttribute("selectedCategory", categoryId);
+        model.addAttribute("inputText", inputText);
+
+        return "tournament/tournamentList";
+    }
+
     // 대회 생성 폼을 보여주는 메서드
     @GetMapping("/tournament/createTournament")
     public String createTournamentForm(Model model) {
@@ -122,28 +140,33 @@ public class TournamentController {
         return "tournament/myTournament";
     }
     //대진표 페이지 맵핑
-    @GetMapping("/tournament/vs/{tournamentId}")
+    @GetMapping("/tournament/bracket/{tournamentId}")
     public String tournamentGraph(@PathVariable Long tournamentId,Model model) {
-        TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
-        model.addAttribute("trnDto", trnDto);
-        List<TournamentParticipantDto> groupList = tournamentService.getParticipantList(tournamentId);
-        model.addAttribute("groupList", groupList);
-        return "tournament/tournament";
-    }
+        boolean isOk = tournamentService.isOkCreateBracket(tournamentId);
 
+        if(isOk) {
+            TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
+            model.addAttribute("trnDto", trnDto);
+            List<TournamentParticipantDto> groupList = tournamentService.getParticipantList(tournamentId);
+            model.addAttribute("groupList", groupList);
+        }else{
+            return "redirect:/tournament/" + tournamentId;
+        }
+        return "tournament/tournamentBracket";
+    }
+    //대회 대진표 섞기
     @GetMapping("/match")
     public String random(@RequestParam("tournamentId") Long tournamentId, Model model) {
-        tournamentService.random(tournamentId);
+        tournamentService.shuffle(tournamentId);
 
-        return"redirect:/tournament/vs/"+tournamentId;
+        return"redirect:/tournament/bracket/"+tournamentId;
     }
 
-    //대회 검색 페이지, 검색 값이 있다면 검색결과에 맞는 결과 보여주기 없다면 default 목록 보여주기
-
-    public String searchTournament(TournamentSearchDto tournamentSearchDto, Model model) {
-
-
-        return "";
+    @GetMapping("/shuffle")
+    public String shuffle(@RequestParam("tournamentId") Long tournamentId, Model model) {
+        tournamentService.shuffle(tournamentId);
+        return"redirect:/tournament/bracket/"+tournamentId;
     }
 
-    }
+
+}

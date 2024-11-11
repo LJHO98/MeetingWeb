@@ -1,7 +1,9 @@
 package com.MeetingWeb.Repository;
 
+import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.TournamentParticipant;
 import com.MeetingWeb.Entity.Tournaments;
+import io.lettuce.core.ScanIterator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +18,10 @@ public interface TournamentParticipantRepository extends JpaRepository<Tournamen
     int getCount(@Param("tournament") Tournaments tournament);
 
     List<TournamentParticipant> findByTournamentIdOrderByMatchNumberAsc(Long tournamentId);
+
+    TournamentParticipant findByGroupAndTournament(Groups group, Tournaments tournament);
+
+    TournamentParticipant findByMatchNumber(int matchNumber);
+
+
 }
