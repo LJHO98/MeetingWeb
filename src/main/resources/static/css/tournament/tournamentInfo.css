@@ -1,4 +1,48 @@
 /* tournamentInfo */
+#header a{
+    color: #db5af5;
+}
+
+#logo{
+    animation: shimmer 1s infinite alternate;
+}
+
+@keyframes shimmer {
+    0% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+    50% {
+        text-shadow: 0 0 20px #e68df8, 0 0 40px #ffffff, 0 0 60px #ffffff;
+    }
+    100% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+}
+
+#side {
+    border: none;
+    background: linear-gradient(to right, rgba(217, 65, 140, 0.8), rgba(110, 47, 199, 0.6));
+    color: #fff;
+}
+
+.sidebar{
+    color: #fff;
+}
+
+.sidebar i{
+    color: #fff;
+}
+
+.sidebar a{
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.sidebar a:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
 #tournamentDetailMain{
     width: 800px;
     margin: 50px auto;
@@ -125,8 +169,13 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.modal-content h3{
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
 .group-image{
-    margin-right: 10px;
+    margin-right: 30px;
 }
 
 .group-name{
@@ -134,7 +183,11 @@
 }
 
 #agreeRules{
-    margin-bottom: 5px;
+    margin: 10px;
+}
+
+#agreeRules label{
+    margin: 0 auto;
 }
 
 .close {
@@ -151,13 +204,34 @@
     text-decoration: none;
 }
 
+.button{
+    padding: 7px;
+    margin: 0 auto;
+    font-family: 'NanumSquareAceb';
+    border: 2px solid #BDBDBD;
+        font-size: 17px;
+        background: linear-gradient(145deg, #f1f1f1, #dcdcdc); /* 연한 회색 그라데이션 */
+        color: #818181; /* 글자 색상 (어두운 회색) */
+        padding: 7px 17px; /* 패딩 조정 */
+        border-radius: 13px; /* 둥근 모서리 */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.8); /* 입체감을 위한 그림자 */
+        transition: all 0.3s ease; /* 부드러운 전환 효과 */
+        cursor: pointer;
+}
+
+.button:hover {
+    background: linear-gradient(145deg, #dcdcdc, #f1f1f1); /* 호버 시 그라데이션 반전 */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.6); /* 입체감 증가 */
+}
+
 .group-option {
     display: flex;
     align-items: center;
     margin: 10px 0;
-    background-color: #e0f0d8;
+    background: linear-gradient(to right, rgba(217, 65, 140, 0.8), rgba(110, 47, 199, 0.6));
     border-radius: 10px;
     padding: 10px;
+    font-family: 'NanumSquareAceb';
 }
 
 .group-option input {
@@ -218,6 +292,7 @@
     border-radius: 13px; /* 둥근 모서리 */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.8); /* 입체감을 위한 그림자 */
     transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    cursor: pointer;
 }
 
 #tournamentMenu button:hover {

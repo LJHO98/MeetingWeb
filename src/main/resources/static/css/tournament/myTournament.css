@@ -1,1 +1,51 @@
 /* myTournament */
+#header a{
+    color: #db5af5;
+}
+
+#logo{
+    animation: shimmer 1s infinite alternate;
+}
+
+@keyframes shimmer {
+    0% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+    50% {
+        text-shadow: 0 0 20px #e68df8, 0 0 40px #ffffff, 0 0 60px #ffffff;
+    }
+    100% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+}
+
+#side {
+    border: none;
+    background: linear-gradient(to right, rgba(217, 65, 140, 0.8), rgba(110, 47, 199, 0.6));
+    color: #fff;
+}
+
+.sidebar{
+    color: #fff;
+}
+
+.sidebar i{
+    color: #fff;
+}
+
+.sidebar a{
+    display: inline-block;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: #fff;
+}
+
+.sidebar a:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+#myTournamentMain{
+    width: 800px;
+    margin: 50px auto;
+}
