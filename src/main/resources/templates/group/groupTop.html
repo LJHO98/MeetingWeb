@@ -31,14 +31,13 @@
         </form>
 
         <!-- 승인 필요 (APPROVAL) 방식: 모달을 통해 신청서 작성 -->
-        <button type="button" th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).APPROVAL)}"
+        <button type="button" id="approvalBt" th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).APPROVAL)}"
                 class="btn custom-green-button mt-3" data-toggle="modal" data-target="#applyModal">
             가입
         </button>
 
         <!-- 모달 -->
         <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title"  id="applyModalLabel">모임 신청</h5>
@@ -60,7 +59,6 @@
                             <button type="submit" class="btn btn-primary">신청</button>
                         </form>
                     </div>
-                </div>
             </div>
         </div>
     </div>
