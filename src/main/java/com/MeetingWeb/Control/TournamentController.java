@@ -109,7 +109,7 @@ public class TournamentController {
     @GetMapping("/tournament/{tournamentId}/participants")
     public String getTournamentParticipants(@PathVariable Long tournamentId, Model model) {
         // 서비스에서 참가자 리스트 가져오기
-        List<TournamentParticipantDto> participantList = tournamentService.getParticipantList(tournamentId);
+        List<TournamentParticipantDto> participantList = tournamentService.getParticipants(tournamentId);
         // 뷰 페이지에 전달
         model.addAttribute("participantList", participantList);
         return "tournament/participantList"; // 뷰 템플릿의 경로에 맞게 수정
@@ -158,14 +158,23 @@ public class TournamentController {
     //대회 대진표 섞기
     @GetMapping("/match")
     public String random(@RequestParam("tournamentId") Long tournamentId, Model model) {
-        tournamentService.shuffle(tournamentId);
+        if(!tournamentService.isStartTournament(tournamentId)) {
+            tournamentService.shuffle(tournamentId);
+        }else{
+            throw new IllegalArgumentException("대회 중에는 셔플 금지");
+        }
 
         return"redirect:/tournament/bracket/"+tournamentId;
     }
 
     @GetMapping("/tournament/matchResult")
-    public String macthResult(@RequestParam("wgid") Long winId, @RequestParam("tid") Long tournamentId, @RequestParam("score") int score, Model model) {
-        tournamentService.selectResult(winId, tournamentId, score);
+    public String macthResult(@RequestParam("wgid") Long winId, @RequestParam("tid") Long tournamentId,
+                              @RequestParam("score") int score, @RequestParam("matchNum") int matchNumber, Model model) {
+//        if(tournamentService.isStartTournament(tournamentId)) {
+            tournamentService.selectResult(winId, tournamentId, score, matchNumber);
+//        }else{
+//            throw new IllegalArgumentException("대회 시작전입니다.");
+//        }
         return "redirect:/tournament/bracket/"+tournamentId;
     }
 

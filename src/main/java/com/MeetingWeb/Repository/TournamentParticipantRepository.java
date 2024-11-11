@@ -23,6 +23,9 @@ public interface TournamentParticipantRepository extends JpaRepository<Tournamen
 
     TournamentParticipant findByMatchNumber(int matchNumber);
 
+    @Query("SELECT tp FROM TournamentParticipant tp WHERE tp.tournament = :tournament GROUP BY tp.group.groupId")
+    List<TournamentParticipant> findDistinctParticipantsByTournament(@Param("tournament") Tournaments tournament);
 
 
+    TournamentParticipant findByGroupAndTournamentAndMatchNumber(Groups group, Tournaments tournament, int matchNumber);
 }
