@@ -1,11 +1,37 @@
-<!-- tournament/participantList.html -->
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
     <title>참가자 목록</title>
+
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+
+    <link rel="stylesheet" href="/css/tournament/participantList.css">
 </head>
-<body>
+
+<div layout:fragment="body" id="participantListMain">
+
+    <div id="participantListWrap">
+        <div class="groupListBox" th:each="participant : ${participantList}">
+            <a th:href="@{|/group/${group.groupId}|}">
+                <div class="img">
+                    <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
+                    <p class="category" th:text="${group.categoryName}"></p>
+                </div>
+                <div class="detail">
+                    <p class="title" th:text="${group.name}"></p>
+                    <p class="description" th:text="${group.introduce}"></p>
+                    <p class="capacity" th:text="${group.currentHeadCount + ' / ' + group.capacity}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
 <h1>참가자 목록</h1>
 <ul>
     <li th:each="participant : ${participantList}">
@@ -13,5 +39,5 @@
         <img th:src="${participant.profileImgUrl}" alt="프로필 이미지" />
     </li>
 </ul>
-</body>
+
 </html>

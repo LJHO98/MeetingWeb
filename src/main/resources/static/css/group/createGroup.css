@@ -12,7 +12,7 @@
 }
 
 #groupListText{
-    font-size: 25px;
+    font-size: 22px;
     font-family: 'NanumSquareAcr';
     margin-right: 30px;
     align-self: end;
@@ -24,7 +24,7 @@
 }
 
 #groupCreateText{
-    font-size: 35px;
+    font-size: 40px;
     font-family: 'NanumSquareAceb';
     align-self: end;
     color: #353535;

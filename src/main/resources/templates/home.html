@@ -76,8 +76,8 @@
             <div class="groupWrap" sec:authorize="hasAnyRole('ADMIN', 'USER', 'READER')">
                 <div class="name">맞춤 모임</div>
                 <div class="boxWrap">
-                    <div class="box" th:each="group : ${groups}">
-                        <a th:href="@{|/group/${group.groupId}|}">
+                    <div class="box" th:each="group, iterStat : ${groups}">
+                        <a th:href="@{|/group/${group.groupId}|}" th:if="${iterStat.index < 4}">
                             <div class="img">
                                 <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
                                 <p class="category" th:text="${group.categoryName}"></p>

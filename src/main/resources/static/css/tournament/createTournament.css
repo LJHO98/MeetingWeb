@@ -50,9 +50,10 @@
 }
 
 #textBox{
-    margin: 50px auto 30px auto;
+    margin: 50px 0 30px 0;
     display: flex;
-    width: 435px;
+    justify-content: center;
+    gap: 50px;
 }
 
 #tournamentListText{
@@ -71,7 +72,6 @@
     font-family: 'NanumSquareAceb';
     align-self: end;
     color: #353535;
-    margin: 0 30px;
 }
 
 #participationText{

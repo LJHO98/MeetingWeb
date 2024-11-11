@@ -6,26 +6,24 @@
 }
 
 #textBox{
-    margin: 50px auto 30px auto;
+    margin: 50px 0 30px 0;
     display: flex;
-    width: 300px;
-    position: relative;
+    justify-content: center;
+    gap: 50px;
 }
 
 #groupListText{
-    font-size: 35px;
+    font-size: 40px;
     font-family: 'NanumSquareAceb';
     color: #353535;
 }
 
 #groupCreateText{
-    font-size: 25px;
+    font-size: 22px;
     font-family: 'NanumSquareAcr';
     margin-right: 30px;
     align-self: end;
     color: #868686;
-    right: 0;
-    position: absolute;
 }
 
 #groupCreateText:hover{
@@ -56,7 +54,7 @@
     cursor: pointer;
     transition: box-shadow 0.3s ease, size 0.5s ease;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-    background: #EEEEEE;
+    background: #f7f6e7;
 }
 
 .groupListBox:hover{

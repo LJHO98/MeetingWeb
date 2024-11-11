@@ -31,7 +31,7 @@ a:hover {
 
 #groupTop{
     width: 100%;
-    margin: 0 auto 30px auto;
+    margin: 0 auto;
 }
 
 #groupImg{
@@ -91,7 +91,7 @@ a:hover {
     flex-wrap: wrap;
     margin: 0 auto;
     padding-bottom: 10px;
-    gap: 20px;
+    gap: 30px;
     position: relative;
     justify-content: center;
     align-items: center;
@@ -157,21 +157,56 @@ a:hover {
     font-family: 'NanumSquareAcr';
     font-size: 18px;
     line-height: 1.6;
+    padding: 70px;
 }
 
-.modal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/*.modal-dialog{*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
 .modal-content{
     width: 600px;
+    border-radius: 10px;
 }
 
 .modal-header{
     border: none;
-    font-size: 33px;
     font-family: 'NanumSquareAceb';
     color: #353535;
+}
+
+.modal-title{
+    width: 100%;
+    text-align: center;
+    margin-left: 23.5px;
+    font-size: 24px;
+}
+
+.form-group{
+    font-family: 'NanumSquareAcr';
+}
+
+#btWrap{
+    align-items: center;
+    display: flex;
+    margin-top: 20px;
+}
+
+#submitGroupBt{
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-family: 'NanumSquareBold';
+    color: #fff;
+    cursor: pointer;
+    margin: 0 auto;
+    background: #74D36D;
+    border: none;
+}
+
+#submitGroupBt:hover{
+    background: #47C83E;
 }

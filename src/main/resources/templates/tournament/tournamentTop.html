@@ -6,6 +6,8 @@
     <div id="topWrap">
         <div id="tournamentImg">
             <img th:src="'..' + *{tournament.tournamentImgUrl}" alt="Profile Image">
+        </div>
+        <div id="textBox">
             <div id="category" th:text="${tournament.categoryName + ' / ' + tournament.format + '강'}"></div>
             <div class="status" th:text="${tournament.status != null ?
                 (tournament.status.name() == 'UPCOMING' ? '접수전' :
@@ -14,8 +16,6 @@
                 tournament.status.name() == 'IN_PROGRESS' ? '대회중' :
                 tournament.status.name() == 'COMPLETED' ? '대회종료' : '알 수 없는 상태') :
                 '알 수 없는 상태'}"></div>
-        </div>
-        <div id="textBox">
             <div id="title" th:text="${tournament.title}"></div>
             <div id="organizer">
                 <div id="organizerImg"><img th:src="${groupProfileDto.profileImgUrl}"></div>
@@ -23,9 +23,9 @@
             </div>
             <div id="periodWrap">
                 <div class="period">모집 기간</div>
-                <div id="recruitPeriod" th:text="|${tournament.receiptStart} ~ ${tournament.receiptEnd}|"></div>
+                <div id="recruitPeriod" th:utext="|${tournament.receiptStart} ~ ${tournament.receiptEnd}|"></div>
                 <div class="period">대회 기간</div>
-                <div id="progressPeriod" th:text="|${tournament.startDate} ~ ${tournament.endDate}|"></div>
+                <div id="progressPeriod" th:utext="|${tournament.startDate} ~ ${tournament.endDate}|"></div>
             </div>
         </div>
     </div>
@@ -39,29 +39,38 @@
 
     <!-- Modal HTML -->
     <div id="applicationModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>대회 신청</h3>
-
-            <!-- 신청 폼 -->
-            <form id="applyForm" action="/tournament/apply" method="post">
-                <!-- 대회 ID (숨겨진 필드로 전송) -->
-                <input type="hidden" id="tournamentId" name="tournamentId" th:value="${tournament.tournamentId}">
-
-                <!-- groupList 반복 -->
-                <div id="groupList">
-                    <th:block th:each="group : ${groupList}">
-                        <label class="group-option">
-                            <input type="radio" name="groupId" th:value="${group.groupId}">
-                            <img th:src="${group.profileImgUrl}" alt="Profile Image" class="group-image">
-                            <span id="group-name" th:text="${group.name}">모임 이름</span>
-                        </label>
-                    </th:block>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title text-center" id="applyModalLabel">대회 신청</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <p id="agreeRules"><label><input type="checkbox" id="agreeCheck"> 대회 규정 동의</label></p>
-                <button type="button" class="button" id="submitApplication">신청</button>
-            </form>
+
+                <!-- 신청 폼 -->
+                <form id="applyForm" action="/tournament/apply" method="post">
+                    <!-- 대회 ID (숨겨진 필드로 전송) -->
+                    <input type="hidden" id="tournamentId" name="tournamentId" th:value="${tournament.tournamentId}">
+
+                    <!-- groupList 반복 -->
+                    <div id="groupList">
+                        <th:block th:each="group : ${groupList}">
+                            <label class="group-option">
+                                <input type="radio" name="groupId" th:value="${group.groupId}">
+                                <img th:src="${group.profileImgUrl}" alt="Profile Image" class="group-image">
+                                <span id="group-name" th:text="${group.name}">모임 이름</span>
+                            </label>
+                        </th:block>
+                    </div>
+                    <p id="agreeRules"><label><input type="checkbox" id="agreeCheck">  대회 규정 동의</label></p>
+                    <div id="btWrap">
+                        <button type="button" class="button" id="submitApplication">신청</button>
+                    </div>
+                </form>
+            </div>
         </div>
+
     </div>
 
 </div>
