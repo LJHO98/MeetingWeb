@@ -24,4 +24,5 @@ public interface TournamentParticipantRepository extends JpaRepository<Tournamen
     TournamentParticipant findByMatchNumber(int matchNumber);
 
 
+
 }

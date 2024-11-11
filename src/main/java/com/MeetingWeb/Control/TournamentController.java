@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -160,6 +161,12 @@ public class TournamentController {
         tournamentService.shuffle(tournamentId);
 
         return"redirect:/tournament/bracket/"+tournamentId;
+    }
+
+    @GetMapping("/tournament/matchResult")
+    public String macthResult(@RequestParam("wgid") Long winId, @RequestParam("tid") Long tournamentId, @RequestParam("score") int score, Model model) {
+        tournamentService.selectResult(winId, tournamentId, score);
+        return "redirect:/tournament/bracket/"+tournamentId;
     }
 
     @GetMapping("/shuffle")

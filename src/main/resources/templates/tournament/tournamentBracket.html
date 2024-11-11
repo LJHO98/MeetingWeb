@@ -3,6 +3,9 @@
 <head>
     <title>대회 대진표</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jquery CDN-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <form action="/match" th:object="${trnDto}">
@@ -10,8 +13,54 @@
     <button>랜덤</button>
   </form>
   <ul>
-    <li th:each="participant : ${groupList}" th:text="${participant.groupId}"></li>
+    <li th:each="participant, stat : ${groupList}" class="team" th:data-num="${stat.index}">
+        <img th:src="${participant.profileImgUrl}">
+        <span th:data-id="${participant.groupId}" th:text="${participant.name}"></span>
+    </li>
+
   </ul>
+    <div> <!-- 경기결과 모달????? -->
+        <div class="ab">
+            <span class="a1 resSelect"></span> <!-- 해당 경기 왼쪽 모임(팀) -->
+            <span class="b1 resSelect"></span> <!-- 해당 경기 오른쪽 모임(팀) -->
+            <div>
+                <input type="hidden" id="win"> <!-- 경기 승자(클릭한 )- 그룹 아이디 -->
+                <input type="text" id="score"> <!-- 경기 점수 -->
+            </div>
+            <button type="button" id="resultSave">저장</button>
+        </div>
+    </div>
+<script>
+    $(".team").on("click",function(){
+        var aNum = $(this).data("num")+1;
+        var bNum = aNum%2==0?aNum+1 : aNum-1; // 클릭한 모임과 매칭 된 모임
+        var agid = $(this).find("span").data("id"); // 왼쪽 그룹아읻;
+        var bgid = $(".team").eq(bNum-1).find("span").data("id"); //오른쪽 그룹 아이디
+        var aName = $(this).find("span").text(); // 왼쪽 그룹 명
+        var bName= $(".team").eq(bNum-1).find("span").text(); //오른쪽 그룹 명
+        $(".ab .a1").data("id",agid);
+        $(".ab .b1").data("id",bgid);
+        $(".ab .a1").text(aName);
+        $(".ab .b1").text(bName);
+
+    });
+    $(".resSelect").on("click",function(){// 모달에서 승리 모입으로 선택 한경우  input(#win)에 그룹 아이디 저장
+        $(this).css("color", "red");
+        $("#win").val( $(this).data("id") );
+
+    });
+    $("#resultSave").on("click",function(){
+        //json으로 변경하려면 하면됨!!
+
+        var wingid = $("#win").val();// 승리모입 id
+        var score = $("#score").val(); // 대회 id
+        var tid = $("#tournamentId").val(); // 점수
+
+        location.href="/tournament/matchResult?wgid="+wingid+"&tid="+tid+"&score="+score;
+
+    });
+</script>
+
 
 </body>
 </html>
