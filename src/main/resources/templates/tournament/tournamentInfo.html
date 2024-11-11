@@ -12,112 +12,115 @@
     <th:block layout:fragment="script"></th:block>
 
     <link rel="stylesheet" href="/css/tournament/tournamentInfo.css">
+    <script src="/js/tournamentInfo.js"></script>
 </head>
 
 <div layout:fragment="body" id="tournamentDetailMain">
 
-    <th:block th:replace="tournament/tournamentTop :: tournamentTop"></th:block>
-    <div id="description" th:utext="*{tournament.description}"></div>
-    <table th:object="${tournament}">
-        <tr>
-            <th>대회명</th>
-            <td th:field="*{title}"></td>
-        </tr>
-        <tr>
-            <th>소개글</th>
-            <td th:utext="*{description}"></td>
-        </tr>
-        <tr>
-            <th>카테고리</th>
-            <td th:text="*{categoryName}"></td>
-        </tr>
-        <tr>
-            <th>대표이미지</th>
-            <td style="width:100px; height:100px;">
-                <img th:src="'..' + *{tournamentImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">
-            </td>
-        </tr>
-        <tr>
-            <th>경기방식</th>
-            <td th:text="*{format}"></td>
-        </tr>
-    </table>
-    <button type="button" id="applyBtn">신청</button>
+    <th block th:replace="tournament/tournamentTop :: tournamentTop"></th>
+    <div id="description" th:utext="${tournament.description}"></div>
 
-
-    <!-- Modal HTML -->
-    <div id="applicationModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>대회 신청</h3>
-            <p><strong>모임 선택</strong></p>
-
-            <!-- 신청 폼 -->
-            <form id="applyForm" action="/tournament/apply" method="post">
-                <!-- 대회 ID (숨겨진 필드로 전송) -->
-                <input type="hidden" id="tournamentId" name="tournamentId" th:value="${tournament.tournamentId}">
-
-                <!-- groupList 반복 -->
-                <div id="groupList">
-                    <th:block th:each="group : ${groupList}">
-                        <label class="group-option">
-                            <input type="radio" name="groupId" th:value="${group.groupId}">
-                            <img th:src="${group.profileImgUrl}" alt="Profile Image" class="group-image">
-                            <span th:text="${group.name}">모임 이름</span>
-                        </label>
-                    </th:block>
-                </div>
-                <p><label><input type="checkbox" id="agreeRules"> 대회 규정 동의</label></p>
-                <button type="button" class="button" id="submitApplication">신청</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        $(document).ready(function() {
-            // 모달 열기
-            $('#applyBtn').on('click', function() {
-                $('#applicationModal').fadeIn();
-
-                // 모달이 열릴 때 라디오 버튼과 체크박스 초기화
-                $('input[name="groupId"]').prop('checked', false);
-                $('#agreeRules').prop('checked', false);
-            });
-
-            // 모달 닫기
-            $('.close').on('click', function() {
-                $('#applicationModal').fadeOut();
-            });
-
-            // 모달 외부 클릭 시 닫기
-            $(window).on('click', function(event) {
-                if ($(event.target).is('#applicationModal')) {
-                    $('#applicationModal').fadeOut();
-                }
-            });
-
-            // 신청 버튼 클릭 시 유효성 검사 및 폼 제출
-            $('#submitApplication').on('click', function() {
-                const selectedGroup = $('input[name="groupId"]:checked').val();
-                const agreeRules = $('#agreeRules').is(':checked');
-
-                if (!selectedGroup) {
-                    alert("모임을 선택해주세요.");
-                    return;
-                }
-
-                if (!agreeRules) {
-                    alert("대회 규정에 동의해야 합니다.");
-                    return;
-                }
-
-                // 유효성 검사 통과 시 폼 제출
-                $('#applyForm').submit();
-            });
-        });
-    </script>
 </div>
 
+<!--    <th:block th:replace="tournament/tournamentTop :: tournamentTop"></th:block>-->
+<!--    <div id="description" th:utext="*{tournament.description}"></div>-->
+<!--    <table th:object="${tournament}">-->
+<!--        <tr>-->
+<!--            <th>대회명</th>-->
+<!--            <td th:field="*{title}"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th>소개글</th>-->
+<!--            <td th:utext="*{description}"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th>카테고리</th>-->
+<!--            <td th:text="*{category}"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th>대표이미지</th>-->
+<!--            <td style="width:100px; height:100px;">-->
+<!--                <img th:src="'..' + *{tournamentImgUrl}" alt="Profile Image" style="width: 50px; height: 50px;">-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <th>경기방식</th>-->
+<!--            <td th:text="*{format}"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--    <button type="button" id="applyBtn">신청</button>-->
 
+
+<!--    &lt;!&ndash; Modal HTML &ndash;&gt;-->
+<!--    <div id="applicationModal" class="modal">-->
+<!--        <div class="modal-content">-->
+<!--            <span class="close">&times;</span>-->
+<!--            <h3>대회 신청</h3>-->
+<!--            <p><strong>모임 선택</strong></p>-->
+
+<!--            &lt;!&ndash; 신청 폼 &ndash;&gt;-->
+<!--            <form id="applyForm" action="/tournament/apply" method="post">-->
+<!--                &lt;!&ndash; 대회 ID (숨겨진 필드로 전송) &ndash;&gt;-->
+<!--                <input type="hidden" id="tournamentId" name="tournamentId" th:value="${tournament.tournamentId}">-->
+
+<!--                &lt;!&ndash; groupList 반복 &ndash;&gt;-->
+<!--                <div id="groupList">-->
+<!--                    <th:block th:each="group : ${groupList}">-->
+<!--                        <label class="group-option">-->
+<!--                            <input type="radio" name="groupId" th:value="${group.groupId}">-->
+<!--                            <img th:src="${group.profileImgUrl}" alt="Profile Image" class="group-image">-->
+<!--                            <span th:text="${group.name}">모임 이름</span>-->
+<!--                        </label>-->
+<!--                    </th:block>-->
+<!--                </div>-->
+<!--                <p><label><input type="checkbox" id="agreeRules"> 대회 규정 동의</label></p>-->
+<!--                <button type="button" class="button" id="submitApplication">신청</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--            // 모달 열기-->
+<!--            $('#applyBtn').on('click', function() {-->
+<!--                $('#applicationModal').fadeIn();-->
+
+<!--                // 모달이 열릴 때 라디오 버튼과 체크박스 초기화-->
+<!--                $('input[name="groupId"]').prop('checked', false);-->
+<!--                $('#agreeRules').prop('checked', false);-->
+<!--            });-->
+
+<!--            // 모달 닫기-->
+<!--            $('.close').on('click', function() {-->
+<!--                $('#applicationModal').fadeOut();-->
+<!--            });-->
+
+<!--            // 모달 외부 클릭 시 닫기-->
+<!--            $(window).on('click', function(event) {-->
+<!--                if ($(event.target).is('#applicationModal')) {-->
+<!--                    $('#applicationModal').fadeOut();-->
+<!--                }-->
+<!--            });-->
+
+<!--            // 신청 버튼 클릭 시 유효성 검사 및 폼 제출-->
+<!--            $('#submitApplication').on('click', function() {-->
+<!--                const selectedGroup = $('input[name="groupId"]:checked').val();-->
+<!--                const agreeRules = $('#agreeRules').is(':checked');-->
+
+<!--                if (!selectedGroup) {-->
+<!--                    alert("모임을 선택해주세요.");-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                if (!agreeRules) {-->
+<!--                    alert("대회 규정에 동의해야 합니다.");-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                // 유효성 검사 통과 시 폼 제출-->
+<!--                $('#applyForm').submit();-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
 
 </html>
