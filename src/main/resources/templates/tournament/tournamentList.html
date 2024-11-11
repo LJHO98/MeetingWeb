@@ -18,6 +18,19 @@
         <p id="participationText"><a href="/tournament/myTournament">참가 대회</a></p>
     </div>
 
+    <!-- 검색창 추가 -->
+    <div id="searchBox">
+        <form th:action="@{/tournament/search}" method="get">
+            <select name="categoryId">
+                <option value="">전체 카테고리</option>
+                <!-- 카테고리 옵션 목록 추가 -->
+                <option th:each="category : ${categories}" th:value="${category.tournamentCategoryId}" th:text="${category.category}"></option>
+            </select>
+            <input type="text" name="inputText" placeholder="검색어를 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
     <div id="tournamentListWrap">
         <div class="tournamentListBox" th:each="tournament : ${tournamentList}">
             <a th:href="@{|/tournament/${tournament.tournamentId}|}">

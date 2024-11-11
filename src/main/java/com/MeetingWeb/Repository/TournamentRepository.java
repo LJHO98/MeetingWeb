@@ -5,6 +5,7 @@ import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Entity.Tournaments;
 import com.MeetingWeb.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,4 +22,11 @@ public interface TournamentRepository extends JpaRepository<Tournaments, Long> {
 
     @Query("SELECT e FROM Tournaments e WHERE e.id NOT IN :excludedIds")
     List<Tournaments> findAllExcludingIds(@Param("excludedIds") List<Long> excludedIds);
+
+    @Query("SELECT t FROM Tournaments t " +
+            "WHERE (:categoryId IS NULL OR t.category.tournamentCategoryId = :categoryId) " +
+            "AND (:inputText IS NULL OR t.title LIKE %:inputText% OR t.description LIKE %:inputText%)")
+    List<Tournaments> searchByCategoryAndText(@Param("categoryId") Long categoryId,
+                                              @Param("inputText") String inputText);
 }
+

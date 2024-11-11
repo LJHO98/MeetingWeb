@@ -22,15 +22,15 @@
         </div>
         <div id="periodWrap">
             <div class="period">모집 기간</div>
-            <div id="recruitPeriod" th:text="${tournament.receiptStart + ' ~ ' + tournament.receiptEnd"></div>
+            <div id="recruitPeriod" th:text="|${tournament.receiptStart} ~ ${tournament.receiptEnd}|"></div>
             <div class="period">대회 기간</div>
-            <div id="progressPeriod" th:text="${tournament.startDate + ' ~ ' + tournament.endDate"></div>
+            <div id="progressPeriod" th:text="|${tournament.startDate} ~ ${tournament.endDate}|"></div>
         </div>
     </div>
 
     <div id="tournamentMenu">
         <div id="info"><a href="">대회 정보</a></div>
-        <div id="matchingList"><a th:href="'/tournament/vs/'+${tournament.tournamentId}">대진표</a></div>
+        <div id="matchingList"><a th:href="'/tournament/bracket/'+${tournament.tournamentId}">대진표</a></div>
         <div id="participatingGroup"><a href="">참가모임</a></div>
         <button type="button" id="applyBtn">신청</button>
     </div>
