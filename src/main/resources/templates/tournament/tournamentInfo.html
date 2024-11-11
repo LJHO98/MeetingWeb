@@ -12,13 +12,14 @@
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
 
+    <link rel="stylesheet" href="/css/tournament/tournamentTop.css">
     <link rel="stylesheet" href="/css/tournament/tournamentInfo.css">
     <script src="/js/tournamentInfo.js"></script>
 </head>
 
 <div layout:fragment="body" id="tournamentDetailMain">
 
-    <th block th:replace="tournament/tournamentTop :: tournamentTop"></th>
+    <th:block th:replace="tournament/tournamentTop :: tournamentTop"></th:block>
     <div id="description" th:utext="${tournament.description}"></div>
 
 </div>

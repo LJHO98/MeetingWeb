@@ -107,11 +107,17 @@ public class TournamentController {
 
     //참가 모임
     @GetMapping("/tournament/{tournamentId}/participants")
-    public String getTournamentParticipants(@PathVariable Long tournamentId, Model model) {
+    public String getTournamentParticipants(@PathVariable Long tournamentId, Model model, Principal principal) {
         // 서비스에서 참가자 리스트 가져오기
         List<TournamentParticipantDto> participantList = tournamentService.getParticipants(tournamentId);
         // 뷰 페이지에 전달
         model.addAttribute("participantList", participantList);
+        TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
+        GroupProfileDto groupProfileDto = groupService.getGroupProfile(trnDto.getCreatedBy());
+        List<GroupDto> groupDtoList = tournamentService.getMyGroupList(principal.getName());
+        model.addAttribute("groupList", groupDtoList);
+        model.addAttribute("tournament", trnDto);
+        model.addAttribute("groupProfileDto", groupProfileDto);
         return "tournament/participantList"; // 뷰 템플릿의 경로에 맞게 수정
     }
     

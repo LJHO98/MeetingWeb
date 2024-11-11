@@ -41,6 +41,7 @@
             images_upload_url: '/img',
             automatic_uploads: true,
             file_picker_types: 'image',
+            height: 400,
             images_upload_handler: function (blobInfo, success, failure) {
                 const formData = new FormData();
                 formData.append('file', blobInfo.blob(), blobInfo.filename());

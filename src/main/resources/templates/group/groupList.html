@@ -20,6 +20,19 @@
       <p id="groupCreateText"><a href="/group/createGroup">모임 만들기</a></p>
     </div>
 
+    <!-- 검색창 추가 -->
+    <div id="searchBox">
+        <form th:action="@{/group/search}" method="get">
+            <select id="categoryId" name="categoryId">
+                <option value="">전체 카테고리</option>
+                <!-- 카테고리 옵션 목록 추가 -->
+                <option th:each="category : ${categories}" th:value="${category.groupCategoryId}" th:text="${category.category}"></option>
+            </select>
+            <input type="text" name="inputText" placeholder="검색어를 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
     <div id="groupListWrap">
         <div class="groupListBox" th:each="group : ${groupList}">
             <a th:href="@{|/group/${group.groupId}|}">

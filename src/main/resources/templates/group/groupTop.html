@@ -27,7 +27,7 @@
         <!-- 자유 가입 (FREE) 방식: POST로 그룹 가입 요청 -->
         <form th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).FREE)}"
               th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
-            <button type="submit" class="btn custom-green-button mt-3">가입</button>
+            <button type="submit" id="freeBt" class="btn custom-green-button mt-3">가입</button>
         </form>
 
         <!-- 승인 필요 (APPROVAL) 방식: 모달을 통해 신청서 작성 -->
@@ -52,11 +52,11 @@
                         <form th:action="@{/group/approval/{groupId}(groupId=${groupDetail.groupId})}"  method="post" >
                             <div class="form-group" >
                                 <label for="reason">가입 이유</label>
-                                <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="가입 이유를 작성해주세요" ></textarea>
+                                <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="가입 이유를 작성해주세요" style="height: 130px;"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="say">하고 싶은 말</label>
-                                <textarea class="form-control" id="say" name="say" rows="3" placeholder="하고 싶은 말을 작성해주세요"></textarea>
+                                <textarea class="form-control" id="say" name="say" rows="3" placeholder="하고 싶은 말을 작성해주세요" style="height: 130px;"></textarea>
                             </div>
                             <div id="btWrap">
                                 <button type="submit" class="btn btn-primary" id="submitGroupBt">신청</button>
