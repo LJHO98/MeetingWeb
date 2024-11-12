@@ -128,12 +128,12 @@ const showAlert = (message) => {
 $(function(){
     $("#pwRegister-Btn").click(function(){
         $("#pwCertification-Btn").prop("disabled", false);
-        sendNumber();
+        pwSendNumber();
 
     });
 });
 //인증 번호 전송
-function sendNumber(){
+function pwSendNumber(){
     // var token = $("meta[name=_csrf]").attr("content");
     // var header = $("meta[name=_csrf_header]").attr("content");
     $.ajax({
@@ -149,7 +149,7 @@ function sendNumber(){
 
             //인증번호 확인버튼 활성화
             $("#pwCertification-Btn").click(function(){
-                confirmCode();
+                pwConfirmCode();
                 console.log("wswwdwdwdwdwdwdwdwd");
             });
             // "인증번호 발급" 버튼 클릭 이벤트 핸들러
@@ -196,7 +196,7 @@ $(function(){
 });
 
 //인증 번호 확인
-function confirmCode(){
+function pwConfirmCode(){
     // var token = $("meta[name=_csrf]").attr("content");
     // var header = $("meta[name=_csrf_header]").attr("content");
     $.ajax({
