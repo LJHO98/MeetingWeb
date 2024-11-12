@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -20,8 +22,16 @@ public class AdminController {
     private final UserService userService;
 
     @GetMapping("/admin/main")
-    public String main() {
-        return "admin/main";
+    public String showUserChart(Model model) {
+        List<Integer> years = adminService.getYears();
+        List<Integer> counts = adminService.getUserCountsByYear();
+
+        model.addAttribute("years", years);
+        model.addAttribute("counts", counts);
+
+
+
+        return "admin/main"; // 차트를 표시할 HTML 템플릿 반환
     }
     @GetMapping("/admin/userControl")
     public String userControl(Model model) {

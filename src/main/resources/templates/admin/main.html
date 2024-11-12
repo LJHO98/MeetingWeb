@@ -5,22 +5,52 @@
       layout:decorate="~{adminFragment/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <meta charset="UTF-8">
+
+    <title>가입 회원 수 차트</title>
     <title layout:fragment="title"></title>
 
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
-
 </head>
 <body>
-    <div layout:fragment="body" id="main">
-
-
-
-
+<div layout:fragment="body" id="main">
+    <h1>가입 회원 수 차트</h1>
+    <div>
+        <canvas id="userChart" width="400" height="200"></canvas>
     </div>
+
+    <script>
+        const ctx = document.getElementById('userChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: /*[[${years}]]*/, // 서버에서 전달받은 연도 리스트
+                datasets: [{
+                    label: '가입 회원 수',
+                    data: /*[[${counts}]]*/,  // 서버에서 전달받은 가입 회원 수 리스트
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',  // 수평선 차트로 설정
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</div>
 
 
 </body>
+
 </html>
