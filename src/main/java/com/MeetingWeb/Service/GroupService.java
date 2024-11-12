@@ -1,5 +1,6 @@
 package com.MeetingWeb.Service;
 
+import com.MeetingWeb.Constant.Gender;
 import com.MeetingWeb.Constant.RegistType;
 import com.MeetingWeb.Constant.Role;
 import com.MeetingWeb.Dto.GroupApplicationDto;
@@ -133,5 +134,49 @@ public class GroupService {
         Groups group = groupRepository.findByCreatedById(createdBy)
                 .orElseThrow(() -> new IllegalArgumentException("해당 그룹을 찾을 수 없습니다. groupId: " + createdBy));
         return GroupProfileDto.of(group);
+    }
+
+    public List<GroupDto> getFilteredGroups(String keyword, String gender, Long category, String location) {
+        // 1. 모든 그룹을 최신순으로 가져옵니다.
+        List<Groups> groups = groupRepository.findAllByOrderByCreatedAtDesc();
+
+        // 2. 키워드 필터링 (keyword가 null이 아니고 비어 있지 않을 때)
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            String lowerKeyword = keyword.toLowerCase();
+            groups = groups.stream()
+                    .filter(group -> group.getName().toLowerCase().contains(lowerKeyword) ||
+                            group.getIntroduce().toLowerCase().contains(lowerKeyword))
+                    .collect(Collectors.toList());
+        }
+
+        // 3. 성별 필터링 (gender 값이 "all"이 아닐 때)
+        if (gender != null && !gender.equalsIgnoreCase("all")) {
+            try {
+                Gender genderFilter = Gender.valueOf(gender.toUpperCase());
+                groups = groups.stream()
+                        .filter(group -> group.getGenderPreference() == genderFilter)
+                        .collect(Collectors.toList());
+            } catch (IllegalArgumentException e) {
+                // 잘못된 gender 값이 들어온 경우 무시하고 전체를 반환
+            }
+        }
+
+        // 4. 카테고리 필터링 (category 값이 null이 아닐 때)
+        if (category != null) {
+            groups = groups.stream()
+                    .filter(group -> group.getCategory().getGroupCategoryId().equals(category))
+                    .collect(Collectors.toList());
+        }
+
+        // 5. 지역 필터링 (location 값이 null이 아닐 때)
+        if (location != null && !location.trim().isEmpty()) {
+            String lowerLocation = location.toLowerCase();
+            groups = groups.stream()
+                    .filter(group -> group.getLocation().toLowerCase().contains(lowerLocation))  // 지역 비교
+                    .collect(Collectors.toList());
+        }
+
+        // 6. 필터링된 그룹 목록을 DTO 형식으로 변환하여 반환
+        return groups.stream().map(GroupDto::of).collect(Collectors.toList());
     }
 }

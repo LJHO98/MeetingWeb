@@ -22,30 +22,30 @@ public class AdminService {
     private final TournamentRepository tournamentRepository;
 
     // 모든 사용자 정보를 반환 (DTO 없이 엔티티 직접 반환)
-    public List<User> getAllUsers() {
-        // DB에서 모든 사용자 정보 조회
-        return userRepository.findAll();
-    }
-
-    public List<Integer> getUserCountsByYear() {
-        List<Object[]> results = userRepository.findUserCountByYear();
-        List<Integer> counts = new ArrayList<>();
-
-        for (Object[] result : results) {
-            counts.add(((Long) result[1]).intValue());
-        }
-
-        return counts;
-    }
-
-    public List<Integer> getYears() {
-        List<Object[]> results = userRepository.findUserCountByYear();
-        List<Integer> years = new ArrayList<>();
-
-        for (Object[] result : results) {
-            years.add((Integer) result[0]);
-        }
-
-        return years;
-    }
+//    public List<User> getAllUsers() {
+//        // DB에서 모든 사용자 정보 조회
+//        return userRepository.findAll();
+//    }
+//
+//    public List<Integer> getUserCountsByYear() {
+//        List<Object[]> results = userRepository.findUserCountByYear();
+//        List<Integer> counts = new ArrayList<>();
+//
+//        for (Object[] result : results) {
+//            counts.add(((Long) result[1]).intValue());
+//        }
+//
+//        return counts;
+//    }
+//
+//    public List<Integer> getYears() {
+//        List<Object[]> results = userRepository.findUserCountByYear();
+//        List<Integer> years = new ArrayList<>();
+//
+//        for (Object[] result : results) {
+//            years.add((Integer) result[0]);
+//        }
+//
+//        return years;
+//    }
 }

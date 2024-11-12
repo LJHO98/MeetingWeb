@@ -25,7 +25,7 @@ public class UserDto {
     private String userName;
 
     @Size(min = 8, max = 12, message = "비밀번호는 8~12자입니다.")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])|(?=.*[a-zA-Z])(?=.*[!@#$%^&*])|(?=.*[0-9])(?=.*[!@#$%^&*]).*$", message = "비밀번호는 영어 대소문자/숫자/특수문자 중 2종류 이상 조합하여 입력해 주세요.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[\\d!@#$%^&*()_+])[A-Za-z\\d!@#$%^&*()_+]{8,12}$", message = "비밀번호는 영어 대소문자와 숫자 또는 특수문자를 조합하여 8자 이상 12자 이하로 입력해 주세요.")
     private String password;
     @NotBlank(message = "이름은 필수 입니다.")
     private String name;
@@ -78,7 +78,7 @@ public class UserDto {
 
         return user;
     }
-}
 
+}
 
 
