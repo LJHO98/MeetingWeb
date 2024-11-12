@@ -53,6 +53,10 @@
     color: #626262;
 }
 
+.idBox input, .birthBox input{
+    background: #e0e0e0;
+}
+
 .genderBox{
     display: flex;
     align-items: center;

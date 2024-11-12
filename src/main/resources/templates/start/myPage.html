@@ -64,7 +64,7 @@
             </div>
 
             <!-- 사용자의 ID를 수정 불가능하게 표시 -->
-            <div class="inputBox">
+            <div class="inputBox idBox">
                 <label th:for="userName">아이디</label>
                 <input type="text" th:field="*{userName}" readonly>
             </div>
@@ -81,8 +81,8 @@
                 <input type="text" th:field="*{name}">
             </div>
 
-            <!-- 사용자의 생년월일을 수정할 수 있게 표시 -->
-            <div class="inputBox">
+            <!-- 사용자의 생년월일을 수정 불가능하게 표시 -->
+            <div class="inputBox birthBox">
                 <label th:for="birthDate">생년월일</label>
                 <input type="date" th:field="*{birthDate}" readonly>
             </div>
