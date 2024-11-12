@@ -53,7 +53,7 @@ $(function(){
             url:"/login/searchId",
             type:"post",
             dataType:"text",
-            data:{"email" : $("#pwEmail").val()},
+            data:{"email" : $("#email").val()},
             success: function(data) {
                 // 성공적으로 받은 ID 값 사용
                 console.log("사용자 ID: " + data);
