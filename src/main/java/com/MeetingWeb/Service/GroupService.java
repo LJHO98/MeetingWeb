@@ -84,7 +84,7 @@ public class GroupService {
         return groupRepository.findByCategoryIn(selectedCategories)
                 .stream()
                 .map(GroupDto::of)
-                .collect(Collectors.toList());
+                  .collect(Collectors.toList());
     }
     public boolean joinGroup(Long groupId, String userName) {//자유가입
         Groups group = groupRepository.findById(groupId).orElse(null);

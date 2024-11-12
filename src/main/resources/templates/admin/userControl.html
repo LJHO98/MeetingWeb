@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{adminFragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <title layout:fragment="title"></title>
+
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+
+</head>
+<body>
+<div layout:fragment="body" id="main">
+
+    <table border="1">
+        <thead>
+        <tr>
+
+            <th>회원번호</th>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>활동 지역</th>
+            <th>권한</th>
+            <th>가입일</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- th:each로 users 리스트 반복 -->
+        <tr  th:each="user : ${users}" >
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.activityArea}"></td>
+            <td th:text="${user.role}"></td>
+            <td th:text="${user.createdAt}"></td>
+            <td><!-- 삭제용 Form -->
+                <!-- ADMIN이 아닌 경우에만 삭제 버튼을 보여주기 -->
+                <form action="/users/delete" method="POST" onsubmit="return confirmDelete()" >
+                    <input type="hidden" name="userId" th:value="${user.id}">
+<!--                    <input type="hidden" name="userRole" id="userRole" th:value="${user.role}">-->
+                    <button id="deleteBt" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+</div>
+
+
+</body>
+</html>

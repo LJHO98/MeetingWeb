@@ -111,8 +111,23 @@ a:hover{
     z-index: 1000;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(183, 240, 177, 0.8));
 }
+#adminSide{
+    width: 200px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    height: calc(100vh - 80px);
+    transition: transform 0.4s ease; /* 부드러운 전환 효과 */
+    transform: translateX(-100%); /* 사이드바가 보이는 상태 */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(183, 240, 177, 0.8));
+}
 
 #side.toggle{
+    transform: translateX(0);
+}
+#adminSide.toggle{
     transform: translateX(0);
 }
 

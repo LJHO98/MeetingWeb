@@ -82,6 +82,7 @@ function confirmCode(){
         success:function(data){
             $("#next-Btn").prop("disabled", false);
             showAlert(data);
+            clearInterval(countdown);
 
             // $(".next-Btn").attr("type", "submit");
         },
@@ -187,6 +188,7 @@ $(function(){
             }),
             success: function(data) {
                 console.log(data);
+                clearInterval(countdown);
             },
             error: function(xhr) {
                 alert("User not found");

@@ -41,6 +41,7 @@ public class UserService implements UserDetailsService {
     private String userProfileImgPath;
 
 
+
     public List<GroupCategoryDto> getGroupCategories() {
         List<GroupCategory> categories = groupCategoryRepository.findAllByOrderByGroupCategoryIdAsc();
         return categories.stream()
@@ -77,7 +78,7 @@ public class UserService implements UserDetailsService {
 
     public User findByEmail(String email) {
         if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("이메일은 null이거나 빈 값일 수 없습니다.");
         }
 
 
@@ -246,6 +247,15 @@ public class UserService implements UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    public void deleteUser(Long id){
+
+
+
+        userRepository.deleteById(id);
+
+
     }
 }
 
