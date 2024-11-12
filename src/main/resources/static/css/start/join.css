@@ -29,7 +29,6 @@
     font-family: 'NanumSquareAcr';
 }
 
-.form-group input[type="email"],
 .form-group input[type="password"],
 .form-group input[type="date"],
 .form-group #nameInput,
@@ -37,7 +36,7 @@
     width: 100%;
     padding: 0 13px;
     margin-top: 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #aaa;
     box-sizing: border-box;
     height: 40px;
@@ -65,13 +64,16 @@
 .joinCheck{
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
 }
 
 .joinCheck input{
     width: 80%;
     padding: 0 13px;
     margin-top: 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #aaa;
     box-sizing: border-box;
     height: 40px;
@@ -79,16 +81,21 @@
 
 .joinCheck button, .joinCheck #checkBt{
     width: 15%;
-    height: 30px;
-    padding: 3px;
-    background: #fff;
-    font-family: 'NanumSquare';
-    margin: auto 0 auto 22px;
-    border: 2px solid #aaa;
-    border-radius: 10px;
-    color: #5D5D5D;
-    background: #CEFBC9;
+    margin-left: 5%;
+    border-radius: 8px;
+    font-family: 'NanumSquareAcr';
+    border: 1px solid #aaa;
     cursor: pointer;
+    height: 35px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #747474;
+}
+
+.joinCheck span{
+    position: absolute;
+    left: 300px;
+    color: #8C8C8C;
 }
 
 #imagePreview {
@@ -155,6 +162,7 @@
 #submitBt:hover {
     background: #47C83E;
 }
+
 #alert-box{
     display:none;
     background-color: white;

@@ -134,6 +134,14 @@ function sendNumber(){
     });
 
 }
+
+// 인증 번호 보이기
+$(document).ready(function() {
+    $(".register-Btn").on("click", function() {
+        $("#verificationBox").show();
+    });
+});
+
 //인증 번호 확인
 function confirmCode(){
     var token = $("meta[name=_csrf]").attr("content");

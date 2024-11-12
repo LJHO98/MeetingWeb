@@ -8,8 +8,10 @@
 
     <div id="groupImg">
         <img th:src="'..' + ${groupDetail.profileImgUrl}" alt="Profile Image">
-        <div id="groupCategory" th:text="${groupDetail.categoryName}"></div>
-        <div id="groupLocation" th:text="${groupDetail.location}"></div>
+        <div id="inform">
+            <div id="groupCategory" th:text="${groupDetail.categoryName}"></div>
+            <div id="groupLocation" th:text="${groupDetail.location}"></div>
+        </div>
     </div>
 
     <div id="groupTitle">

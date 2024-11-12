@@ -1,10 +1,18 @@
 /* login.css */
+#loginMain{
+    width: 100%;
+    position: relative;
+    margin: 0 auto 50px auto;
+    text-align: center;
+}
+
 #loginText{
-    font-size: 38px;
-    font-family: 'NanumSquareAceb';
+    font-size: 35px;
+    font-family: 'NanumSquareAcB';
+    letter-spacing: 3px;
     color: #626262;
-    margin: 150px auto 50px auto;
-    width: 99px;
+    margin: calc((100vh - 590px) / 2) auto 40px auto;
+    display: inline-block;
 }
 
 .login-form {
@@ -25,11 +33,20 @@
 .input-container input {
     margin: 10px 0; /* 입력 필드 간격 설정 */
     padding: 10px 20px; /* 입력 필드 안쪽 여백 설정 */
-    border: 2px solid #aaa;
-    border-radius: 10px; /* 모서리 둥글게 */
+    border: 1px solid #aaa;
+    border-radius: 7px; /* 모서리 둥글게 */
     width: 100%; /* 너비를 100%로 설정 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 미세한 그림자 추가 */
     height: 60px;
+    font-family: 'NanumSquareAceb';
+    letter-spacing: 1px;
+    color: #747474;
+}
+
+.input-container input::placeholder{
+    font-family: 'NanumSquare';
+    letter-spacing: 1px;
+    color: #aaa;
 }
 
 .input-container input:focus{

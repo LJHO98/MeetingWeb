@@ -14,7 +14,7 @@
     <script src="/js/login.js"></script>
 </head>
 <body>
-<div layout:fragment="body" id="main">
+<div layout:fragment="body" id="loginMain">
     <div id="loginText">로그인</div>
     <div id="alert-box" style="display:none;"></div>
     <form action="/login" method="post" class="login-form">
@@ -29,50 +29,103 @@
     <div class="link-container">
         <a href="#" class="link" onclick="idOpenModal(this)">아이디 찾기</a>
         <a href="#" class="link" onclick="pwOpenModal(this)">비밀번호 찾기</a>
-        <a href="" class="link">회원가입</a>
+        <a href="/start/agreement" class="link">회원가입</a>
     </div>
 
     <!-- 아이디 찾기 모달 -->
     <div id="search_Id" class="idModal">
         <div class="idModal_content1">
-            <span class="close" onclick="idCloseModal()"><i class="bi bi-x"></i></span>
-            <h2>아이디 찾기</h2>
+            <div class="findHeader">
+                <div class="findTitle">아이디 찾기</div>
+                <span class="close" onclick="idCloseModal()"><i class="bi bi-x"></i></span>
+            </div>
+
             <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
-            이름 <input type="text" id="name"><br>
-            이메일 <input type="email" id="email">
-            <button type="button" id="register-Btn">인증번호</button><br>
-            인증번호 <input type="text" id="number">
-            <button disabled type="button" id="certification-Btn">인증</button><br>
-            <span class="time"></span> <!-- 타이머 표시 -->
-            <button disabled type="button" id="next-Btn" onclick="idNextModal()">다음</button>
+            <div class="inputBox">
+                <label>이름</label>
+                <input type="text" id="name">
+            </div>
+
+            <div class="inputBox">
+                <label>이메일</label>
+                <input type="email" id="email">
+                <button type="button" id="register-Btn">인증번호</button>
+            </div>
+
+            <div class="inputBox">
+                <label>인증번호</label>
+                <div class="timer">
+                    <input type="text" id="number"><span class="time"></span> <!-- 타이머 표시 -->
+                </div>
+                <button disabled type="button" id="certification-Btn">인증</button>
+            </div>
+
+            <div class="btWrap">
+                <button disabled type="button" id="next-Btn" onclick="idNextModal()">다음</button>
+            </div>
         </div>
+
         <div class="idModal_content2">
-            <h2>고객님의 정보와 일치하는 아이디입니다</h2><br>
-            아이디 : <p id="idDisplay"></p>
-            <button type="button" onclick="idCloseModal()">닫기</button>
+            <div class="findHeader">
+                <span class="close" onclick="idCloseModal()"><i class="bi bi-x"></i></span>
+            </div>
+            <div id="getId">고객님의 정보와 일치하는 아이디</div>
+            <div id="idDisplay"></div>
         </div>
     </div>
 
     <!-- 비밀번호 찾기 모달 -->
     <div id="search_Pw" class="pwModal">
         <div class="pwModal_content1">
-            <span class="close" onclick="pwCloseModal()"><i class="bi bi-x"></i></span>
-            <h2>비밀번호 찾기</h2>
-            <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
-            아이디 <input type="text" id="pwName"><br>
-            이메일 <input type="email" id="pwEmail">
-            <button type="button" id="pwRegister-Btn">인증번호</button><br>
-            인증번호 <input type="text" id="pwNumber">
-            <button disabled type="button" id="pwCertification-Btn">인증</button><br>
-            <span class="time"></span> <!-- 타이머 표시 -->
-            <button disabled type="button" id="pwNext-Btn" onclick="pwNextModal()">다음</button>
+            <div class="findHeader">
+                <div class="findTitle">비밀번호 찾기</div>
+                <span class="close" onclick="pwCloseModal()"><i class="bi bi-x"></i></span>
+            </div>
 
+            <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+            <div class="inputBox">
+                <label>아이디</label>
+                <input type="text" id="pwName">
+            </div>
+
+            <div class="inputBox">
+                <label>이메일</label>
+                <input type="email" id="pwEmail">
+                <button type="button" id="pwRegister-Btn">인증번호</button>
+            </div>
+
+            <div class="inputBox">
+                <label>인증번호</label>
+                <div class="timer">
+                    <input type="text" id="pwNumber"><span class="time"></span> <!-- 타이머 표시 -->
+                </div>
+                <button disabled type="button" id="pwCertification-Btn">인증</button>
+            </div>
+
+            <div class="btWrap">
+                <button disabled type="button" id="pwNext-Btn" onclick="pwNextModal()">다음</button>
+            </div>
         </div>
+
         <div class="pwModal_content2">
-                새 비밀번호 <input type="password" name="password" id="pw"><br>
-                비밀번호 확인 <input type="password" name="passwordCheck" id="pwCheck"><br>
-                <button type="button" id="change-Btn" onclick="pwCloseModal()" >비밀번호 변경</button>
-                <button type="button" onclick="pwCloseModal()">닫기</button>
+            <div class="findHeader">
+                <div class="findTitle">비밀번호 변경</div>
+                <span class="close" onclick="pwCloseModal()"><i class="bi bi-x"></i></span>
+            </div>
+
+            <div id="newPw">
+                <div class="inputBox">
+                    <label>새 비밀번호</label>
+                    <input type="password" name="password" id="pw">
+                </div>
+
+                <div class="inputBox">
+                    <label>비밀번호 확인</label>
+                    <input type="password" name="passwordCheck" id="pwCheck">
+                    <button type="button" id="change-Btn">변경</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

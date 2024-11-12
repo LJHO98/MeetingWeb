@@ -6,48 +6,10 @@
     <meta charset="UTF-8">
     <title>마이페이지</title>
     <link rel="stylesheet" href="/css/start/myPage.css">
+    <script src="/js/myPage.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#profileImg').on('change', function(event) {
-                var file = event.target.files[0];
-                if (!file) {
-                    console.log("파일 선택 취소"); // 파일 선택이 취소되면 기존 이미지 유지
-                    return;
-                }
-
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#previewImage').attr('src', e.target.result); // 새로운 이미지 URL로 src를 업데이트
-                };
-                reader.readAsDataURL(file);
-            });
-        });
-
-        function addAddr() {
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    // 시와 구 정보 추출
-                    var city = data.sido || ''; // 시/도를 나타내는 필드
-                    var district = data.sigungu || ''; // 구/군 정보를 나타내는 필드
-                    var fullAddress = city;
-
-                    // 시와 구가 모두 있는 경우 "시 구" 형태로 결합
-                    if (city && district) {
-                        fullAddress += ' ' + district;
-                    } else if (city && !district) {
-                        fullAddress = city; // 시만 있는 경우 시만 표시
-                    } else if (!city && district) {
-                        fullAddress = district; // 구만 있는 경우 구만 표시
-                    }
-                    // 출력할 도로명 주소와 시, 구 정보를 설정
-                    document.getElementById("activityArea").value = fullAddress; // 수정된 구/군, 시 정보를 표시
-                }
-            }).open();
-        }
-    </script>
 </head>
 <body>
 

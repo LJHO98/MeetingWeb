@@ -21,13 +21,10 @@
     </div>
 
     <!-- 검색바, 카테고리, 성별, 지역 필터 추가 -->
-    <form action="/group/list" method="get" id="filterForm">
-        <div id="filterBox">
-            <!-- 검색어 입력 -->
-            <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="" />
-
+    <div id="filterBox">
+        <form action="/group/list" method="get" id="filterForm">
             <!-- 카테고리 선택 -->
-            <select name="categoryId">
+            <select id="categoryId" name="categoryId">
                 <option value="">전체 카테고리</option>
                 <th:block th:each="category : ${categories}">
                     <option th:value="${category.groupCategoryId}" th:text="${category.category}"></option>
@@ -35,8 +32,8 @@
             </select>
 
             <!-- 성별 선택 -->
-            <select name="gender">
-                <option value="" disabled selected>성별 선택</option>
+            <select id="gender" name="gender">
+                <option value="" disabled selected>성별 제한</option>
                 <option value="male">남성</option>
                 <option value="female">여성</option>
                 <option value="all">제한없음</option>
@@ -45,10 +42,12 @@
             <!-- 지역 검색바 입력 -->
             <input type="text" name="location" id="activityArea" placeholder="지역을 입력하세요" value="" />
 
-            <button type="submit">검색</button>
-        </div>
-    </form>
+            <!-- 검색어 입력 -->
+            <input type="text" name="keyword" id="searchText" placeholder="검색어를 입력하세요" value="" />
 
+            <button type="submit">검색</button>
+        </form>
+    </div>
 
     <div id="groupListWrap">
         <div class="groupListBox" th:each="group : ${groupList}">

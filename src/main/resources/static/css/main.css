@@ -176,28 +176,30 @@ a:hover{
 #banner{
     width: 100%;
     height: 400px;
-    background: url(../img/banner.png) no-repeat center;
+    background: url(../img/banner2.png) no-repeat center;
     background-size: 100% auto;
     margin-bottom: 50px;
     overflow: hidden;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     position: relative;
+    border-bottom-left-radius: 3em;
+    border-bottom-right-radius: 3em;
 }
 
 #detail{
-    width: 100px;
-    height: 25px;
-    font-size: 15px;
-    color: #fff;
+    width: 150px;
+    height: 40px;
+    font-size: 19px;
+    color: #8eecb9;
     background: none;
-    border: 1px solid #fff;
-    border-radius: 15px;
-    top: 110px;
-    left: 200px;
+    border: 3px solid #8eecb9;
+    border-radius: 20px;
+    top: 230px;
+    right: 350px;
     position: absolute;
     text-align: center;
-    font-family: 'NanumSquareLight';
-    line-height: 25px;
+    font-family: 'NanumSquareacB';
+    line-height: 35px;
     display: block;
 }
 
@@ -214,7 +216,7 @@ a:hover{
     text-align: center;
     font-size: 18px;
     font-family: 'NanumSquareAcb';
-    padding: 0 55px;
+    padding: 0 80px;
     color: #4C4C4C;
 }
 
@@ -223,22 +225,17 @@ a:hover{
 }
 
 .categoryImg{
-    width: 150px;
-    height: 150px;
+    width: 100%;
+    height: 110px;
     align-items: center;
-    border-radius: 50%;
     margin-bottom: 12px;
     overflow: hidden;
     background-size: 100% auto !important;
-    transition: background-size 0.3s ease, box-shadow 0.3s ease;
+    transition: scale 0.3s ease;
 }
 
 .categoryImg:hover{
-    box-shadow: 0 6px 15px 5px rgba(89, 218, 80, 0.3),  /* 아래쪽 */
-                0 -6px 15px 5px rgba(89, 218, 80, 0.3), /* 위쪽 */
-                -6px 0 15px 5px rgba(89, 218, 80, 0.3), /* 왼쪽 */
-                6px 0 15px 5px rgba(89, 218, 80, 0.3);  /* 오른쪽 */
-    background-size: 110% !important;
+    scale: 110% !important;
 }
 
 /* 맞춤 모임 */
@@ -310,7 +307,7 @@ a:hover{
     font-family: 'NanumSquareAceb';
     color: #5D5D5D;
     margin: 0 20px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 .description{
@@ -358,41 +355,41 @@ a:hover{
 
 /* 카테고리 대표 이미지 */
 #gameImg{
-    background: url(../img/category/game.jpg) no-repeat center;
+    background: url(../img/category/gameIcon.png) no-repeat center;
 }
 
 #sportsImg{
-    background: url(../img/category/sports.jpg) no-repeat center;
+    background: url(../img/category/sportsIcon.png) no-repeat center;
 }
 
 #travelImg{
-    background: url(../img/category/travel.jpg) no-repeat center;
+    background: url(../img/category/travelIcon.png) no-repeat center;
 }
 
 #socialImg{
-    background: url(../img/category/social.jpg) no-repeat center;
+    background: url(../img/category/socialIcon.png) no-repeat center;
 }
 
 #selfImg{
-    background: url(../img/category/self.jpg) no-repeat center;
+    background: url(../img/category/selfIcon.png) no-repeat center;
 }
 
 #readingImg{
-    background: url(../img/category/reading.jpg) no-repeat center;
+    background: url(../img/category/bookIcon.png) no-repeat center;
 }
 
 #studyImg{
-    background: url(../img/category/study.jpg) no-repeat center;
+    background: url(../img/category/studyIcon.png) no-repeat center;
 }
 
 #cookingImg{
-    background: url(../img/category/cooking.jpg) no-repeat center;
+    background: url(../img/category/cookingIcon.png) no-repeat center;
 }
 
 #beautyImg{
-    background: url(../img/category/beauty.jpg) no-repeat center;
+    background: url(../img/category/beautyIcon.png) no-repeat center;
 }
 
 #petImg{
-    background: url(../img/category/pet.jpg) no-repeat center;
+    background: url(../img/category/petIcon.png) no-repeat center;
 }

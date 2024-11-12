@@ -46,16 +46,20 @@
 
             <div class="form-group">
                 <label th:for="email">이메일</label>
-                <input type="email" class="email" th:field="*{email}" />
-                <button type="button" class="register-Btn">인증번호</button><br>
-                <div id="emailVerificationMessage" style="color: red; display: none;">이메일 인증을 완료해주세요.</div>
-
+                <div class="joinCheck">
+                    <input type="email" class="email" th:field="*{email}" />
+                    <button type="button" class="register-Btn">인증번호</button>
+                </div>
+                <div id="emailVerificationMessage" style="display: none;">이메일 인증을 완료해주세요.</div>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" id="verificationBox" style="display: none;">
                 <label>인증번호</label>
-                <input type="text" class="number" />
-                <button disabled type="button" class="certification-Btn">인증</button><br>
-                <span class="time"></span> <!-- 타이머 표시 -->
+                <div class="joinCheck">
+                    <input type="text" class="number" /><span class="time"></span> <!-- 타이머 표시 -->
+                    <button disabled type="button" class="certification-Btn">인증</button>
+                </div>
+
             </div>
 
             <div class="form-group">
@@ -98,7 +102,7 @@
                 <label th:for="activityArea">주소</label>
                 <div class="joinCheck">
                     <input type="text" th:field="*{activityArea}" placeholder="시,군 또는 구" readonly/>
-                    <input id="checkBt" type="button" onclick="addAddr()" value="주소 검색">
+                    <button id="checkBt" type="button" onclick="addAddr()" value="주소 검색">주소 검색</button>
                 </div>
             </div>
 

@@ -50,6 +50,7 @@ a:hover {
     overflow: hidden;
     position: relative;
     margin: 0 auto 10px auto;
+    padding: 10px;
 }
 
 #groupImg img{
@@ -62,8 +63,15 @@ a:hover {
     object-fit: cover; /* 부모 div를 기준으로 꽉 채우기 */
 }
 
+#inform{
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
 #groupCategory, #groupLocation{
-    padding: 0 10px;
+    padding: 0 15px;
     height: 40px;
     border-radius: 10px;
     text-align: center;
@@ -71,8 +79,9 @@ a:hover {
     line-height: 40px;
     font-size: 18px;
     display: inline-block;
-    margin: 15px;
-    bottom: 0;
+    position: relative;
+    color: #fff;
+    background: rgba(71, 200, 62, 0.7);
 }
 
 #groupTitle{

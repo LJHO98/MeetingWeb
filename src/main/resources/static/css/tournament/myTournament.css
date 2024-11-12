@@ -253,3 +253,9 @@ body{
     text-align: center;
     background: rgba(247, 231, 206, 0.8);
 }
+
+.text-muted{
+    font-size: 18px;
+    padding: 50px 0 0 60px;
+    margin-bottom: 200px;
+}

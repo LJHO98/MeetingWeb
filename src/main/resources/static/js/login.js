@@ -213,6 +213,7 @@ function pwConfirmCode(){
         success:function(data){
             $("#pwNext-Btn").prop("disabled", false);
             showAlert(data);
+            clearInterval(countdown);
 
             // $(".next-Btn").attr("type", "submit");
         },
