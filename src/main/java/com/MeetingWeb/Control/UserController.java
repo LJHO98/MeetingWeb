@@ -1,8 +1,10 @@
 package com.MeetingWeb.Control;
 
+import com.MeetingWeb.Dto.PasswordChangeRequest;
 import com.MeetingWeb.Dto.UserDto;
 import com.MeetingWeb.Dto.UserProfileDto;
 import com.MeetingWeb.Entity.User;
+import com.MeetingWeb.Repository.UserRepository;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @GetMapping("/start/agreement")
     public String agreement(){
@@ -65,9 +68,59 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login/searchPw")
+    public @ResponseBody ResponseEntity<String> searchLoginPw(@RequestBody PasswordChangeRequest request) {
+        String email = request.getPwEmail();
+        String pw = request.getPw();
+        String pwCheck = request.getPwCheck();
+
+        User user = userService.findByEmail(email);
+
+        System.out.println("dddddww"+email+pw+pwCheck);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // 비밀번호와 비밀번호 확인이 일치하는지 검증
+        if (!pw.equals(pwCheck)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Passwords do not match");
+        }
+
+        // 새 비밀번호를 암호화하여 저장
+        user.setPassword(passwordEncoder.encode(pw));
+        //userService.save(user); // 비밀번호 저장
+        userService.changePassword(pw, email);
+        return ResponseEntity.ok("Password changed successfully");
+    }
+
+
+//    @PostMapping("/login/changePw")
+//    public String changePassword(@RequestParam("password") String password,
+//                                 @RequestParam("passwordCheck") String passwordCheck,
+//                                 Model model) {
+//
+//        model.addAttribute(password,userService.findByPassword(password));
+//
+//
+//        // 비밀번호 확인
+//        if (!password.equals(passwordCheck)) {
+//            // 비밀번호 불일치 시 에러 메시지 설정
+//            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+//
+//        }
+//
+//        // 비밀번호 변경 처리
+//        userService.changePassword(password); // 서비스에서 비밀번호 변경 처리
+//
+//        // 비밀번호 변경 성공 메시지 설정
+//        model.addAttribute("success", "비밀번호가 성공적으로 변경되었습니다.");
+//         return null;
+//    }
+
+
     @PostMapping("/start/check-username")
-    @ResponseBody
-    public boolean checkUsername(@RequestParam String userName) {
+    @ResponseBody public boolean checkUsername(@RequestParam String userName) {
         return !userService.isUserNameTaken(userName);
     }
 

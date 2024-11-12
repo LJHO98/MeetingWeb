@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -34,6 +35,7 @@ public class UserService implements UserDetailsService {
     private final ProfileUploadService profileUploadService;
     private final GroupRepository groupRepository;
     private final UserSelectCategoryRepository userSelectCategoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${userProfileImgPath}")
     private String userProfileImgPath;
@@ -74,8 +76,12 @@ public class UserService implements UserDetailsService {
     }
 
     public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        return user;
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -222,4 +228,24 @@ public class UserService implements UserDetailsService {
     }
 
 
+//    public User findByPassword(String password) {
+//        User user = userRepository.findByPassword(password);
+//        return user;
+//    }
+
+    //비밀번호 변경
+    public boolean changePassword(String pw, String email) {
+        // 비밀번호 암호화
+        System.out.println("dddd"+pw);
+        String encodedPassword = passwordEncoder.encode(pw);
+
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setPassword(encodedPassword); // 암호화된 비밀번호로 변경
+            userRepository.save(user); // 변경된 비밀번호를 저장
+            return true;
+        }
+        return false;
+    }
 }
+

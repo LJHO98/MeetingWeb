@@ -14,6 +14,7 @@
 <body>
 
 <div layout:fragment="body" id="main">
+    <div id="alert-box" style="display:none;"></div>
     <div class="form-container">
         <div id="joinText">회원가입</div>
         <form id="joinForm" th:action="@{/start/join}" th:object="${userDto}" method="post" enctype="multipart/form-data">
@@ -45,7 +46,16 @@
 
             <div class="form-group">
                 <label th:for="email">이메일</label>
-                <input type="email" th:field="*{email}" />
+                <input type="email" class="email" th:field="*{email}" />
+                <button type="button" class="register-Btn">인증번호</button><br>
+                <div id="emailVerificationMessage" style="color: red; display: none;">이메일 인증을 완료해주세요.</div>
+
+            </div>
+            <div class="form-group">
+                <label>인증번호</label>
+                <input type="text" class="number" />
+                <button disabled type="button" class="certification-Btn">인증</button><br>
+                <span class="time"></span> <!-- 타이머 표시 -->
             </div>
 
             <div class="form-group">
@@ -96,7 +106,7 @@
     <!--            <input type="checkbox" id="terms" name="terms">-->
     <!--            <label for="terms">이용약관과 개인정보 수집 및 이용, 마케팅 활용 선택에 모두 동의합니다.</label>-->
     <!--        </div>-->
-            <button type="submit" id="submitBt">가입하기</button>
+            <button type="button" id="submitBt">가입하기</button>
         </form>
 
     </div>

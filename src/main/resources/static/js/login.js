@@ -1,6 +1,6 @@
 $(function(){
-    $(".register-Btn").click(function(){
-        $(".certification-Btn").prop("disabled", false);
+    $("#register-Btn").click(function(){
+        $("#certification-Btn").prop("disabled", false);
         sendNumber();
 
     });
@@ -13,7 +13,7 @@ function sendNumber(){
         url:"/mail",
         type:"post",
         dataType:"text",
-        data:{"email" : $(".email").val()},
+        data:{"email" : $("#email").val()},
         // beforeSend : function(xhr){
         //     xhr.setRequestHeader(header, token);
         // },
@@ -21,7 +21,7 @@ function sendNumber(){
             showAlert(data);
 
             //인증번호 확인버튼 활성화
-            $(".certification-Btn").click(function(){
+            $("#certification-Btn").click(function(){
                 confirmCode();
                 console.log("wswwdwdwdwdwdwdwdwd");
             });
@@ -32,14 +32,14 @@ function sendNumber(){
             updateCountdown();
             // 1초마다 카운트다운 업데이트
             countdown = setInterval(updateCountdown, 1000);
-            $(".number").focus();
+            $("#number").focus();
         },
         error: function(xhr, status, error) {
             console.log("Error Status:", status); // 상태 코드
             console.log("Error:", error); // 에러 메시지
             console.log("Response:", xhr.responseText); // 서버 응답 메시지
             showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
-            $(".register-Btn").prop('disabled', false);
+            $("#register-Btn").prop('disabled', false);
         }
 
 
@@ -47,13 +47,13 @@ function sendNumber(){
 
 }
 $(function(){
-    $(".next-Btn").click(function(){
+    $("#next-Btn").click(function(){
         console.log("ddddddddddddddd");
         $.ajax({
             url:"/login/searchId",
             type:"post",
             dataType:"text",
-            data:{"email" : $(".email").val()},
+            data:{"email" : $("#pwEmail").val()},
             success: function(data) {
                 // 성공적으로 받은 ID 값 사용
                 console.log("사용자 ID: " + data);
@@ -74,13 +74,13 @@ function confirmCode(){
         url:"/verifyCode",
         type:"post",
         dataType:"text",
-        data:{"number" : $(".number").val(),
-            "email" : $(".email").val()},
+        data:{"number" : $("#number").val(),
+            "email" : $("#email").val()},
         // beforeSend : function(xhr){
         //     xhr.setRequestHeader(header, token);
         // },
         success:function(data){
-            $(".next-Btn").prop("disabled", false);
+            $("#next-Btn").prop("disabled", false);
             showAlert(data);
 
             // $(".next-Btn").attr("type", "submit");
@@ -88,7 +88,7 @@ function confirmCode(){
         error: function(xhr, status, error) {
             // 오류 발생 시 상세 정보 출력
             showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
-            $(".register-Btn").prop('disabled',false);
+            $("#register-Btn").prop('disabled',false);
         }
 
 
@@ -122,24 +122,104 @@ const showAlert = (message) => {
         alertBox.fadeOut();
     }, 3000); // 3초 후에 메시지 사라짐
 }
-// function findId(){
-//     var token = $("meta[name=_csrf]").attr("content");
-//     var header = $("meta[name=_csrf_header]").attr("content");
-//     $.ajax({
-//         url:"/findId",
-//         type:"post",
-//         dataType:"text",
-//         data:{"email" : $("#email").val()},
-//         beforeSend : function(xhr){
-//             xhr.setRequestHeader(header, token);
-//         },
-//         success:function(data){
-//             alert(data);
-//             location.href="/start/login";
-//         },
-//         error:function(xhr, status, error){
-//             alert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
-//         }
-//     });
-//
-//}
+
+
+
+$(function(){
+    $("#pwRegister-Btn").click(function(){
+        $("#pwCertification-Btn").prop("disabled", false);
+        sendNumber();
+
+    });
+});
+//인증 번호 전송
+function sendNumber(){
+    // var token = $("meta[name=_csrf]").attr("content");
+    // var header = $("meta[name=_csrf_header]").attr("content");
+    $.ajax({
+        url:"/join-Mail",
+        type:"post",
+        dataType:"text",
+        data:{"email" : $("#pwEmail").val()},
+        // beforeSend : function(xhr){
+        //     xhr.setRequestHeader(header, token);
+        // },
+        success:function(data){
+            showAlert(data);
+
+            //인증번호 확인버튼 활성화
+            $("#pwCertification-Btn").click(function(){
+                confirmCode();
+                console.log("wswwdwdwdwdwdwdwdwd");
+            });
+            // "인증번호 발급" 버튼 클릭 이벤트 핸들러
+            clearInterval(countdown);
+            seconds = 180; // 3분
+
+            updateCountdown();
+            // 1초마다 카운트다운 업데이트
+            countdown = setInterval(updateCountdown, 1000);
+            $("#pwNumber").focus();
+        },
+        error: function(xhr, status, error) {
+            console.log("Error Status:", status); // 상태 코드
+            console.log("Error:", error); // 에러 메시지
+            console.log("Response:", xhr.responseText); // 서버 응답 메시지
+            showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
+            $("#pwRegister-Btn").prop('disabled', false);
+        }
+
+
+    });
+
+}
+$(function(){
+    $("#change-Btn").click(function(){
+        $.ajax({
+            url: "/login/searchPw",
+            type: "post",
+            contentType: "application/json",  // JSON 형식으로 전송
+            dataType: "text",
+            data: JSON.stringify({ // JSON.stringify를 사용하여 JSON 형식으로 변환
+                "pwEmail": $("#pwEmail").val(),
+                "pw": $("#pw").val(),
+                "pwCheck": $("#pwCheck").val()
+            }),
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(xhr) {
+                alert("User not found");
+            }
+        });
+    });
+});
+
+//인증 번호 확인
+function confirmCode(){
+    // var token = $("meta[name=_csrf]").attr("content");
+    // var header = $("meta[name=_csrf_header]").attr("content");
+    $.ajax({
+        url:"/join-VerifyCode",
+        type:"post",
+        dataType:"text",
+        data:{"number" : $("#pwNumber").val(),
+            "email" : $("#pwEmail").val()},
+        // beforeSend : function(xhr){
+        //     xhr.setRequestHeader(header, token);
+        // },
+        success:function(data){
+            $("#pwNext-Btn").prop("disabled", false);
+            showAlert(data);
+
+            // $(".next-Btn").attr("type", "submit");
+        },
+        error: function(xhr, status, error) {
+            // 오류 발생 시 상세 정보 출력
+            showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
+            $("#pwRegister-Btn").prop('disabled',false);
+        }
+
+
+    });
+}
