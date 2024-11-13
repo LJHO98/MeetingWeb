@@ -3,11 +3,14 @@ package com.MeetingWeb.Service;
 import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.*;
+import com.MeetingWeb.Excption.ParticipantNotFoundException;
+import com.MeetingWeb.Excption.TournamentAlreadyCompletedException;
 import com.MeetingWeb.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NonUniqueResultException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -116,23 +119,28 @@ public class TournamentService {
         Groups group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
 
-        if (tournamentParticipantRepository.findByGroupAndTournament(group, tournament) == null) {
-            if(tournament.getCurrentTeamCount() < tournament.getFormat()) {
-                TournamentParticipant participant = new TournamentParticipant();
-                participant.setTournament(tournament);
-                participant.setGroup(group);
-                int count = tournamentParticipantRepository.getCount(tournament);
-                System.out.println("count = " + count);
-                participant.setMatchNumber(count + 1);
 
-                //처음에 등록할때 팀 카운트
-                if(tournamentParticipantRepository.findByGroupAndTournament(group, tournament) == null) {
-                    int teamCount = tournament.getCurrentTeamCount();
-                    tournament.setCurrentTeamCount(teamCount + 1);
+        try {
+            if (tournamentParticipantRepository.findByGroupAndTournament(group, tournament) == null) {
+                if (tournament.getCurrentTeamCount() < tournament.getFormat()) {
+                    TournamentParticipant participant = new TournamentParticipant();
+                    participant.setTournament(tournament);
+                    participant.setGroup(group);
+                    int count = tournamentParticipantRepository.getCount(tournament);
+                    System.out.println("count = " + count);
+                    participant.setMatchNumber(count + 1);
+
+                    //처음에 등록할때 팀 카운트
+                    if (tournamentParticipantRepository.findByGroupAndTournament(group, tournament) == null) {
+                        int teamCount = tournament.getCurrentTeamCount();
+                        tournament.setCurrentTeamCount(teamCount + 1);
+                    }
+                    tournamentParticipantRepository.save(participant);
+                    tournamentRepository.save(tournament);
                 }
-                tournamentParticipantRepository.save(participant);
-                tournamentRepository.save(tournament);
             }
+        }catch (Exception e){
+            throw new NonUniqueResultException("이미 해당 대회에 신청했거나 대회가 신청이 가능한 상태가 아닙니다.");
         }
     }
 
@@ -203,7 +211,7 @@ public class TournamentService {
         TournamentStatus status = tournaments.getStatus();
 
         //대회상태가 모집 마감상태일때만 작동(경기 시작 전)
-        if(status.equals(TournamentStatus.CLOSED)) {
+        if(status.equals(TournamentStatus.CLOSED) || status.equals(TournamentStatus.UPCOMING)) {
             final int format = tournaments.getFormat();
             int[] a = new int[format];
 
@@ -227,7 +235,7 @@ public class TournamentService {
             }
             tournamentParticipantRepository.saveAll(participants);
         }else {
-            throw new RuntimeException("대회 진행중입니다");
+            throw new RuntimeException("대회 마감 전 혹은 대회 진행중입니다.");
         }
     }
 
@@ -237,34 +245,17 @@ public class TournamentService {
                 .orElseThrow(() -> new EntityNotFoundException("대회 조회실패"));
         Groups group = groupRepository.findById(winId)
                 .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
+        int currentCount = tournamentParticipantRepository.getCount(tournament);
 
-        if(tournamentParticipantRepository.getCount(tournament) < (tournament.getFormat()*2) -1) {
-            //결과 기록
-            TournamentParticipant winner = tournamentParticipantRepository.findByGroupAndTournamentAndMatchNumber(group, tournament, matchNumber);
-            winner.setScore(score);
-            winner.setMatchResult("승");
-
-            //다음 매치넘버 부여
-            TournamentParticipant participant = new TournamentParticipant();
-            participant.setTournament(tournament);
-            participant.setGroup(group);
-            int count = tournamentParticipantRepository.getCount(tournament);
-            System.out.println("count = " + count);
-            participant.setMatchNumber(count + 1);
-
-            tournamentParticipantRepository.save(participant);
-            tournamentRepository.save(tournament);
-
-        }else if(tournamentParticipantRepository.getCount(tournament) == (tournament.getFormat()*2)-1){
+        if(currentCount == (tournament.getFormat()*2) -2) {
             //대회 상태 종료로 변경
             tournament.setStatus(TournamentStatus.COMPLETED);
 
+            //우승자 기록
             TournamentParticipant finalWinner = new TournamentParticipant();
             finalWinner.setTournament(tournament);
             finalWinner.setGroup(group);
-            int count = tournamentParticipantRepository.getCount(tournament);
-            System.out.println("count = " + count);
-            finalWinner.setMatchNumber(count + 1);
+            finalWinner.setMatchNumber(currentCount + 1);
 
             //승리한 모임의 승리 횟수 증가
             int winCount = group.getWin();
@@ -272,6 +263,23 @@ public class TournamentService {
 
             groupRepository.save(group);
             tournamentRepository.save(tournament);
+            tournamentParticipantRepository.save(finalWinner);
+
+        }else if(currentCount < (tournament.getFormat()*2)-1){
+            //결과 기록
+            TournamentParticipant winner = tournamentParticipantRepository.findByGroupAndTournamentAndMatchNumber(group, tournament, matchNumber);
+            if (winner == null) {
+                throw new EntityNotFoundException("해당 참가자를 찾을 수 없습니다.");
+            }
+            winner.setScore(score);
+            winner.setMatchResult("승");
+            //다음 매치넘버 부여
+            TournamentParticipant participant = new TournamentParticipant();
+            participant.setTournament(tournament);
+            participant.setGroup(group);
+            participant.setMatchNumber(currentCount + 1);
+
+            tournamentParticipantRepository.save(participant);
         }else{
             throw new IllegalArgumentException("대회 종료");
         }

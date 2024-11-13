@@ -59,7 +59,7 @@ public class Tournaments{
 
     // User와의 ManyToOne 관계 설정
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = true)
     private User createdBy;
 
     // TournamentParticipant와의 OneToMany 관계 설정

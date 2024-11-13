@@ -55,5 +55,27 @@ public class User {
         this.updatedAt = LocalDateTime.now(); // 업데이트할 때마다 현재 시간을 설정
     }
 
+    @OneToMany(mappedBy = "createdBy")
+    private List<Groups> groups;
+
+    @OneToMany(mappedBy = "createdBy")
+    private List<Tournaments> tournaments;
+
+    // User가 삭제될 때 관련 GroupMember 삭제
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<GroupMember> groupMembers;
+
+    @PreRemove
+    public void preRemove() {
+        // Groups의 createdBy 필드를 null로 설정
+        for (Groups group : groups) {
+            group.setCreatedBy(null);
+        }
+
+        // Tournaments의 createdBy 필드를 null로 설정
+        for (Tournaments tournament : tournaments) {
+            tournament.setCreatedBy(null);
+        }
+    }
 
 }

@@ -2,6 +2,8 @@ package com.MeetingWeb.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,6 +18,7 @@ public class UserSelectCategory {
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE) // User 삭제 시 연관된 UserSelectCategory 자동 삭제
     private User user;
 
     @ManyToOne

@@ -56,7 +56,7 @@ public class Groups {
 
     // User와의 ManyToOne 관계 설정
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = true)
     private User createdBy;
 
 //   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -64,4 +64,7 @@ public class Groups {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GroupMember> groupMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<TournamentParticipant> participants = new ArrayList<>();
 }

@@ -4,6 +4,8 @@ import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.TournamentCategory;
 import com.MeetingWeb.Entity.Tournaments;
 import com.MeetingWeb.Entity.User;
+import com.MeetingWeb.Excption.ParticipantNotFoundException;
+import com.MeetingWeb.Excption.TournamentAlreadyCompletedException;
 import com.MeetingWeb.Repository.TournamentParticipantRepository;
 import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -99,9 +103,14 @@ public class TournamentController {
 
     //대회 참가 신청
     @PostMapping("/tournament/apply")
-    public String applyTournament(@RequestParam Long tournamentId, @RequestParam Long groupId) {
+    public String applyTournament(@RequestParam Long tournamentId, @RequestParam Long groupId,RedirectAttributes redirectAttributes) {
         // 서비스 메서드를 호출하여 대회 신청 처리
-        tournamentService.applyTournament(tournamentId, groupId);
+        try {
+            tournamentService.applyTournament(tournamentId, groupId);
+        }catch (NonUniqueResultException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/tournament/" + tournamentId;
+        }
         return "redirect:/tournament/" + tournamentId; // 신청 후 상세 페이지로 리다이렉트
     }
 
