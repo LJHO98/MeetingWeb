@@ -51,13 +51,6 @@ public class GroupController {
         return "group/createGroup";
     }
 
-    @GetMapping("/content")
-    public String getGroup(Model model) {
-        GroupDto groupDto = groupService.getGroupById(2L);
-        model.addAttribute("groupDto", groupDto);
-        return "group/viewContent";
-    }
-
     @GetMapping("/group/list")
     public String groupList(Model model,
                             @RequestParam(required = false) String keyword,
@@ -116,7 +109,7 @@ public class GroupController {
     @GetMapping("/group/myGroup")
     public String myGroupPage(Principal principal, Model model) {
         List<GroupDto> myGroup = groupService.getMyGroup(principal.getName());
-        List<GroupDto> myParticipatingGroup = groupService.getMyParticipatingGroup(principal.getName());
+        List<GroupDto> myParticipatingGroup = groupService.getMyParticipatingGroup(principal.getName(), myGroup);
 
         if (myGroup.isEmpty()) {
             model.addAttribute("myGroupMessage", "내가 만든 모임이 없습니다.");
@@ -142,6 +135,5 @@ public class GroupController {
         model.addAttribute("groupTournament", groupTournament);
         return "group/groupTournament";
     }
-
 
 }

@@ -44,4 +44,10 @@ public class MainController {
         return "introduce";
     }
 
+    // 랭킹
+    @GetMapping("/ranking")
+    public String ranking() {
+        return "ranking";
+    }
+
 }

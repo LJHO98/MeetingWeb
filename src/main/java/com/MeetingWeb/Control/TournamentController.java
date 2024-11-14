@@ -13,6 +13,7 @@ import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -68,25 +69,28 @@ public class TournamentController {
 
     // 대회 생성 요청 처리 메서드
     @PostMapping("/tournament/createTournament")
-    public String createTournament(@Valid TrnDto trnDto, Principal principal, RedirectAttributes redirectAttributes) {
+    public String createTournament(@Valid TrnDto trnDto, BindingResult bindingResult ,Principal principal, Model model) {
         String username = principal.getName();
         User createdBy = userService.findByUserName(username);
-            
-        // User 서비스에서 User 객체 조회
+
         try {
             // 대회 생성 호출
             tournamentService.createTournament(trnDto,createdBy);
-        } catch (SecurityException e) {
-            // 권한 부족 시 메시지 추가하고 /home으로 리다이렉트
-            redirectAttributes.addFlashAttribute("errorMessage", "대회를 생성할 권한이 없습니다.");
-            return "redirect:/home";
+        } catch (EntityNotFoundException e) {
+            // 권한 부족 시 메시지
+            model.addAttribute("errorMessage", e.getMessage());
+            return "home";
         } catch (Exception e) {
             // 다른 예외 처리 (필요 시)
-            redirectAttributes.addFlashAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
-            return "redirect:/home";
+            model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
+            return "tournament/createTournament";
         }
-        //return "redirect:/tournament/list"; // 성공 시 대회 목록으로 이동
-        return "redirect:/home";
+
+        if(bindingResult.hasErrors()){
+            return "tournament/createTournament";
+        }
+
+        return "redirect:/tournament/list"; // 성공 시 대회 목록으로 이동
     }
 
     //대회 상세 페이지

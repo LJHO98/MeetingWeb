@@ -18,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -196,10 +197,21 @@ public class GroupService {
     }
 
     //내가 가입한 모임
-    public List<GroupDto> getMyParticipatingGroup(String userName) {
+    public List<GroupDto> getMyParticipatingGroup(String userName, List<GroupDto> myGroup) {
         User user = userRepository.findByUserName(userName);
 
         List<Groups> myParticipatingGroup = groupRepository.findMyGroups(user);
+
+        Iterator<Groups> it = myParticipatingGroup.iterator();
+
+        while(it.hasNext()){
+            Groups myPtGroup = it.next();
+            for(int k=0; k<myGroup.size(); k++){
+                if(myPtGroup.getGroupId() == myGroup.get(k).getGroupId()){
+                    it.remove();
+                }
+            }
+        }
 
         if (myParticipatingGroup.isEmpty()) {
             return Collections.emptyList(); // 내가 가입한 모임의 대회가 없는 경우 빈 리스트 반환

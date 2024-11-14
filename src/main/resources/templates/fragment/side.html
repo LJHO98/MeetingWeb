@@ -4,24 +4,26 @@
 
 
     <div th:fragment="side" id="side">
-        <div id="introduce" class="sidebar">
-            <a href="/introduce"><i class="bi bi-book"></i>소개</a>
-        </div>
+        <div>
+            <div id="introduce" class="sidebar">
+                <a href="/introduce"><i class="bi bi-book"></i>소개</a>
+            </div>
 
-        <div id="createGroup" class="sidebar">
-            <a href="/group/list"><i class="bi bi-people"></i>모임</a>
-        </div>
+            <div id="createGroup" class="sidebar">
+                <a href="/group/list"><i class="bi bi-people"></i>모임</a>
+            </div>
 
-        <div id="createTournament" class="sidebar">
-            <a href="/tournament/list"><i class="bi bi-fire"></i>대회</a>
-        </div>
+            <div id="createTournament" class="sidebar">
+                <a href="/tournament/list"><i class="bi bi-fire"></i>대회</a>
+            </div>
 
-        <div id="ranking" class="sidebar">
-            <a href=""><i class="bi bi-trophy"></i>랭킹</a>
-        </div>
+            <div id="ranking" class="sidebar">
+                <a href="/ranking"><i class="bi bi-trophy"></i>랭킹</a>
+            </div>
 
-        <div sec:authorize="hasRole('ADMIN')" id="adminPage" class="sidebar">
-            <a href="/admin/main"><i class="bi bi-gear">관리자 페이지</i></a>
+            <div sec:authorize="hasRole('ADMIN')" id="adminPage" class="sidebar">
+                <a href="/admin/main"><i class="bi bi-gear">관리자 페이지</i></a>
+            </div>
         </div>
 
         <div id="helpline" class="sidebar">

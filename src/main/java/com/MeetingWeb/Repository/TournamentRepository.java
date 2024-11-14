@@ -24,13 +24,14 @@ public interface TournamentRepository extends JpaRepository<Tournaments, Long> {
     @Query("SELECT e FROM Tournaments e WHERE e.id NOT IN :excludedIds")
     List<Tournaments> findAllExcludingIds(@Param("excludedIds") List<Long> excludedIds);
 
+    //모임 검색 기능
     @Query("SELECT t FROM Tournaments t " +
             "WHERE (:categoryId IS NULL OR t.category.tournamentCategoryId = :categoryId) " +
             "AND (:inputText IS NULL OR t.title LIKE %:inputText% OR t.description LIKE %:inputText%)")
     List<Tournaments> searchByCategoryAndText(@Param("categoryId") Long categoryId,
                                               @Param("inputText") String inputText);
 
-
+    //유저가 가입한 모임이 참여하는 대회 조회
     @Query("select t from Tournaments t, TournamentParticipant tp ,Groups g,GroupMember gm where gm.user= :user and g.groupId=gm.group.groupId and tp.group.groupId=g.groupId and t.id=tp.tournament.id GROUP BY tp.tournament.id")
     List<Tournaments> findTournamentsByUser(@Param("user") User user);
 

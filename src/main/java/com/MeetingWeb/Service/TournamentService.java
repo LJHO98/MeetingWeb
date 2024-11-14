@@ -181,11 +181,6 @@ public class TournamentService {
     //내가 가입한 모임이 참가하는 대회
     public List<TrnDto> getMyGroupTournament(String userName, List<TrnDto> myTournament) {
         User user = userRepository.findByUserName(userName);
-        List<Tournaments> tournaments = tournamentRepository.findByCreatedBy(user);
-
-        List<Long> myCreateTournaments = tournaments.stream()
-                .map(Tournaments::getId)
-                .collect(Collectors.toList());
 
         List<Tournaments> myGroupTournament = tournamentRepository.findTournamentsByUser(user);
         Iterator<Tournaments> it = myGroupTournament.iterator();

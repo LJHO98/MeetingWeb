@@ -99,9 +99,10 @@ public class TrnDto {
         return endDate != null && startDate != null && endDate.isAfter(startDate);
     }
 
-    @AssertTrue(message = "대회 시작일은 접수 시작일 이후여야 하며, 두 날짜 모두 필수 입력입니다.")
+    @AssertTrue(message = "대회 시작일은 접수 마감일 이후여야 하며, 두 날짜 모두 필수 입력입니다.")
     public boolean isStartDateValid() {
         // 두 날짜가 모두 null이 아니어야 하고, startDate는 receiptStart 이후여야 유효
-        return startDate != null && receiptStart != null && startDate.isAfter(receiptStart);
+        return startDate != null && receiptEnd != null && startDate.isAfter(receiptEnd);
     }
+
 }
