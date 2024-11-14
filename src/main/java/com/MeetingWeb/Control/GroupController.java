@@ -1,9 +1,6 @@
 package com.MeetingWeb.Control;
 
-import com.MeetingWeb.Dto.GroupApplicationDto;
-import com.MeetingWeb.Dto.GroupCategoryDto;
-import com.MeetingWeb.Dto.GroupDto;
-import com.MeetingWeb.Dto.TrnDto;
+import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Repository.UserRepository;
 import com.MeetingWeb.Service.GroupService;

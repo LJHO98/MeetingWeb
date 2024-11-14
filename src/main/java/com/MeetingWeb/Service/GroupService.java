@@ -43,7 +43,9 @@ public class GroupService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + groupDto.getCategory()));
 
         Groups group = groupDto.toEntity(profileImageUrl, createdBy, groupCategory);
-        createdBy.setRole(Role.READER);
+        if(!createdBy.getRole().equals(Role.ADMIN)) {
+            createdBy.setRole(Role.READER);
+        }
         groupRepository.save(group);
 
         GroupMember groupMember = new GroupMember();
@@ -129,9 +131,8 @@ public class GroupService {
         return false;
     }
 
-    public GroupProfileDto getGroupProfile(Long createdBy) {
-        Groups group = groupRepository.findByCreatedById(createdBy)
-                .orElseThrow(() -> new IllegalArgumentException("해당 그룹을 찾을 수 없습니다. groupId: " + createdBy));
+    public GroupProfileDto getGroupProfile(Long groupId) {
+        Groups group = groupRepository.findByGroupId(groupId);
         return GroupProfileDto.of(group);
     }
 

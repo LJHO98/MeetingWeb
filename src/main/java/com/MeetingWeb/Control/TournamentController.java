@@ -11,6 +11,8 @@ import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +64,13 @@ public class TournamentController {
 
     // 대회 생성 폼을 보여주는 메서드
     @GetMapping("/tournament/createTournament")
-    public String createTournamentForm(Model model) {
+    public String createTournamentForm(Model model, Principal principal, RedirectAttributes redirectAttributes) {
+        if(!tournamentService.isGroupOwner(principal.getName())){
+            redirectAttributes.addFlashAttribute("errorMsg", "모임장만 대회 생성이 가능합니다. 모임을 먼저 만들어주세요.");
+            return "redirect:/tournament/list";
+        }
+        List<GroupDto> groupList = tournamentService.getMyGroupList(principal.getName());
+        model.addAttribute("groupList" ,groupList);
         model.addAttribute("trnDto", new TrnDto());
         model.addAttribute("categories",tournamentService.getTournamentCategories());
         return "tournament/createTournament";
@@ -69,25 +78,25 @@ public class TournamentController {
 
     // 대회 생성 요청 처리 메서드
     @PostMapping("/tournament/createTournament")
-    public String createTournament(@Valid TrnDto trnDto, BindingResult bindingResult ,Principal principal, Model model) {
-        String username = principal.getName();
-        User createdBy = userService.findByUserName(username);
-
+    public String createTournament(@Valid TrnDto trnDto, BindingResult bindingResult ,Principal principal, Model model, RedirectAttributes redirectAttributes) {
+        String userName = principal.getName();
+        if(bindingResult.hasErrors()){
+            model.addAttribute("categories", tournamentService.getTournamentCategories());
+            return "tournament/createTournament";
+        }
         try {
             // 대회 생성 호출
-            tournamentService.createTournament(trnDto,createdBy);
+            tournamentService.createTournament(trnDto,userName);
         } catch (EntityNotFoundException e) {
             // 권한 부족 시 메시지
-            model.addAttribute("errorMessage", e.getMessage());
-            return "home";
-        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect: /tournament/createTournament";
+        } catch (IllegalArgumentException e) {
             // 다른 예외 처리 (필요 시)
             model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
             return "tournament/createTournament";
-        }
-
-        if(bindingResult.hasErrors()){
-            return "tournament/createTournament";
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
         }
 
         return "redirect:/tournament/list"; // 성공 시 대회 목록으로 이동
@@ -97,7 +106,7 @@ public class TournamentController {
     @GetMapping("/tournament/{tournamentId}")
     public String tournamentInfo(@PathVariable Long tournamentId , Model model, Principal principal) {
         TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
-        GroupProfileDto groupProfileDto = groupService.getGroupProfile(trnDto.getCreatedBy());
+        GroupProfileDto groupProfileDto = groupService.getGroupProfile(trnDto.getGroupId());
         List<GroupDto> groupDtoList = tournamentService.getMyGroupList(principal.getName());
         model.addAttribute("groupList", groupDtoList);
         model.addAttribute("tournament", trnDto);
@@ -126,7 +135,7 @@ public class TournamentController {
         // 뷰 페이지에 전달
         model.addAttribute("participantList", participantList);
         TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
-        GroupProfileDto groupProfileDto = groupService.getGroupProfile(trnDto.getCreatedBy());
+        GroupProfileDto groupProfileDto = groupService.getGroupProfile(trnDto.getGroupId());
         List<GroupDto> groupDtoList = tournamentService.getMyGroupList(principal.getName());
         model.addAttribute("groupList", groupDtoList);
         model.addAttribute("tournament", trnDto);

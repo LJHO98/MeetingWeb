@@ -1,5 +1,6 @@
 package com.MeetingWeb.Service;
 
+import com.MeetingWeb.Constant.Role;
 import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.*;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NonUniqueResultException;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ public class TournamentService {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final TournamentParticipantRepository tournamentParticipantRepository;
+    private final UserService userService;
 
     //대회 카테고리 가져오기
     public List<TournamentCategoryDto> getTournamentCategories() {
@@ -33,28 +36,15 @@ public class TournamentService {
                 .collect(Collectors.toList());
     }
 
-//    private boolean hasLeaderRole() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null) {
-//            return false;
-//        }
-//
-//        // for 루프를 사용하여 권한 확인
-//        for (GrantedAuthority authority : authentication.getAuthorities()) {
-//            if (authority.getAuthority().equals("ROLE_LEADER")) {
-//                return true;  // ROLE_LEADER 권한이 있는 경우 true 반환
-//            }
-//        }
-//        return false;  // ROLE_LEADER 권한이 없는 경우 false 반환
-//    }
-
     //대회 만들기
     @Transactional
-    public void createTournament(TrnDto trnDto, User createdBy) throws Exception {
+    public void createTournament(TrnDto trnDto, String userName) throws IOException {
         TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
 
-        Groups group = groupRepository.findByCreatedById(createdBy.getId())
+        User createdBy = userRepository.findByUserName(userName);
+
+        Groups group = groupRepository.findById(trnDto.getGroupId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
 
         String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
@@ -82,6 +72,9 @@ public class TournamentService {
 
     }
 
+    //대회 수정하기
+
+
     //대회 목록 조회(내림차순)
     public List<TrnDto> getTournamentList() {
         List<Tournaments> tournamentsList = tournamentRepository.findAllByOrderByCreatedAtDesc();
@@ -103,7 +96,8 @@ public class TournamentService {
         return tournament.map(TrnDto::of).orElse(null);
     }
 
-    //신청 가능한 모임 목록
+
+    //대회 신청 가능한 모임 목록
     public List<GroupDto> getMyGroupList(String userName) {
         User user = userRepository.findByUserName(userName);
         List<Groups> groups = groupRepository.findByCreatedBy(user);
@@ -141,6 +135,7 @@ public class TournamentService {
             throw new NonUniqueResultException("이미 해당 대회에 신청했거나 대회가 신청이 가능한 상태가 아닙니다.");
         }
     }
+
 
     //참가 모임(대회진행을 위한 리스트)
     public List<TournamentParticipantDto> getParticipantList(Long tournamentId) {
@@ -312,6 +307,10 @@ public class TournamentService {
         tournamentRepository.deleteById(id);
     }
 
+    public boolean isGroupOwner(String name) {
+        User user = userService.findByUserName(name);
+        return user.getRole().equals(Role.READER);
+    }
 }
 
 

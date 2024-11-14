@@ -7,11 +7,18 @@
     <title>대회 목록</title>
 
   <link rel="stylesheet" href="/css/tournament/tournamentList.css">
-
+  <script>
+      $(document).ready(function () {
+          const errorMsg = $('.errorMsg').val();
+          if (errorMsg) {
+              alert(errorMsg);
+          }
+      });
+    </script>
 </head>
 
 <div layout:fragment="body" id="tournamentListMain">
-
+    <input type="hidden" class="errorMsg" name="errorMsg" th:value="${errorMsg}">
     <div id="textBox">
         <p id="tournamentListText"><span class="highlight">대회 목록</span></p>
         <p id="tournamentCreateText"><a href="/tournament/createTournament">대회 만들기</a></p>

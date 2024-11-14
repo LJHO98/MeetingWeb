@@ -16,8 +16,11 @@ public interface GroupRepository extends JpaRepository<Groups, Long> {
     List<Groups> findAllByOrderByCreatedAtDesc();
     List<Groups> findByCategoryIn(List<GroupCategory> categories);
 
+    //만드사람 userId로 모임 찾기
     Optional<Groups> findByCreatedById(Long id);
-    //모임카테고리에 있는 카테고리명 모임리스트에서 전부 가져오기
+
+
+    //만든사람 객체로 모임 찾기
     List<Groups> findByCreatedBy(User user);
 
     @Query("SELECT gm.group FROM GroupMember gm WHERE gm.user = :user")

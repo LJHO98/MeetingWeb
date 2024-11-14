@@ -58,11 +58,13 @@
         <div class="inputBox">
             <label th:for="title">대회 이름</label>
             <input type="text" th:field="*{title}" required/><br>
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="description">내용</label>
             <textarea id="description" th:field="*{description}"></textarea><br>
+            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
@@ -71,28 +73,34 @@
                 <div th:each="tournamentCategory : ${categories}">
                     <input type="radio" th:field="*{category}" th:value="${tournamentCategory.getTournamentCategoryId()}">
                     <span th:text="${tournamentCategory.category}"></span>
+
                 </div>
             </div>
+            <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="receipStart">접수 시작</label>
             <input type="datetime-local" th:field="*{receiptStart}" required/><br>
+            <p th:if="${#fields.hasErrors('receiptStart')}" th:errors="*{receiptStart}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="receipEnd">접수 종료</label>
             <input type="datetime-local" th:field="*{receiptEnd}" required/><br>
+            <p th:if="${#fields.hasErrors('receiptEnd')}" th:errors="*{receiptEnd}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="startDate">대회 시작</label>
             <input type="datetime-local" th:field="*{startDate}" required/><br>
+            <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
             <label th:for="endDate">대회 종료</label>
             <input type="datetime-local" th:field="*{endDate}" required/><br>
+            <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="errorMsg" style="color:red;"></p>
         </div>
 
         <div class="inputBox">
@@ -102,7 +110,20 @@
                 <option value="8">8강</option>
                 <option value="16">16강</option>
             </select>
+            <p th:if="${#fields.hasErrors('format')}" th:errors="*{format}" class="errorMsg" style="color:red;"></p>
         </div>
+
+
+        <div id="groupList">
+            <label th:for="group">대회 대상 모임</label>
+            <select name="groupId" class="group-select">
+                <option value="">모임을 선택하세요</option>
+                <th:block th:each="group : ${groupList}">
+                    <option th:value="${group.groupId}" th:text="${group.name}">모임 이름</option>
+                </th:block>
+            </select>
+        </div>
+
 
         <!-- 생성자 ID (hidden field) -->
         <input type="hidden" th:field="*{createdBy}"/><br>

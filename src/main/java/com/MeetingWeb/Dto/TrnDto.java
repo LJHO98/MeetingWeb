@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,32 +18,71 @@ import java.util.List;
 @Setter
 public class TrnDto {
     private Long tournamentId;
+
+    //대회 대표 이미지
     private MultipartFile tournamentImg;
+
+    //대회 대표 이미지 주소
     private String tournamentImgUrl;
+
+    //대회 제목
+    @NotNull(message = "제목은 필수 입력입니다.")
     private String title;
+
+    //대회 설명
+    @NotNull(message = "대회 설명은 필수 입력입니다.")
     private String description;
+
+    //카테고리 아이디
+    @NotNull(message = "카테고리는 필수 선택입니다.")
     private Long category;
+
+    //카테고리 이름
     private String categoryName;
+
+    //정원
     private int capacity;
 
+    //모임 아이디
+    private Long groupId;
+
+    //접수 시작일
     @NotNull
     @FutureOrPresent(message = "접수시작일은 현재 이후 날짜(시간)여야 합니다.(제출 완료되는 시점이 현재입니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime receiptStart;
+
+    //접수 마감일
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime receiptEnd;
+
+    //대회 시작일
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDate;
+
+    //대회 마감일
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
+
+    //대회 상태
     private TournamentStatus status;
+
+    //대회 방식
+    @NotNull(message = "경기 방식 선택은 필수입니다.")
     private int format;
+
+
     private List<String> imgList;
+
+    //만든 사람 아이디
     private Long createdBy;
+
     private Long created;
+
+    //만든 사람 이름
     private String organizer;
 
 
@@ -82,6 +122,7 @@ public class TrnDto {
         trnDto.capacity = tournaments.getCapacity();
         trnDto.createdBy = tournaments.getCreatedBy().getId();
         trnDto.organizer = tournaments.getCreatedBy().getName();
+        trnDto.groupId = tournaments.getGroup().getGroupId();
 
         return trnDto;
 
