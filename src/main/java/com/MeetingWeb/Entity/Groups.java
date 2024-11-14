@@ -31,8 +31,6 @@ public class Groups {
     private String location;
     @Enumerated(EnumType.STRING)
     private Gender genderPreference;
-//    private Integer minAge;
-//    private Integer maxAge;
     @Enumerated(EnumType.STRING)
     private RegistType registrationType;
     private Integer currentHeadCount = 0;
@@ -58,9 +56,6 @@ public class Groups {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "user_id", nullable = true)
     private User createdBy;
-
-//   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-//   private List<GroupDescriptionImg> descriptionImages;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GroupMember> groupMembers = new ArrayList<>();

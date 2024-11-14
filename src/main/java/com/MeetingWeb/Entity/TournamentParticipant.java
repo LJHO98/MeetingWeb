@@ -2,6 +2,8 @@ package com.MeetingWeb.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,10 +18,12 @@ public class TournamentParticipant {
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Tournaments tournament;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Groups group;
 
     private int matchNumber;

@@ -45,15 +45,13 @@ public class GroupService {
         createdBy.setRole(Role.READER);
         groupRepository.save(group);
 
+        GroupMember groupMember = new GroupMember();
+        groupMember.setGroup(group);
+        groupMember.setUser(createdBy);
+        groupMemberRepository.save(groupMember);
 
-//        if (groupDto.getDescriptionImageUrls() != null) {
-//            for (String url : groupDto.getDescriptionImageUrls()) {
-//                GroupDescriptionImg img = new GroupDescriptionImg();
-//                img.setImgUrl(url);
-//                img.setGroup(group);
-//                groupDescriptionRepository.save(img);
-//            }
-//        }
+
+
         return groupDto;
     }
 
