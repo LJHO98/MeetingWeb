@@ -17,16 +17,15 @@ $(document).off('click', '#listIcon').on('click', '#listIcon', function() {
 });
 
 
-function confirmDelete() {
-    // 서버에서 user role을 가져와서 확인
+function userConfirmDelete() {
 
-    // const userRole = $("#userRole").val();
-    //
-    // // 작동안함 왜 ? 나중에 확인 !!
-    // if (userRole.val() === "ADMIN") {
-    //     alert("관리자 아이디는 삭제하실 수 없습니다.");
-    //     return false; // 폼 제출 막기
-    // }
     return confirm("정말로 이 유저를 삭제하시겠습니까?");
 }
+function groupConfirmDelete() {
 
+    return confirm("정말로 이 그룹을 삭제하시겠습니까?");
+}
+function tournamentConfirmDelete() {
+
+    return confirm("정말로 이 대회를 삭제하시겠습니까?");
+}

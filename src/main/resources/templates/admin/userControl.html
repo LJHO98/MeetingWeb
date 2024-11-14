@@ -42,7 +42,7 @@
             <td th:text="${user.createdAt}"></td>
             <td><!-- 삭제용 Form -->
                 <!-- ADMIN이 아닌 경우에만 삭제 버튼을 보여주기 -->
-                <form action="/users/delete" method="POST" onsubmit="return confirmDelete()" >
+                <form action="/users/delete" method="POST" onsubmit="return userConfirmDelete()" >
                     <input type="hidden" name="userId" th:value="${user.id}">
 <!--                    <input type="hidden" name="userRole" id="userRole" th:value="${user.role}">-->
                     <button id="deleteBt" type="submit">삭제</button>

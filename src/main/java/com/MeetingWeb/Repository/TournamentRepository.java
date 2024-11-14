@@ -38,5 +38,9 @@ public interface TournamentRepository extends JpaRepository<Tournaments, Long> {
     //모임이 참가하는 대회 정보 조회
     @Query("SELECT DISTINCT tp.tournament FROM TournamentParticipant tp WHERE tp.group = :group")
     List<Tournaments> findDistinctTournamentsByGroup(@Param("group") Groups group);
+
+    // 전체 회원 수 카운트
+    @Query("SELECT COUNT(t) FROM Tournaments t")
+    long countTotalTournaments();
 }
 

@@ -11,46 +11,103 @@
 
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
+    <style>
+        /* 전체 레이아웃을 flexbox로 설정 */
+        #main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 도넛 차트 영역 */
+        .gender-chart-container {
+            width: 50%; /* 화면 왼쪽 절반 */
+            margin-bottom: 30px;
+        }
+
+        /* Line 차트 영역 */
+        .line-chart-container {
+            width: 100%; /* 하단에 차지하도록 */
+            max-width: 800px; /* 최대 폭을 설정 */
+        }
+
+        /* 차트 크기 설정 */
+        canvas {
+            width: 100% !important; /* 캔버스 너비를 100%로 설정 */
+            height: auto !important; /* 자동 높이 설정 */
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="body" id="main">
-    <h1>가입 회원 수 차트</h1>
-    <div>
-        <canvas id="userChart" width="400" height="200"></canvas>
+    <h1>전체 회원 수 차트</h1>
+
+    <div class="gender-chart-container">
+        <canvas id="genderChart" width="300" height="300"></canvas>
+
     </div>
 
-    <script>
-        const ctx = document.getElementById('userChart').getContext('2d');
+    <div class="line-chart-container">
+        <canvas id="myChart" width="800" height="300"></canvas>
+    </div>
+    <div id="totalWrap">
+        <h1>전체 회원 수: <span th:text="${totalUserCount}"></span></h1>
+        <h1>전체 대회 수: <span th:text="${totalTournaments}"></span></h1>
+    </div>
 
-        new Chart(ctx, {
-            type: 'line',
+
+
+
+
+    <script th:inline="javascript">
+        let maleCount = [[${maleCount}]];
+        let femaleCount = [[${femaleCount}]];
+        let noneCount = [[${noneCount}]];
+        // 도넛 차트 데이터 설정
+        let ctx = document.getElementById('genderChart').getContext('2d');
+        let genderChart = new Chart(ctx, {
+            type: 'doughnut',
             data: {
-                labels: /*[[${years}]]*/, // 서버에서 전달받은 연도 리스트
+                labels: ['남성', '여성', '선택안함'], // 차트 레이블
                 datasets: [{
-                    label: '가입 회원 수',
-                    data: /*[[${counts}]]*/,  // 서버에서 전달받은 가입 회원 수 리스트
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    data: [maleCount, femaleCount, noneCount], // 각 성별별 사용자 수
+                    backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'], // 색상 설정
+                    hoverBackgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'] // 호버 시 색상 설정
                 }]
             },
             options: {
-                indexAxis: 'y',  // 수평선 차트로 설정
-                responsive: true,
-                scales: {
-                    x: {
-                        beginAtZero: true
+                responsive: true, // 반응형 차트
+                plugins: {
+                    legend: {
+                        position: 'top', // 범례 위치
                     },
-                    y: {
-                        beginAtZero: true
+                    tooltip: {
+                        enabled: true // 툴팁 활성화
                     }
                 }
             }
         });
+
+        let myCt = document.getElementById('myChart');
+        let labels = /*[[${monthLabels}]]*/[];
+        let data = /*[[${month}]]*/ [];
+
+        let myChart = new Chart(myCt, {
+            type: 'line',
+            data: {
+                labels:labels,
+                datasets: [
+                    {
+                        label: 'Dataset',
+                        data: data,
+                    }
+                ]
+            },
+        });
+
+
     </script>
+
 </div>
-
-
 </body>
-
 </html>

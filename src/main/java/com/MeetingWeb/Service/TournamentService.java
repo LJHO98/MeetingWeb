@@ -308,6 +308,9 @@ public class TournamentService {
                 .orElseThrow(() -> new EntityNotFoundException("대회 조회실패"));
         return tournament.getStatus().equals(TournamentStatus.IN_PROGRESS);
     }
+    public void deleteTournament(Long id){
+        tournamentRepository.deleteById(id);
+    }
 
 }
 

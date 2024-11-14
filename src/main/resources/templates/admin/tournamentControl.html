@@ -15,7 +15,37 @@
 </head>
 <body>
 <div layout:fragment="body" id="main">
+    <table border="1">
+        <thead>
+        <tr>
 
+            <th>대회번호</th>
+            <th>대회이름</th>
+            <th>생성 모임장</th>
+            <th>카테고리</th>
+            <th>대회 생성일</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- th:each로 users 리스트 반복 -->
+        <tr  th:each="tournaments : ${tournaments}" >
+            <td th:text="${tournaments.id}"></td>
+            <td th:text="${tournaments.title}"></td>
+            <td th:text="${tournaments.groupName}"></td>
+            <td th:text="${tournaments.category}"></td>
+            <td th:text="${tournaments.createdAt}"></td>
+            <td><!-- 삭제용 Form -->
+                <!-- ADMIN이 아닌 경우에만 삭제 버튼을 보여주기 -->
+                <form action="/tournaments/delete" method="POST" onsubmit="return tournamentConfirmDelete()" >
+                    <input type="hidden" name="tournamentsId" th:value="${tournaments.id}">
+                    <!--                    <input type="hidden" name="userRole" id="userRole" th:value="${user.role}">-->
+                    <button id="deleteBt" type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
 
 

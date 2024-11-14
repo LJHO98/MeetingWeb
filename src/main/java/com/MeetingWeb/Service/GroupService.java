@@ -218,6 +218,13 @@ public class GroupService {
                 .map(GroupDto::of)
                 .collect(Collectors.toList());
     }
+    public void deleteGroup(Long id){
+        if (groupRepository.existsById(id)) {
+            groupRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("해당 ID를 가진 그룹이 존재하지 않습니다.");
+        }
+    }
 
     public boolean isGroupOwner(Long userId, Long groupId) {//모임만든사람 찾기
         Groups group = groupRepository.findByGroupId(groupId);
