@@ -1,0 +1,83 @@
+/* groupBoard */
+#groupBoardMain{
+    width: 800px;
+    margin: 50px auto;
+}
+
+#groupBoardWrap{
+    width: 100%;
+    padding: 70px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#home{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#board{
+    font-size: 33px;
+    font-family: 'NanumSquareAceb';
+    color: #353535;
+    height: 50px;
+    padding-top: 5px;
+}
+
+#chat{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#groupTournament{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#admin{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#board a:hover, #chat a:hover, #groupTournament a:hover, #admin:hover{
+    font-weight: 600;
+}
+
+#noticeWrap{
+    width: 100%;
+    margin-bottom: 70px;
+}
+
+#noticeText{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 25px;
+    font-family: 'NanumSquareAcr';
+    gap: 10px;
+}
+
+#noticeText i{
+    font-size: 25px;
+    padding: 0;
+}
+
+#noticeBox{
+
+}
+
+#postWrap{
+    padding-top: 70px;
+    border-top: 1px solid #aaa;
+}

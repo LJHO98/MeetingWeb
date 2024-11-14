@@ -1,64 +1,10 @@
-/* participantList */
-a{
-    color: inherit;
-}
-
-a:hover{
-    color: inherit;
-    text-decoration: none;
-}
-
-#header a{
-    color: #db5af5;
-    text-display: none;
-}
-
-#logo{
-    animation: shimmer 1s infinite alternate;
-}
-
-@keyframes shimmer {
-    0% {
-        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
-    }
-    50% {
-        text-shadow: 0 0 20px #e68df8, 0 0 40px #ffffff, 0 0 60px #ffffff;
-    }
-    100% {
-        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
-    }
-}
-
-#side {
-    border: none;
-    background: linear-gradient(to right, rgba(217, 65, 140, 0.8), rgba(110, 47, 199, 0.6));
-    color: #fff;
-}
-
-.sidebar{
-    color: #fff;
-}
-
-.sidebar i{
-    color: #fff;
-}
-
-.sidebar a{
-    display: inline-block;
-    transition: all 0.2s ease;
-}
-
-.sidebar a:hover {
-    color: #fff;
-    transform: scale(1.1);
-}
-
-#participantListMain{
+/* memberAdmin */
+#memberAdminMain{
     width: 800px;
     margin: 50px auto;
 }
 
-#info{
+#schedule{
     font-size: 23px;
     font-family: 'NanumSquareAcr';
     color: #868686;
@@ -66,7 +12,7 @@ a:hover{
     padding-top: 15px;
 }
 
-#matchingList{
+#application{
     font-size: 23px;
     font-family: 'NanumSquareAcr';
     color: #868686;
@@ -74,7 +20,7 @@ a:hover{
     padding-top: 15px;
 }
 
-#participatingGroup{
+#member{
     font-size: 33px;
     font-family: 'NanumSquareAceb';
     color: #353535;
@@ -82,7 +28,20 @@ a:hover{
     padding-top: 5px;
 }
 
-#participantListWrap{
+#exit{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#application a:hover, #schedule a:hover, #exit a:hover{
+    font-weight: 600;
+}
+
+/* main */
+#memberAdminWrap{
     width: 100%;
     padding: 70px;
     display: flex;
@@ -90,9 +49,9 @@ a:hover{
     gap: 40px;
 }
 
-#participantBox{
+#memberBox{
     width: calc((100% - 40px) / 2);
-    background: linear-gradient(to right, rgba(217, 65, 140, 0.5), rgba(128, 65, 217, 0.5));
+    background: linear-gradient(to right, rgb(226 248 76 / 50%), rgb(106 253 75 / 50%));
     border-radius: 20px;
     padding: 15px;
     display: flex;
@@ -100,21 +59,14 @@ a:hover{
     box-shadow: 0 9px 7px -1px rgba(51, 51, 51, 0.23);
     transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
     cursor: pointer;
-    height: 100px;
 }
 
-#participantBox a{
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-#participantBox:hover{
+#memberBox:hover{
     transform: scale(1.05);
     box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
 }
 
-#participantImg{
+#memberImg{
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -123,7 +75,7 @@ a:hover{
     position:relative;
 }
 
-#participantImg img{
+#memberImg img{
     position: absolute;
     top: 50%; /* 부모 div 중심으로 위치 */
     left: 50%;
@@ -133,10 +85,30 @@ a:hover{
     object-fit: cover; /* 부모 div를 기준으로 꽉 채우기 */
 }
 
-#participantBox span{
+#memberDetail{
+    width: 100%;
+}
+
+#memberBox span{
     font-size: 18px;
-    color: #fff;
+    color: #4C4C4C;
     font-family: 'NanumSquareBold';
     letter-spacing: 1px;
-    align-self: center;
+}
+
+#memberBt{
+    width: 100%;
+    display: flex;
+    padding-top: 5px;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.delegate, .kick{
+    padding: 3px 13px;
+    font-family: 'NanumSquareAcr';
+    border-radius: 7px;
+    background: #fff;
+    border: 1px solid #aaa;
+    color: #8C8C8C;
 }

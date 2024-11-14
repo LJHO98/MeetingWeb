@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>랭킹</title>
+
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <link rel="stylesheet" href="/css/ranking.css">
+</head>
+
+<div layout:fragment="body" id="rankingMain">
+
+    <div id="rankingText">랭킹</div>
+
+    <div id="rankingWrap">
+        <div class="rankingBox">
+            <a href="">
+                <div class="num"><div id="img1"></div></div>
+                <div class="rankingImg"><div id="img2"></div></div>
+                <div class="rankingName">선화동 배드민턴</div>
+                <div class="rankingCategory">스포츠</div>
+                <div class="winCount">52</div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+</html>

@@ -7,8 +7,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <style>
         .tournament {
+
             display: flex;
-            justify-content: space-around;
+            column-gap: 100px;
             padding: 20px;
             align-items: center;
         }
@@ -24,13 +25,12 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            margin: 20px 0;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #f8f9fa;
-            width: 100px;
             text-align: center;
+
         }
         .team img {
             width: 50px;
@@ -57,47 +57,7 @@
 </form>
 <!-- 대진표 동적 생성 -->
 <div class="tournament">
-    <div class="participatingBox quarterfinals">
-        <div th:each="participant, stat : ${groupList}"
-             th:if="${stat.index < trnDto.format}"
-             class="team quarterfinals"
-             th:data-num="${stat.index}">
-            <img th:src="${participant.profileImgUrl}">
-            <span th:attr="data-id=${participant.groupId}, data-match=${participant.matchNumber}"
-                  th:text="${participant.name}"></span>
-        </div>
-    </div>
-    <div class="participatingBox semifinals">
-        <div th:each="participant, stat : ${groupList}"
-             th:if="${stat.index >= trnDto.format && stat.index < trnDto.format + (trnDto.format / 2)}"
-             class="team semifinals"
-             th:data-num="${stat.index}">
-            <img th:src="${participant.profileImgUrl}">
-            <span th:attr="data-id=${participant.groupId}, data-match=${participant.matchNumber}"
-                  th:text="${participant.name}"></span>
-        </div>
 
-    </div>
-    <div class="participatingBox final">
-        <div th:each="participant, stat : ${groupList}"
-             th:if="${stat.index >= trnDto.format + (trnDto.format / 2) && stat.index < trnDto.format + (trnDto.format * 3 / 4)}"
-             class="team final"
-             th:data-num="${stat.index}">
-            <img th:src="${participant.profileImgUrl}">
-            <span th:attr="data-id=${participant.groupId}, data-match=${participant.matchNumber}"
-                  th:text="${participant.name}"></span>
-        </div>
-    </div>
-    <div class="participatingBox winner">
-        <div th:each="participant, stat : ${groupList}"
-             th:if="${stat.index >= trnDto.format + (trnDto.format * 3 / 4)}"
-             class="team winner"
-             th:data-num="${stat.index}">
-            <img th:src="${participant.profileImgUrl}">
-            <span th:attr="data-id=${participant.groupId}, data-match=${participant.matchNumber}"
-                  th:text="${participant.name}"></span>
-        </div>
-    </div>
 </div>
 
 <div> <!-- 경기결과 모달 -->
@@ -134,6 +94,8 @@
 
 
 <script th:inline="javascript">
+
+
     var groupList = /*[[${groupList}]]*/[];
     groupList = groupList.map(group => {
         return {
@@ -143,27 +105,129 @@
     });
 
     var gang=/*[[${trnDto.format}]]*/[];
-    console.log(gang);
-    var pt=``;
-    var ft=gang;
-    for(var i in groupList) {
-        if(i==gang) {
-            var $ptbox = $('<div class="participatingBox"></div>');
-            $ptbox.append(pt);
-            ft = ft/2;
-            gang = gang+ft;
-            $(".tournament").append($ptbox);
-            pt=``;
-        }
-        pt +=`<div class="team quarterfinals" data-num="${i}">
-            <img src="${groupList[i].profileImg}">
+    var depth=new Array();
+    do{
+        depth.push({라운드:gang,풀:0});
+        gang/=2;
+    }while(gang>=1);
+
+    gang=/*[[${trnDto.format}]]*/[];
+
+    // 아래 세가지 만 변경 가능!!!!!
+    var team_width=160; // 모임 너비
+    var team_height=120;// 모임 높이
+    var wadd=0; // 라운드별 간격 조절용 변수 ! 이것만 변경!!!!
+
+
+    var line_depth = [team_height/4, team_height, team_height*2+team_height/2,team_height*5+team_height/2];
+    console.log(line_depth);
+    for(var i in groupList){
+        var $d=$(`<div class="team quarterfinals" data-num="${i}">
+            <img src="${groupList[i].profileImgUrl}">
             <span data-id="${groupList[i].groupId}" data-match="${groupList[i].matchNumber}">${groupList[i].name}</span>
-            <span>${groupList[i].score}</span>
-        </div>`;
+            <span class='score'>${groupList[i].score}</span>
+        </div>`);
+        $d.css({"width":team_width,"height":team_height});
+        $(".tournament").append($d);
     }
-    var $ptbox = $('<div class="participatingBox"></div>');
-    $ptbox.append(pt);
-    $(".tournament").append($ptbox);
+
+    var hg=h=100; // top 값
+    var hinc=team_height+team_height/2; // top 증가 값  .team의  높이에 따라 변해야 되는값
+    var depth_hinc=team_height/2+team_height/4; // 라운드마다 top 시작 위치 증가값
+    var w=20; //라운드 간격
+    var tp=0; //모임영역 인덱스
+    var line_width=4;
+
+
+    for(var i in depth){
+        var k=1;
+        for(; k<=depth[i].라운드; k++){
+            if( tp == $(".team").length) break;
+            $(".team").eq(tp).css("position","absolute");
+            $(".team").eq(tp).css("top",hg);
+            $(".team").eq(tp++).css("left",w);
+            depth[i].풀++;
+            console.log(tp+" "+depth[i].라운드);
+            hg+=hinc;
+        }
+        // if( tp == $(".team").length && k-1!=depth[i].라운드) break;
+        // depth[i].풀=1;
+        if(i!=0) depth_hinc=depth_hinc*2;
+        hg=h=h+depth_hinc;
+        hinc *=2;
+        w+=(team_width*2)+wadd; // 라운드별 간격 조절시 현재 계산식에  늘리고 싶은만큼 + 하기
+    }
+    console.log(depth);
+
+    if(gang < $(".team").length){
+        var end=0;
+        var i=0;
+        for(var di=1; di<depth.length &&depth[di].풀!=0; di++){
+            end+=depth[di].풀*2;
+            console.log(di);
+            for(; i< end; i++){
+                var left = $(".team").eq(i-1);
+                var left_offset=left.offset();
+                var right=$(".team").eq(i);
+                var right_offset=right.offset();
+                // for(var k=1; k<=2; k++){
+                line_make(i,di-1);
+                //}
+                if(i%2==0){
+                    var $line4 = $(`<div class='line_dp'></div>`);
+                    $line4.css("width",(team_width/2)+(wadd/2)+line_width+"px");  //  위에  라운드별 간격에 추가 한값의
+                    $line4.css("border",line_width/2+"px solid red");
+                    $line4.css("position","absolute");
+                    $line4.css("top",$(".team").eq(i).offset().top+($(".team").outerHeight())+line_depth[di-1]-2);
+                    $line4.css("left",$(".team").eq(i).offset().left+$(".team").outerWidth()+team_width/2-line_width+(wadd/2));
+                    $(".tournament").append($line4);
+                }
+            }
+        }
+    }
+
+    function line_make(idx,depth_idx){
+        var line_color="black";
+
+        var $line = $(`<div class='line_dp'></div>`);
+        $line.css("width",(team_width/2)+(wadd/2)+"px");
+        $line.css("height",((team_height/2+team_height/4)*(2**depth_idx))+"px");
+        $line.css("position","absolute");
+        if(idx%2==0){
+            if($(".team").eq(idx).find(".score").text() > $(".team").eq(idx+1).find(".score").text()) line_color="red";
+            $line.css({"border-top":line_width+"px solid "+line_color,"border-right":line_width+"px solid "+line_color });
+            $line.css("top",$(".team").eq(idx).offset().top+($(".team").outerHeight()/2)-2);
+        }else{
+            if($(".team").eq(idx).find(".score").text() > $(".team").eq(idx-1).find(".score").text()) line_color="red";
+            $line.css({"border-bottom":"4px solid "+line_color,"border-right":"4px solid "+line_color});
+            $line.css("top",$(".team").eq(idx).offset().top-(line_depth[depth_idx]));
+            console.log("bbb  "+line_depth)
+        }
+
+        $line.css("left",$(".team").eq(idx).offset().left+$(".team").width()+22);
+        $(".tournament").append($line);
+    }
+
+    // var pt=``;
+    // var ft=gang;
+    // for(var i in groupList) {
+    //     if(i==gang) {
+    //         var $ptbox = $('<div class="participatingBox"></div>');
+    //         $ptbox.append(pt);
+    //         ft = ft/2;
+    //         gang = gang+ft;
+    //         $(".tournament").append($ptbox);
+    //         pt=``;
+    //     }
+    //     pt +=`<div class="team quarterfinals" data-num="${i}">
+    //         <img src="${groupList[i].profileImg}">
+    //         <span data-id="${groupList[i].groupId}" data-match="${groupList[i].matchNumber}">${groupList[i].name}</span>
+    //         <span>${groupList[i].score}</span>
+    //     </div>`;
+    // }
+    // var $ptbox = $('<div class="participatingBox"></div>');
+    // $ptbox.append(pt);
+    // $(".tournament").append($ptbox);
 
     $(".team").on("click", function() {
         var aNum = $(this).data("num") + 1;

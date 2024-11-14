@@ -1,0 +1,41 @@
+/* groupAdmin */
+#groupAdminMain{
+    width: 800px;
+    margin: 50px auto;
+}
+
+#schedule{
+    font-size: 33px;
+    font-family: 'NanumSquareAceb';
+    color: #353535;
+    height: 50px;
+    padding-top: 5px;
+}
+
+#application{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#member{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#exit{
+    font-size: 23px;
+    font-family: 'NanumSquareAcr';
+    color: #868686;
+    height: 50px;
+    padding-top: 15px;
+}
+
+#application a:hover, #member a:hover, #exit a:hover{
+    font-weight: 600;
+}

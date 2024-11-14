@@ -23,10 +23,12 @@
 
     <div id="participantListWrap">
         <div id="participantBox" th:each="participant : ${participantList}">
-            <div id="participantImg">
-                <img th:src="${participant.profileImgUrl}" alt="프로필 이미지" />
-            </div>
-            <span th:text="${participant.name}">참가자 이름</span>
+            <a th:href="@{|/group/${participant.groupId}|}">
+                <div id="participantImg">
+                    <img th:src="${participant.profileImgUrl}" alt="프로필 이미지" />
+                </div>
+                <span th:text="${participant.name}">참가자 이름</span>
+            </a>
         </div>
     </div>
 

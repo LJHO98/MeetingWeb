@@ -1,4 +1,4 @@
-/* groupTop */
+/* groupAdminTop */
 *{
     padding: 0;
     margin: 0;
@@ -23,8 +23,6 @@ a:hover {
     color: #86E57F;
     position: relative;
 }
-
-/* main */
 
 #groupTop{
     width: 100%;
@@ -114,7 +112,7 @@ a:hover {
     height: 60px;
 }
 
-#approvalBt, #freeBt{
+#secession{
     position: absolute;
     right: 10px;
     bottom: 10px;
@@ -133,64 +131,7 @@ a:hover {
     letter-spacing: 1px;
 }
 
-#approvalBt:hover, #freeBt:hover {
+#secession:hover{
     background: linear-gradient(145deg, #dcdcdc, #aba4af); /* 호버 시 그라데이션 반전 */
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.6); /* 입체감 증가 */
-}
-
-/*.modal-dialog{*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-.modal-content{
-    width: 600px;
-    border-radius: 10px;
-}
-
-.modal-header{
-    border: none;
-    font-family: 'NanumSquareAceb';
-    color: #353535;
-}
-
-.modal-title{
-    width: 100%;
-    text-align: center;
-    margin-left: 23.5px;
-    font-size: 24px;
-}
-
-#reason::placeholder, #say::placeholder{
-    font-family: 'NanumSquare';
-    color: #aaa;
-    font-size: 15px;
-}
-
-.form-group{
-    font-family: 'NanumSquareAcr';
-}
-
-#btWrap{
-    align-items: center;
-    display: flex;
-    margin-top: 20px;
-}
-
-#submitGroupBt{
-    width: 100px;
-    height: 40px;
-    font-size: 18px;
-    border-radius: 12px;
-    font-family: 'NanumSquareBold';
-    color: #fff;
-    cursor: pointer;
-    margin: 0 auto;
-    background: #74D36D;
-    border: none;
-}
-
-#submitGroupBt:hover{
-    background: #47C83E;
 }

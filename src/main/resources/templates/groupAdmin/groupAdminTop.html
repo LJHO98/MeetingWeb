@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="groupTop" id="groupTop">
+<div th:fragment="groupAdminTop" id="groupAdminTop">
     <div th:if="${param.message}" class="alert alert-info" role="alert">
         <span th:text="${param.message}"></span>
     </div>
@@ -19,16 +19,18 @@
 
 
     <div id="groupMenu">
-        <div id="home"><a href="">홈</a></div>
-        <div id="schedule"><a href ="">일정</a></div>
+        <div id="schedule"><a th:href="@{'/groupAdmin/'+${groupDetail.groupId}+'/groupAdmin'}">일정</a></div>
         <div id="application">
             <a th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL }"
-               th:href="@{/group/{groupId}/application(groupId=${groupDetail.groupId})}">
+               th:href="@{/groupAdmin/{groupId}/application(groupId=${groupDetail.groupId})}">
                 신청서목록
             </a>
         </div>
         <div id="member">
-            <a th:href="@{'/group/' + ${groupDetail.groupId} + '/memberAdmin'}">회원</a>
+            <a th:href="@{'/groupAdmin/' + ${groupDetail.groupId} + '/memberAdmin'}">회원</a>
+        </div>
+        <div id="exit">
+            <a th:href="@{/group/{groupId}(groupId=${groupDetail.groupId})}">나가기</a>
         </div>
         <div id="secession"><a href="">탈퇴</a></div>
 <!--        <div th:text="${groupDetail.registrationType}"></div>-->

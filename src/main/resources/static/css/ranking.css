@@ -1,0 +1,137 @@
+/* ranking */
+#header a{
+    color: #db5af5;
+}
+
+#logo{
+    animation: shimmer 1s infinite alternate;
+}
+
+@keyframes shimmer {
+    0% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+    50% {
+        text-shadow: 0 0 20px #e68df8, 0 0 40px #ffffff, 0 0 60px #ffffff;
+    }
+    100% {
+        text-shadow: 0 0 10px #e68df8, 0 0 20px #e68df8, 0 0 30px #e68df8;
+    }
+}
+
+.headerBox a{
+    position: relative;
+}
+
+#side {
+    border: none;
+    background: linear-gradient(to right, rgba(217, 65, 140, 0.8), rgba(110, 47, 199, 0.6));
+    color: #fff;
+}
+
+.sidebar{
+    color: #fff;
+}
+
+.sidebar i{
+    color: #fff;
+}
+
+.sidebar a{
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.sidebar a:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+#rankingMain{
+    width: 70%;
+    position: relative;
+    margin: 0 auto;
+}
+
+#rankingText{
+    margin: 50px 0 30px 0;
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    font-family: 'NanumSquareAceb';
+    color: #5D5D5D;
+}
+
+#rankingWrap{
+    width: 100%;
+    padding: 50px 100px;
+}
+
+.rankingBox{
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    background: linear-gradient(to right, #e2ffcc, #e9d4f0);
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+    gap: 5%;
+    transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
+}
+
+.rankingBox:hover{
+    transform: scale(1.1);
+    box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+}
+
+.num{
+    width: 8%;
+}
+
+#img1{
+    width: 100%;
+    background: url(../img/medal/medal1.png) no-repeat center;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background-size: 100% auto;
+}
+
+.rankingImg{
+    width: 15%;
+}
+
+#img2{
+    width: 100%;
+    background: url(../img/category/sports.jpg) no-repeat center;
+    overflow: hidden;
+    height: 100%;
+    background-size: cover;
+}
+
+.rankingName{
+    width: 32%;
+    font-family: 'NanumSquareAceb';
+    font-size: 28px;
+    align-self: center;
+    color: #727171;
+    letter-spacing: 2px;
+}
+
+.rankingCategory{
+    width: 15%;
+    font-family: 'NanumSquareAcB';
+    font-size: 28px;
+    align-self: center;
+    text-align: center;
+    color: #727171;
+    letter-spacing: 1px;
+}
+
+.winCount{
+    width: 10%;
+    font-family: 'NanumSquareAcB';
+    font-size: 28px;
+    align-self: center;
+    text-align: center;
+    color: #727171;
+}

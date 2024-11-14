@@ -23,10 +23,12 @@
 
     <div id="groupTournamentWrap">
         <div id="tournamentBox" th:each="tournament : ${groupTournament}">
-            <div id="tournamentImg">
-                <img th:src="${tournament.tournamentImgUrl}" alt="대회 이미지" />
-            </div>
-            <span th:text="${tournament.title}"></span>
+            <a th:href="@{|/tournament/${tournament.tournamentId}|}">
+                <div id="tournamentImg">
+                    <img th:src="${tournament.tournamentImgUrl}" alt="대회 이미지" />
+                </div>
+                <span th:text="${tournament.title}"></span>
+            </a>
         </div>
     </div>
 

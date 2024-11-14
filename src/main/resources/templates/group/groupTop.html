@@ -28,9 +28,9 @@
         </div>
         <div id="chat"><a href="">채팅</a></div>
         <div id="groupTournament"><a th:href="@{/group/{groupId}/tournament(groupId=${groupDetail.groupId})}">참가대회</a></div>
-        <div id="">
-            <a th:if="${isGroupOwner}" th:href="@{'/group/'+${groupDetail.groupId}+'/groupAdmin'}">
-                모임관리
+        <div id="admin">
+            <a th:if="${isGroupOwner}" th:href="@{'/groupAdmin/'+${groupDetail.groupId}+'/groupAdmin'}">
+                관리
             </a>
         </div>
 <!--        <button type="button" data-toggle="modal" data-target="#applyModal">가입</button>-->
