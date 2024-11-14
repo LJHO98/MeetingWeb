@@ -23,9 +23,16 @@ public interface TournamentParticipantRepository extends JpaRepository<Tournamen
 
     TournamentParticipant findByMatchNumber(int matchNumber);
 
+    //한 대회 참가자 명단에 같은 groupId가 있더라도 한 팀만 조회
     @Query("SELECT tp FROM TournamentParticipant tp WHERE tp.tournament = :tournament GROUP BY tp.group.groupId")
     List<TournamentParticipant> findDistinctParticipantsByTournament(@Param("tournament") Tournaments tournament);
 
 
     TournamentParticipant findByGroupAndTournamentAndMatchNumber(Groups group, Tournaments tournament, int matchNumber);
+
+    //참가자 명단에서 한 대회 당 하나의 참가자 정보 조회
+    @Query("SELECT tp FROM TournamentParticipant tp WHERE tp.group = :group GROUP BY tp.tournament.id")
+    List<TournamentParticipant> findDistinctParticipantsByGroup(@Param("group") Groups group);
+
+
 }

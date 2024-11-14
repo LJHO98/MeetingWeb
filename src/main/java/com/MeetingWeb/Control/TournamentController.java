@@ -139,7 +139,7 @@ public class TournamentController {
     @GetMapping("/tournament/myTournament")
     public String myTournamentPage(Principal principal, Model model) {
         List<TrnDto> myTournament = tournamentService.getMyTournament(principal.getName());
-        List<TrnDto> myGroupTournament = tournamentService.getMyGroupTournament(principal.getName());
+        List<TrnDto> myGroupTournament = tournamentService.getMyGroupTournament(principal.getName(),myTournament);
 
         if (myTournament.isEmpty()) {
             model.addAttribute("myTournamentMessage", "내가 만든 대회가 없습니다.");
@@ -148,7 +148,7 @@ public class TournamentController {
         }
 
         if (myGroupTournament.isEmpty()) {
-            model.addAttribute("myGroupTournamentMessage", "내가 가입한 모임이 참가하는 대회가 없습니다.");
+            model.addAttribute("myGroupTournamentMessage", "내가 참가하는 대회가 없습니다.");
         } else {
             model.addAttribute("myGroupTournament", myGroupTournament);
         }

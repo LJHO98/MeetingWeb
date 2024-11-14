@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내 모임</title>
+
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <link rel="stylesheet" href="/css/group/myGroup.css">
+
+</head>
+
+<div layout:fragment="body" id="myGroupMain">
+
+    <div id="myGroupText"><span class="highlight">내 모임</span></div>
+
+    <div id="makingWrap">
+        <div id="makingText">내가 만든 모임</div>
+
+        <div th:if="${myGroupMessage != null}">
+            <p th:text="${myGroupMessage}" class="text-muted"></p>
+        </div>
+
+        <div id="makingBoxWrap" th:if="${myGroup != null}">
+            <div class="makingBox" th:each="group : ${myGroup}">
+                <a th:href="@{|/group/${group.groupId}|}">
+                    <div class="img">
+                        <img th:src="@{${group.profileImgUrl}}" alt="모임 이미지">
+                        <p class="category" th:text="${group.categoryName}"></p>
+                    </div>
+                    <div class="detail">
+                        <p class="title" th:text="${group.name}"></p>
+                        <p class="description" th:text="${group.introduce}"></p>
+                        <p class="capacity" th:text="${group.currentHeadCount + '/' + group.capacity}"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="participatingWrap">
+        <div id="participatingText">내가 가입한 모임</div>
+
+        <div th:if="${myParticipatingGroupMessage != null}">
+            <p th:text="${myParticipatingGroupMessage}" class="text-muted"></p>
+        </div>
+
+        <div id="participatingBoxWrap" th:if="${myParticipatingGroup != null}">
+            <div class="participatingBox" th:each="group : ${myParticipatingGroup}">
+                <a th:href="@{|/group/${group.groupId}|}">
+                    <div class="img">
+                        <img th:src="@{${group.profileImgUrl}}" alt="모임 이미지">
+                        <p class="category" th:text="${group.categoryName}"></p>
+                    </div>
+                    <div class="detail">
+                        <p class="title" th:text="${group.name}"></p>
+                        <p class="description" th:utext="${group.introduce}"></p>
+                        <p class="capacity" th:text="${group.currentHeadCount + '/' + group.capacity}"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</html>

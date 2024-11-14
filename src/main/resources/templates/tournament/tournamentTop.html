@@ -5,7 +5,7 @@
     <div th:text="${errorMessage}" id="error-message"></div>
     <div id="topWrap">
         <div id="tournamentImg">
-            <img th:src="@{*{tournament.tournamentImgUrl}}" alt="Profile Image">
+            <img th:src="${tournament.tournamentImgUrl}" alt="Profile Image">
         </div>
         <div id="textBox">
             <div id="category" th:text="${tournament.categoryName + ' / ' + tournament.format + '강'}"></div>

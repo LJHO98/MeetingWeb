@@ -94,7 +94,7 @@
     font-size: 27px;
     font-family: 'NanumSquareAcb';
     color: #5D5D5D;
-    margin: 130px 0 30px 0;
+    margin: 150px 0 30px 0;
 }
 
 #idDisplay{
@@ -135,6 +135,7 @@
     font-family: 'NanumSquareAcr';
     color: #5D5D5D;
     width: 100%;
+    text-align: left;
 }
 
 .inputBox input{

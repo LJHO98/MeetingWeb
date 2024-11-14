@@ -7,6 +7,7 @@ import com.MeetingWeb.Dto.GroupApplicationDto;
 import com.MeetingWeb.Dto.GroupDto;
 //import com.MeetingWeb.Entity.GroupDescriptionImg;
 import com.MeetingWeb.Dto.GroupProfileDto;
+import com.MeetingWeb.Dto.TrnDto;
 import com.MeetingWeb.Entity.*;
 //import com.MeetingWeb.Repository.GroupDescriptionRepository;
 import com.MeetingWeb.Repository.*;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ public class GroupService {
     private final UserRepository userRepository;
     private final GroupMemberRepository groupMemberRepository;
     private final GroupApplicationRepository groupApplicationRepository;
+    private final TournamentRepository tournamentRepository;
 
     @Transactional
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
@@ -179,4 +182,34 @@ public class GroupService {
         // 6. 필터링된 그룹 목록을 DTO 형식으로 변환하여 반환
         return groups.stream().map(GroupDto::of).collect(Collectors.toList());
     }
+
+    //내가 만든 모임
+    public List<GroupDto> getMyGroup(String userName) {
+        User user = userRepository.findByUserName(userName);
+        List<Groups> groups = groupRepository.findByCreatedBy(user);
+
+        if (groups.isEmpty()) {
+            return Collections.emptyList(); // 모임이 없는 경우 빈 리스트 반환
+        }
+
+        return groups.stream()
+                .map(GroupDto::of)
+                .collect(Collectors.toList());
+    }
+
+    //내가 가입한 모임
+    public List<GroupDto> getMyParticipatingGroup(String userName) {
+        User user = userRepository.findByUserName(userName);
+
+        List<Groups> myParticipatingGroup = groupRepository.findMyGroups(user);
+
+        if (myParticipatingGroup.isEmpty()) {
+            return Collections.emptyList(); // 내가 가입한 모임의 대회가 없는 경우 빈 리스트 반환
+        }
+
+        return myParticipatingGroup.stream()
+                .map(GroupDto::of)
+                .collect(Collectors.toList());
+    }
+
 }

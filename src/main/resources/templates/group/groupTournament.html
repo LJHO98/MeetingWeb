@@ -4,7 +4,8 @@
       layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>모임 홈</title>
+    <title>참가대회</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -12,14 +13,22 @@
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
 
+    <link rel="stylesheet" href="/css/group/groupTournament.css">
     <link rel="stylesheet" href="/css/group/groupTop.css">
-    <link rel="stylesheet" href="/css/group/groupInfo.css">
 </head>
 
-<div layout:fragment="body" id="groupDetailMain">
+<div layout:fragment="body" id="groupTournamentMain">
 
     <th:block th:replace="group/groupTop :: groupTop"></th:block>
-    <div id="description" th:utext="${groupDetail.description}"></div>
+
+    <div id="groupTournamentWrap">
+        <div id="tournamentBox" th:each="tournament : ${groupTournament}">
+            <div id="tournamentImg">
+                <img th:src="${tournament.tournamentImgUrl}" alt="대회 이미지" />
+            </div>
+            <span th:text="${tournament.title}"></span>
+        </div>
+    </div>
 
 </div>
 

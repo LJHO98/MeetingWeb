@@ -2,6 +2,7 @@ package com.MeetingWeb.Repository;
 
 import com.MeetingWeb.Constant.Role;
 import com.MeetingWeb.Constant.TournamentStatus;
+import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.Tournaments;
 import com.MeetingWeb.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,5 +29,13 @@ public interface TournamentRepository extends JpaRepository<Tournaments, Long> {
             "AND (:inputText IS NULL OR t.title LIKE %:inputText% OR t.description LIKE %:inputText%)")
     List<Tournaments> searchByCategoryAndText(@Param("categoryId") Long categoryId,
                                               @Param("inputText") String inputText);
+
+
+    @Query("select t from Tournaments t, TournamentParticipant tp ,Groups g,GroupMember gm where gm.user= :user and g.groupId=gm.group.groupId and tp.group.groupId=g.groupId and t.id=tp.tournament.id GROUP BY tp.tournament.id")
+    List<Tournaments> findTournamentsByUser(@Param("user") User user);
+
+    //모임이 참가하는 대회 정보 조회
+    @Query("SELECT DISTINCT tp.tournament FROM TournamentParticipant tp WHERE tp.group = :group")
+    List<Tournaments> findDistinctTournamentsByGroup(@Param("group") Groups group);
 }
 

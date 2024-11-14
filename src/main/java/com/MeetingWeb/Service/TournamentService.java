@@ -3,8 +3,6 @@ package com.MeetingWeb.Service;
 import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Entity.*;
-import com.MeetingWeb.Excption.ParticipantNotFoundException;
-import com.MeetingWeb.Excption.TournamentAlreadyCompletedException;
 import com.MeetingWeb.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -150,7 +148,7 @@ public class TournamentService {
 
         // TournamentParticipant 객체에서 TournamentParticipantDto로 변환
         return participants.stream()
-                .map(participant -> TournamentParticipantDto.of(participant.getGroup(), participant.getMatchNumber()))
+                .map(participant -> TournamentParticipantDto.of(participant.getGroup(), participant))
                 .collect(Collectors.toList());
     }
 
@@ -161,7 +159,7 @@ public class TournamentService {
         List<TournamentParticipant> participants = tournamentParticipantRepository.findDistinctParticipantsByTournament(tournament);
 
         return participants.stream()
-                .map(participant -> TournamentParticipantDto.of(participant.getGroup(), participant.getMatchNumber()))
+                .map(participant -> TournamentParticipantDto.of(participant.getGroup(), participant))
                 .collect(Collectors.toList());
     }
 
@@ -181,25 +179,43 @@ public class TournamentService {
 
 
     //내가 가입한 모임이 참가하는 대회
-    public List<TrnDto> getMyGroupTournament(String userName) {
+    public List<TrnDto> getMyGroupTournament(String userName, List<TrnDto> myTournament) {
         User user = userRepository.findByUserName(userName);
         List<Tournaments> tournaments = tournamentRepository.findByCreatedBy(user);
-
-        if (tournaments.isEmpty()) {
-            return Collections.emptyList(); // 대회가 없는 경우 빈 리스트 반환
-        }
 
         List<Long> myCreateTournaments = tournaments.stream()
                 .map(Tournaments::getId)
                 .collect(Collectors.toList());
 
-        List<Tournaments> myGroupTournament = tournamentRepository.findAllExcludingIds(myCreateTournaments);
+        List<Tournaments> myGroupTournament = tournamentRepository.findTournamentsByUser(user);
+        Iterator<Tournaments> it = myGroupTournament.iterator();
+
+        while(it.hasNext()){
+            Tournaments tournaments1 = it.next();
+            for(int k=0; k<myTournament.size(); k++){
+                if(tournaments1.getId() == myTournament.get(k).getTournamentId()){
+                        it.remove();
+                }
+            }
+        }
 
         if (myGroupTournament.isEmpty()) {
             return Collections.emptyList(); // 내가 가입한 모임의 대회가 없는 경우 빈 리스트 반환
         }
 
         return myGroupTournament.stream()
+                .map(TrnDto::of)
+                .collect(Collectors.toList());
+    }
+
+    //모임이 참가하는 대회
+    public List<TrnDto> getGroupTournament(Long groupId) {
+        Groups group = groupRepository.findByGroupId(groupId);
+        List<Tournaments> groupTournament = tournamentRepository.findDistinctTournamentsByGroup(group);
+        if (groupTournament.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return groupTournament.stream()
                 .map(TrnDto::of)
                 .collect(Collectors.toList());
     }

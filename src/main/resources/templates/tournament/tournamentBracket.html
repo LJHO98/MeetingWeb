@@ -133,7 +133,38 @@
 
 
 
-<script>
+<script th:inline="javascript">
+    var groupList = /*[[${groupList}]]*/[];
+    groupList = groupList.map(group => {
+        return {
+            ...group,
+            name: decodeURI((group.name))
+        };
+    });
+
+    var gang=/*[[${trnDto.format}]]*/[];
+    console.log(gang);
+    var pt=``;
+    var ft=gang;
+    for(var i in groupList) {
+        if(i==gang) {
+            var $ptbox = $('<div class="participatingBox"></div>');
+            $ptbox.append(pt);
+            ft = ft/2;
+            gang = gang+ft;
+            $(".tournament").append($ptbox);
+            pt=``;
+        }
+        pt +=`<div class="team quarterfinals" data-num="${i}">
+            <img src="${groupList[i].profileImg}">
+            <span data-id="${groupList[i].groupId}" data-match="${groupList[i].matchNumber}">${groupList[i].name}</span>
+            <span>${groupList[i].score}</span>
+        </div>`;
+    }
+    var $ptbox = $('<div class="participatingBox"></div>');
+    $ptbox.append(pt);
+    $(".tournament").append($ptbox);
+
     $(".team").on("click", function() {
         var aNum = $(this).data("num") + 1;
         var bNum = aNum % 2 == 0 ? aNum - 1 : aNum + 1;
@@ -151,6 +182,7 @@
     });
 
     $(".resSelect").on("click", function() {
+        $(".resSelect").removeAttr("style");
         $(this).css("color", "red");
         $("#win").val($(this).data("id"));
         $("#matchNum").val($(this).data("match"));

@@ -3,8 +3,10 @@ package com.MeetingWeb.Control;
 import com.MeetingWeb.Dto.GroupApplicationDto;
 import com.MeetingWeb.Dto.GroupCategoryDto;
 import com.MeetingWeb.Dto.GroupDto;
+import com.MeetingWeb.Dto.TrnDto;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Service.GroupService;
+import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -25,6 +28,7 @@ import java.util.List;
 public class GroupController {
     private final GroupService groupService;
     private final UserService userService;
+    private final TournamentService tournamentService;
 
     @PostMapping("/group/createGroup")
     public String createGroup(@Valid GroupDto groupDto, BindingResult bindingResult, Model model,
@@ -107,4 +111,37 @@ public class GroupController {
         }
         return "redirect:/group/" + groupId + "?message=" + message;
     }
+
+    //내 모임
+    @GetMapping("/group/myGroup")
+    public String myGroupPage(Principal principal, Model model) {
+        List<GroupDto> myGroup = groupService.getMyGroup(principal.getName());
+        List<GroupDto> myParticipatingGroup = groupService.getMyParticipatingGroup(principal.getName());
+
+        if (myGroup.isEmpty()) {
+            model.addAttribute("myGroupMessage", "내가 만든 모임이 없습니다.");
+        } else {
+            model.addAttribute("myGroup", myGroup);
+        }
+
+        if (myParticipatingGroup.isEmpty()) {
+            model.addAttribute("myParticipatingGroupMessage", "내가 가입한 모임이 없습니다.");
+        } else {
+            model.addAttribute("myParticipatingGroup", myParticipatingGroup);
+        }
+
+        return "group/myGroup";
+    }
+
+    //내 모임 참가대회
+    @GetMapping("/group/{groupId}/tournament")
+    public String GroupTournamentPage(@PathVariable("groupId") Long groupId , Model model) {
+        List<TrnDto> groupTournament = tournamentService.getGroupTournament(groupId);
+        GroupDto groupDto = groupService.getGroupById(groupId);
+        model.addAttribute("groupDetail", groupDto);
+        model.addAttribute("groupTournament", groupTournament);
+        return "group/groupTournament";
+    }
+
+
 }
