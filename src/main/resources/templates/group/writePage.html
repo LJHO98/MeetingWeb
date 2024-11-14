@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 작성</title>
+
+    <!-- TinyMCE 스크립트 추가 -->
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: '#content',
+            plugins: 'image link',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link',
+            images_upload_url: '/img', // 이미지 업로드 절대 경로 설정
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            relative_urls: false,        // 절대 URL로 저장
+            remove_script_host: false,   // 호스트 URL 유지
+            images_upload_handler: function (blobInfo, success, failure) {
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                fetch('/img', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log("Uploaded image URL:", data.location);
+                        success(data.location);
+                    })
+                    .catch(() => failure('Image upload failed'));
+            }
+        });
+    </script>
+
+</head>
+
+<div layout:fragment="body" id="groupBoard">
+    <div class="container">
+        <h1>게시글 작성</h1>
+
+        <form th:action="@{/group/{id}/write(id=${id})}" th:object="${groupBoard}" method="post" enctype="multipart/form-data">
+
+            <div class="inputBox">
+                <label for="title">제목</label>
+                <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력하세요" required>
+                <p class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+            </div>
+
+            <div class="inputBox">
+                <label for="content">내용</label>
+                <textarea id="content" th:field="*{content}" placeholder="내용을 입력하세요"></textarea>
+                <p class="error-message" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">저장</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>

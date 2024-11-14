@@ -62,4 +62,7 @@ public class Groups {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<TournamentParticipant> participants = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Notice> notices = new ArrayList<>();
 }

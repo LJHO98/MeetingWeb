@@ -3,9 +3,11 @@ package com.MeetingWeb.Dto;
 import com.MeetingWeb.Constant.Gender;
 import com.MeetingWeb.Constant.RegistType;
 import com.MeetingWeb.Entity.GroupCategory;
+import com.MeetingWeb.Entity.GroupMember;
 import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.User;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +16,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class GroupDto {
     private Long groupId;
 
@@ -39,8 +43,6 @@ public class GroupDto {
 
     @NotNull(message="필수 선택입니다.")
     private Gender genderPreference;
-//    private Integer minAge;
-//    private Integer maxAge;
     @NotNull(message="필수 선택입니다.")
     private RegistType registrationType;
     private Integer currentHeadCount;
@@ -56,7 +58,9 @@ public class GroupDto {
     @NotNull(message="프로필 이미지가 필요합니다.")
     private MultipartFile profileImg;
     private String profileImgUrl;
-//    private List<String> descriptionImageUrls;
+    private List<UserDto> members; // 회원 목록
+
+
 
     public Groups toEntity(String profileImageUrl, User createdBy, GroupCategory groupCategory) {
         Groups group = new Groups();
@@ -66,8 +70,6 @@ public class GroupDto {
         group.setCategory(groupCategory);
         group.setLocation(this.location);
         group.setGenderPreference(this.genderPreference);
-//        group.setMinAge(this.minAge);
-//        group.setMaxAge(this.maxAge);
         group.setRegistrationType(this.getRegistrationType());
         group.setCurrentHeadCount(this.currentHeadCount);
         group.setCapacity(this.capacity);
@@ -86,12 +88,31 @@ public class GroupDto {
         groupDto.categoryName = groups.getCategory().getCategory();
         groupDto.location = groups.getLocation();
         groupDto.genderPreference = groups.getGenderPreference();
-//        groupDto.minAge = groups.getMinAge();
-//        groupDto.maxAge = groups.getMaxAge();
         groupDto.registrationType = groups.getRegistrationType();
         groupDto.currentHeadCount = groups.getCurrentHeadCount();
         groupDto.capacity = groups.getCapacity();
         groupDto.profileImgUrl = groups.getProfileImgUrl();
         return groupDto;
     }
+
+    public GroupDto(Groups group, List<GroupMember> groupMembers) {
+        this.name = group.getName();
+        this.introduce = group.getIntroduce();
+        this.category = group.getCategory().getGroupCategoryId();
+        this.categoryName = group.getCategory().getCategory();
+        this.location = group.getLocation();
+        this.genderPreference = group.getGenderPreference();
+        this.currentHeadCount = group.getCurrentHeadCount();
+        this.registrationType = group.getRegistrationType();
+        this.capacity = group.getCapacity();
+        this.profileImgUrl = group.getProfileImgUrl();
+        this.groupId = group.getGroupId();
+        this.description = group.getDescription();
+        this.createdBy = group.getCreatedBy().getId();//모임장 위임관련
+        this.members = groupMembers.stream()
+                .map(GroupMember::getUser)
+                .map(UserDto::of)
+                .collect(Collectors.toList());
+    }
+
 }

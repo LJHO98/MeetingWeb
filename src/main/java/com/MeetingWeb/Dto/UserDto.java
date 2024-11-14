@@ -24,6 +24,8 @@ public class UserDto {
     @Size(min = 4, max = 10, message = "아이디는 4~10자입니다.")
     private String userName;
 
+    private Long userId;
+
     @Size(min = 8, max = 12, message = "비밀번호는 8~12자입니다.")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[\\d!@#$%^&*()_+])[A-Za-z\\d!@#$%^&*()_+]{8,12}$", message = "비밀번호는 영어 대소문자와 숫자 또는 특수문자를 조합하여 8자 이상 12자 이하로 입력해 주세요.")
     private String password;
@@ -31,22 +33,15 @@ public class UserDto {
     private String name;
 
     private String email;
-//
-//    @AssertTrue(message = "이메일 인증을 완료해야 합니다.")
-//    private boolean emailVerified;
-//
-//    // 이메일 인증 여부를 확인하는 로직
-//    public boolean isEmailVerified() {
-//        return emailVerified;
-//    }
-
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
     private String activityArea;
     private MultipartFile profileImage;
+    private String profileImgUrl;
     private String gender;
     private List<Long> selectedCategoryIds;
+    private List<String> selectedCategoryNames;
 
     public User toEntity(List<GroupCategoryDto> groupCategories, PasswordEncoder passwordEncoder, String profileImageUrl){
         User user = new User();
@@ -77,6 +72,23 @@ public class UserDto {
         user.setSelectedCategories(selectedCategories);
 
         return user;
+    }
+    public static UserDto of(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(user.getId());
+
+        userDto.setName(user.getName());
+        userDto.setUserName(user.getUserName());
+        userDto.setBirthdate(user.getBirthdate());
+        userDto.setActivityArea(user.getActivityArea());
+        userDto.setGender(user.getGender().toString());
+        userDto.setProfileImgUrl(user.getProfileImgUrl());
+        // User의 selectedCategories에서 카테고리 ID를 추출하여 UserDto의 selectedCategoryIds에 설정
+        List<String> categoryIds = user.getSelectedCategories().stream()
+                .map(userSelectCategory -> userSelectCategory.getGroupCategory().getCategory())
+                .collect(Collectors.toList());
+        userDto.setSelectedCategoryNames(categoryIds);
+        return userDto;
     }
 
 }

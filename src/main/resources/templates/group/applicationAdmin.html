@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>신청서 목록</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+
+    <link rel="stylesheet" href="/css/group/groupInfo.css">
+    <link rel="stylesheet" href="/css/group/groupTop.css">
+
+</head>
+
+<div layout:fragment="body" id="groupDetailMain">
+
+
+    <th:block th:replace="group/groupAdminTop :: groupTop"></th:block>
+
+
+    <p>신청서목록</p>
+
+</div>
+
+
+
+
+
+
+</html>

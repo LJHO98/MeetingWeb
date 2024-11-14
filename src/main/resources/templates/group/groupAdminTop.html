@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="groupTop" id="groupTop">
+    <div th:if="${param.message}" class="alert alert-info" role="alert">
+        <span th:text="${param.message}"></span>
+    </div>
+
+    <div id="groupImg">
+        <img th:src="@{${groupDetail.profileImgUrl}}" alt="Profile Image">
+        <div id="groupCategory" th:text="${groupDetail.categoryName}"></div>
+        <div id="groupLocation" th:text="${groupDetail.location}"></div>
+    </div>
+
+    <div id="groupTitle">
+        <div id="groupName" th:text="${groupDetail.name}"></div>
+        <div id="groupIntroduce" th:text="${groupDetail.introduce}"></div>
+    </div>
+
+
+    <div id="groupMenu">
+        <div id="home"><a href="">홈</a></div>
+        <div id="schedule"><a href ="">일정</a></div>
+        <div id="application">
+            <a th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL }"
+               th:href="@{/group/{groupId}/application(groupId=${groupDetail.groupId})}">
+                신청서목록
+            </a>
+        </div>
+        <div id="member">
+            <a th:href="@{'/group/' + ${groupDetail.groupId} + '/memberAdmin'}">회원</a>
+        </div>
+        <div id="secession"><a href="">탈퇴</a></div>
+<!--        <div th:text="${groupDetail.registrationType}"></div>-->
+
+
+
+
+        <!--        <button type="button" data-toggle="modal" data-target="#applyModal">가입</button>-->
+        <!-- 자유 가입 (FREE) 방식: POST로 그룹 가입 요청 -->
+<!--        <form th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).FREE)}"-->
+<!--              th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">-->
+<!--            <button type="submit" class="btn custom-green-button mt-3">모임 신청하기</button>-->
+<!--        </form>-->
+
+<!--        &lt;!&ndash; 승인 필요 (APPROVAL) 방식: 모달을 통해 신청서 작성 &ndash;&gt;-->
+<!--        <button type="button" th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).APPROVAL)}"-->
+<!--                class="btn custom-green-button mt-3" data-toggle="modal" data-target="#applyModal">-->
+<!--            모임 신청하기-->
+<!--        </button>-->
+
+        <!-- 모달 -->
+        <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"  id="applyModalLabel">모임 신청</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 가입 신청서 -->
+                        <form th:action="@{/group/approval/{groupId}(groupId=${groupDetail.groupId})}"  method="post" >
+                            <div class="form-group" >
+                                <label for="reason">가입 이유</label>
+                                <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="가입 이유를 작성해주세요" ></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="say">하고 싶은 말</label>
+                                <textarea class="form-control" id="say" name="say" rows="3" placeholder="하고 싶은 말을 작성해주세요"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">신청</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">-->
+    <!--        <div class="modal-dialog">-->
+    <!--            <div class="modal-content">-->
+    <!--                <div class="modal-header">-->
+    <!--                    <h5 class="modal-title"  id="applyModalLabel">모임 신청</h5>-->
+    <!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+    <!--                        <span aria-hidden="true">&times;</span>-->
+    <!--                    </button>-->
+    <!--                </div>-->
+    <!--                <div class="modal-body">-->
+    <!--                    &lt;!&ndash; 가입 신청서 &ndash;&gt;-->
+    <!--                    <form th:action="@{/group/미정}" method="post">-->
+    <!--                        <div class="form-group">-->
+    <!--                            <label for="applicationForm">가입 이유</label>-->
+    <!--                            <textarea class="form-control" id="applicationForm" name="applicationForm" rows="3" placeholder="가입 이유를 작성해주세요"></textarea>-->
+    <!--                        </div>-->
+    <!--                        <div class="form-group">-->
+    <!--                            <label for="reason">하고 싶은 말</label>-->
+    <!--                            <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="하고 싶은 말을 작성해주세요"></textarea>-->
+    <!--                        </div>-->
+    <!--                        <button type="submit" class="btn btn-primary">신청</button>-->
+    <!--                    </form>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+</div>
+
+</html>

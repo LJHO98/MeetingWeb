@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 수정</title>
+
+  <!-- TinyMCE 스크립트 추가 -->
+  <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+  <script>
+    tinymce.init({
+      selector: '#content',
+      plugins: 'image link',
+      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link',
+      images_upload_url: '/img',
+      automatic_uploads: true,
+      file_picker_types: 'image',
+      setup: function (editor) {
+        editor.on('init', function () {
+          const content = document.getElementById('contentData').innerHTML;
+          editor.setContent(content);  // TinyMCE에 HTML 설정
+        });
+      },
+      images_upload_handler: function (blobInfo, success, failure) {
+        const formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+        fetch('/img', {
+          method: 'POST',
+          body: formData
+        }).then(response => response.json())
+                .then(data => {
+                  console.log("Uploaded image URL:", data.location);
+                  success(data.location);
+                })
+                .catch(() => failure('Image upload failed'));
+      }
+    });
+  </script>
+</head>
+
+<body>
+<div layout:fragment="body" id="createGroupMain">
+  <div class="container">
+    <h1>게시글 수정</h1>
+
+    <form th:action="@{'/group/' + ${groupBoard.groupId} + '/updateWrite/' + ${groupBoard.boardId}}"
+          th:object="${groupBoard}" method="post" enctype="multipart/form-data">
+
+      <!-- 숨겨진 필드로 groupId와 postId를 전달 -->
+      <input type="hidden" th:field="*{groupId}" th:value="${groupBoard.groupId}">
+      <input type="hidden" th:field="*{boardId}" th:value="${groupBoard.boardId}">
+
+      <div class="inputBox">
+        <label for="title">제목</label>
+        <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력하세요" required>
+        <p class="error-message" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+      </div>
+
+      <div class="inputBox">
+        <label for="content">내용</label>
+
+        <!-- 초기 로딩 시 TinyMCE에 content를 HTML로 설정 -->
+        <div id="contentData" th:utext="*{content}" style="display:none;"></div>
+
+        <textarea id="content" th:field="*{content}" placeholder="내용을 입력하세요"></textarea>
+        <p class="error-message" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+      </div>
+
+      <div class="button-container">
+        <button type="submit">저장</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
