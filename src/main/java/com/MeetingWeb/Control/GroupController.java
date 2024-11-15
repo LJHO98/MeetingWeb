@@ -160,9 +160,13 @@ public class GroupController {
         return "group/groupBoard"; // groupBoard 템플릿으로 이동합니다.
     }
 
-    @GetMapping("/group/{id}/write")//게시글작성페이지 이동
-    public String groupBoard(Model model, @PathVariable Long id) {
+    @GetMapping("/group/{id}/write") // 게시글 작성 페이지 이동
+    public String groupBoard(Model model, @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
         model.addAttribute("groupBoard", new GroupBoardDto());
+        GroupDto groupDto = groupService.findGroupById(id); // 여기서 id 사용
+        model.addAttribute("groupDetail", groupDto);
+        model.addAttribute("isGroupOwner", groupService.isGroupOwner(userId, id));
         return "group/writePage";
     }
     // 로그인된 사용자 ID를 가져오는 메서드
@@ -190,13 +194,25 @@ public class GroupController {
         return "redirect:/group/" + groupId +"/groupBoard";
     }
 
-    //모임 게시글 수정페이지
     @GetMapping("/group/{groupId}/updateWrite/{boardId}")
-    public String updateForm(@PathVariable Long groupId, @PathVariable Long boardId, Model model) {
-        GroupBoardDto groupBoardDto = groupService.findBoardById(boardId); // boardId를 사용하여 게시글 조회
+    public String updateForm(@PathVariable Long groupId, @PathVariable Long boardId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        // boardId를 사용하여 게시글 조회
+        GroupBoardDto groupBoardDto = groupService.findBoardById(boardId);
+
+        // 사용자 ID를 가져옴
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
+
+        // groupId를 사용하여 그룹 정보 조회
+        GroupDto groupDto = groupService.findGroupById(groupId);
+
+        // 모델에 그룹 정보와 게시글 정보 추가
+        model.addAttribute("groupDetail", groupDto);
         model.addAttribute("groupBoard", groupBoardDto); // 기존 게시글 정보 추가
-        return "group/updateWrite"; // updateWrite 템플릿 반환
+
+        // updateWrite 템플릿 반환
+        return "group/updateWrite";
     }
+
 
     //모임 게시글 수정저장
     @PostMapping("/group/{groupId}/updateWrite/{boardId}")

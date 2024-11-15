@@ -66,18 +66,235 @@
     font-size: 25px;
     font-family: 'NanumSquareAcr';
     gap: 10px;
+    color: #4C4C4C;
 }
 
-#noticeText i{
+#postText{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 25px;
+    font-family: 'NanumSquareAcr';
+    gap: 10px;
+    color: #4C4C4C;
+    margin-bottom: 20px;
+}
+
+#noticeText i, #postText i{
     font-size: 25px;
     padding: 0;
-}
-
-#noticeBox{
-
+    color: #4C4C4C;
 }
 
 #postWrap{
+    width: 100%;
     padding-top: 70px;
     border-top: 1px solid #aaa;
+}
+
+.btn-success{
+    background: #fffee8;
+    color: #5D5D5D;
+    border: 1px solid #aaa;
+    width: 8%;
+    height: 35px;
+    margin: 0 1% 0 3%;
+}
+
+.btn-danger{
+    background: #fffee8;
+    color: #5D5D5D;
+    border: 1px solid #aaa;
+    width: 8%;
+    height: 35px;
+    align-self: center;
+    font-size: 14px;
+}
+
+.btn-success:hover, .btn-danger:hover, #bt button:hover{
+    background: #faf7bb;
+    color: #5D5D5D;
+    border: 1px solid #aaa;
+}
+
+.form-control{
+    width: 80%;
+    margin-bottom: 0;
+}
+
+.notice-input{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#noticeList div{
+    width: 100%;
+    border: 1px solid #aaa;
+    height: 50px;
+    border-radius: 10px;
+    line-height: 38px;
+    padding: 5px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#noticeList div p{
+    margin-bottom: 0;
+    font-family: 'NanumSquareAcr';
+    width: 80%;
+    margin-right: 3%;
+    color: #5D5D5D;
+}
+
+#postBox{
+    width: 100%;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+#writer{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 7px 15px;
+    gap: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+#img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    position:relative;
+}
+
+#img img{
+    position: absolute;
+    top: 50%; /* 부모 div 중심으로 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 이미지의 중심을 부모 div의 중심에 맞춤 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 부모 div를 기준으로 꽉 채우기 */
+}
+
+#writer span{
+    font-size: 18px;
+    color: #747474;
+    font-family: 'NanumSquareAcB';
+    letter-spacing: 1px;
+    align-self: center;
+}
+
+#post{
+    width: 100%;
+    padding: 15px 20px;
+    background: #fffee8;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#title{
+    width: 100%;
+    font-size: 20px;
+    font-family: 'NanumSquareAcB';
+    color: #353535;
+}
+
+#post div{
+    width: 100%;
+    margin-top: 5px;
+}
+
+#post p{
+    font-size: 16px;
+    font-family: 'NanumSquareAcr';
+    margin-bottom: 0;
+    color: #5D5D5D;
+}
+
+/* modal */
+.modal-footer{
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.modal-footer button{
+    background: #fffee8;
+    color: #5D5D5D;
+    border: 1px solid #aaa;
+    width: 50px;
+    height: 35px;
+    align-self: center;
+    font-size: 14px;
+    padding: 0;
+}
+
+#bt{
+    display: flex;
+    gap: 10px;
+}
+
+#modal-writer{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#modal-img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    position:relative;
+}
+
+#modal-img img{
+    position: absolute;
+    top: 50%; /* 부모 div 중심으로 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 이미지의 중심을 부모 div의 중심에 맞춤 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 부모 div를 기준으로 꽉 채우기 */
+}
+
+#modal-writer span{
+    font-size: 18px;
+    color: #747474;
+    font-family: 'NanumSquareAcB';
+    letter-spacing: 1px;
+    align-self: center;
+}
+
+.modal-title{
+    font-size: 20px;
+    font-family: 'NanumSquareAcB';
+    color: #353535;
+}
+
+.modal-body{
+    padding: 10px 13px 10px 30px;
+}
+
+#modalContent{
+    font-size: 16px;
+    font-family: 'NanumSquareAcr';
+    color: #5D5D5D;
+    max-height: 500px; /* 최대 높이를 500px로 설정 */
+    overflow-y: auto;  /* 높이를 초과할 경우 스크롤바 표시 */
+}
+
+.post-content {
+    overflow: hidden; /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis; /* 넘칠 경우 '...' 표시 */
+    display: -webkit-box; /* Flexbox와 비슷한 역할을 함 */
+    -webkit-line-clamp: 3; /* 최대 3줄까지만 표시 (줄 수에 맞게 조정 가능) */
+    -webkit-box-orient: vertical; /* 텍스트의 방향을 세로로 설정 */
+    white-space: normal; /* 텍스트가 줄 바꿈되도록 설정 */
 }

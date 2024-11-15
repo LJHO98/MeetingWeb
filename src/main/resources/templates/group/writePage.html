@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragment/layout}">
 <head>
     <meta charset="UTF-8">
     <title>게시글 작성</title>
 
     <!-- TinyMCE 스크립트 추가 -->
     <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+
+    <link rel="stylesheet" href="/css/group/writePage.css">
+    <link rel="stylesheet" href="/css/group/groupTop.css">
 
     <script>
         tinymce.init({
@@ -15,6 +28,7 @@
             images_upload_url: '/img', // 이미지 업로드 절대 경로 설정
             automatic_uploads: true,
             file_picker_types: 'image',
+            height: 400,
             relative_urls: false,        // 절대 URL로 저장
             remove_script_host: false,   // 호스트 URL 유지
             images_upload_handler: function (blobInfo, success, failure) {
@@ -36,11 +50,14 @@
 
 </head>
 
-<div layout:fragment="body" id="groupBoard">
-    <div class="container">
-        <h1>게시글 작성</h1>
+<div layout:fragment="body" id="writePageMain">
 
-        <form th:action="@{/group/{id}/write(id=${id})}" th:object="${groupBoard}" method="post" enctype="multipart/form-data">
+    <th:block th:replace="group/groupTop :: groupTop"></th:block>
+
+    <div id="writePageWrap">
+        <div id="writeText">활동 피드 작성</div>
+
+        <form id="writeForm" th:action="@{/group/{id}/write(id=${id})}" th:object="${groupBoard}" method="post" enctype="multipart/form-data">
 
             <div class="inputBox">
                 <label for="title">제목</label>
@@ -54,8 +71,8 @@
                 <p class="error-message" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
             </div>
 
-            <div class="button-container">
-                <button type="submit">저장</button>
+            <div id="btWrap">
+                <button type="save">완료</button>
             </div>
         </form>
     </div>

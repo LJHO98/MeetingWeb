@@ -70,18 +70,22 @@
 .rankingBox{
     width: 100%;
     padding: 20px 50px;
-    display: flex;
-    flex-wrap: wrap;
     border-radius: 10px;
     background: linear-gradient(to right, #e2ffcc, #e9d4f0);
     box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
-    gap: 5%;
     transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
 }
 
 .rankingBox:hover{
     transform: scale(1.1);
     box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+}
+
+.rankingBox a{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 5%;
 }
 
 .num{

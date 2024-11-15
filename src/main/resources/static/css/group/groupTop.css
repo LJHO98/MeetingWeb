@@ -144,6 +144,14 @@ a:hover {
 /*    align-items: center;*/
 /*}*/
 
+.modal{
+    z-index: 1050;
+}
+
+.modal-backdrop{
+    z-index: 1000;
+}
+
 .modal-content{
     width: 600px;
     border-radius: 10px;
