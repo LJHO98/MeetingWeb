@@ -77,16 +77,24 @@
 
                 // gender 값에 따라 적절한 아이콘을 설정
                 if (gender === "MALE") {
-                    $("#genderIcon").addClass("bi-gender-male");  // MALE일 때 남성 아이콘
+                    $("#modalGender").empty(); // 기존 텍스트 제거
+                    $("#modalGender").addClass("bi-gender-male");  // MALE일 때 남성 아이콘
+                    const newParagraph = document.createElement('i');
+                    newParagraph.classList.add('bi-gender-male');
+                    newParagraph.textContent = "bi-gender-male";
                     console.log(11111111111);
+
                 } else if (gender === "FEMALE") {
-                    $("#genderIcon").addClass("bi-gender-female");
+                    $("#modalGender").empty(); // 기존 텍스트 제거
+                    $("#modalGender").addClass("bi-gender-female");
                     console.log(222222222222);// FEMALE일 때 여성 아이콘
                 } else if (gender === "OTHER") {
-                    $("#genderIcon").addClass("bi-gender-ambiguous");
+                    $("#modalGender").empty(); // 기존 텍스트 제거
+                    $("#modalGender").addClass("bi-gender-ambiguous");
                     console.log(33333333333333);// OTHER일 때 혼합 아이콘
                 } else {
-                    $("#genderIcon").removeClass();// 값이 없으면 아이콘 제거
+                    $("#modalGender").empty(); // 기존 텍스트 제거
+                    $("#modalGender").removeClass();// 값이 없으면 아이콘 제거
                     console.log(444444444444);
                 }
 
