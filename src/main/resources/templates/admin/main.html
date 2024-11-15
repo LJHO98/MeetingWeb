@@ -18,21 +18,23 @@
 
     <div class="gender-chart-container">
         <div id="doughnut">
+            남녀 성비
             <canvas id="genderChart"></canvas>
         </div>
         <div id="count">
             <div id="memberCount">
-                전체 그룹 수
+                전체 모임 수
                 <span th:text="${totalGroupsCount}"></span>
             </div>
             <div id="tournamentCount">
+                전체 대회 수
                 <span th:text="${totalTournaments}"></span>
             </div>
         </div>
     </div>
 
     <div class="line-chart-container">
-        <canvas id="myChart" width="1600" height="600"></canvas>
+        <canvas id="myChart"></canvas>
     </div>
 
 
@@ -57,6 +59,7 @@
             },
             options: {
                 responsive: true, // 반응형 차트
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'top', // 범례 위치
