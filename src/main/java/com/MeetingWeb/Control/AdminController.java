@@ -44,14 +44,14 @@ public class AdminController {
         int noneCount = adminService.getUserCountByGender(Gender.OTHER);
 
 
-        long totalUserCount = adminService.getTotalUserCount();
+        long totalGroupsCount = adminService.getTotalGroupsCount();
         long totalTournaments = adminService.getTotalTournaments();
 
 
 
         // Thymeleaf로 전달
         model.addAttribute("totalTournaments",totalTournaments);
-        model.addAttribute("totalUserCount", totalUserCount);
+        model.addAttribute("totalGroupsCount", totalGroupsCount);
         model.addAttribute("maleCount", maleCount);
         model.addAttribute("femaleCount", femaleCount);
         model.addAttribute("noneCount", noneCount);

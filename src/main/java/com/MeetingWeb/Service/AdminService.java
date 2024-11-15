@@ -90,9 +90,11 @@ public class AdminService {
 
 
     // 전체 회원 수 가져오기
-    public long getTotalUserCount() {
-        return userRepository.countTotalUsers();
+
+    public long getTotalGroupsCount() {
+        return groupRepository.countTotalGroups();
     }
+
 
 
     public long getTotalTournaments(){

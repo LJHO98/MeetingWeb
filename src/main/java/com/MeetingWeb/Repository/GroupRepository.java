@@ -25,4 +25,8 @@ public interface GroupRepository extends JpaRepository<Groups, Long> {
 
     @Query("SELECT gm.group FROM GroupMember gm WHERE gm.user = :user")
     List<Groups> findMyGroups(@Param("user") User user);
+
+    // 전체 회원 수 카운트
+    @Query("SELECT COUNT(g) FROM Groups g")
+    long countTotalGroups();
 }
