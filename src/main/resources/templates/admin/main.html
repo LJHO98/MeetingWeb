@@ -59,7 +59,6 @@
             },
             options: {
                 responsive: true, // 반응형 차트
-                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'top', // 범례 위치
@@ -70,6 +69,8 @@
                 }
             }
         });
+
+
 
         let myCt = document.getElementById('myChart');
         let labels = /*[[${monthLabels}]]*/[];

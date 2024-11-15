@@ -75,8 +75,9 @@
             <div class="groupWrap" sec:authorize="hasAnyRole('ADMIN', 'USER', 'READER')">
                 <div class="name">맞춤 모임</div>
                 <div class="boxWrap">
-                    <div class="box" th:each="group, iterStat : ${groups}">
-                        <a th:href="@{|/group/${group.groupId}|}" th:if="${iterStat.index < 4}">
+                    <!-- box div에 th:if 조건 추가 -->
+                    <div class="box" th:each="group, iterStat : ${groups}" th:if="${iterStat.index < 4}">
+                        <a th:href="@{|/group/${group.groupId}|}">
                             <div class="img">
                                 <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
                                 <p class="category" th:text="${group.categoryName}"></p>
@@ -112,16 +113,16 @@
             <div class="groupWrap">
                 <div class="name">신규 모임</div>
                 <div class="boxWrap">
-                    <div class="box" th:each="groups, iterStat : ${newGroups}" th:if="${iterStat.index < 4}">
-                        <a th:href="@{|/group/${groups.groupId}|}">
+                    <div class="box" th:each="group, iterStat : ${newGroups}" th:if="${iterStat.index < 4}">
+                        <a th:href="@{|/group/${group.groupId}|}">
                             <div class="img">
-                                <img th:src="'..' + ${groups.profileImgUrl}" alt="Profile Image">
-                                <p class="category" th:text="${groups.categoryName}"></p>
+                                <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
+                                <p class="category" th:text="${group.categoryName}"></p>
                             </div>
                             <div class="detail">
-                                <p class="title" th:text="${groups.name}"></p>
-                                <p class="description" th:text="${groups.introduce}"></p>
-                                <p class="capacity" th:text="${groups.currentHeadCount + ' / ' + groups.capacity}"></p>
+                                <p class="title" th:text="${group.name}"></p>
+                                <p class="description" th:text="${group.introduce}"></p>
+                                <p class="capacity" th:text="${group.currentHeadCount + ' / ' + group.capacity}"></p>
                             </div>
                         </a>
                     </div>
