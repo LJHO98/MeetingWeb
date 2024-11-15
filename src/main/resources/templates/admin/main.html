@@ -21,6 +21,8 @@
 
         /* 도넛 차트 영역 */
         .gender-chart-container {
+            display: flex;
+            gap:40px;
             width: 50%; /* 화면 왼쪽 절반 */
             margin-bottom: 30px;
         }
@@ -32,7 +34,11 @@
         }
 
         /* 차트 크기 설정 */
-        canvas {
+        #genderChart {
+            width: 30% !important; /* 캔버스 너비를 100%로 설정 */
+            height: auto !important; /* 자동 높이 설정 */
+        }
+        #myChart {
             width: 100% !important; /* 캔버스 너비를 100%로 설정 */
             height: auto !important; /* 자동 높이 설정 */
         }
@@ -40,19 +46,15 @@
 </head>
 <body>
 <div layout:fragment="body" id="main">
-    <h1>전체 회원 수 차트</h1>
 
     <div class="gender-chart-container">
-        <canvas id="genderChart" width="300" height="300"></canvas>
-
+        <canvas id="genderChart" width="200" height="200"></canvas>
+        <h1>전체 회원 수    <br> <span th:text="${totalUserCount}"></span></h1>
+        <h1>전체 대회 수<br> <span th:text="${totalTournaments}"></span></h1>
     </div>
 
     <div class="line-chart-container">
-        <canvas id="myChart" width="800" height="300"></canvas>
-    </div>
-    <div id="totalWrap">
-        <h1>전체 회원 수: <span th:text="${totalUserCount}"></span></h1>
-        <h1>전체 대회 수: <span th:text="${totalTournaments}"></span></h1>
+        <canvas id="myChart" width="1600" height="600"></canvas>
     </div>
 
 
