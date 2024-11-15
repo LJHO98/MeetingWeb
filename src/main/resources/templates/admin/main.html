@@ -11,46 +11,24 @@
 
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
-    <style>
-        /* 전체 레이아웃을 flexbox로 설정 */
-        #main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
 
-        /* 도넛 차트 영역 */
-        .gender-chart-container {
-            display: flex;
-            gap:40px;
-            width: 50%; /* 화면 왼쪽 절반 */
-            margin-bottom: 30px;
-        }
-
-        /* Line 차트 영역 */
-        .line-chart-container {
-            width: 100%; /* 하단에 차지하도록 */
-            max-width: 800px; /* 최대 폭을 설정 */
-        }
-
-        /* 차트 크기 설정 */
-        #genderChart {
-            width: 30% !important; /* 캔버스 너비를 100%로 설정 */
-            height: auto !important; /* 자동 높이 설정 */
-        }
-        #myChart {
-            width: 100% !important; /* 캔버스 너비를 100%로 설정 */
-            height: auto !important; /* 자동 높이 설정 */
-        }
-    </style>
 </head>
 <body>
-<div layout:fragment="body" id="main">
+<div layout:fragment="body" id="adminHomeMain">
 
     <div class="gender-chart-container">
-        <canvas id="genderChart" width="200" height="200"></canvas>
-        <h1>전체 회원 수    <br> <span th:text="${totalUserCount}"></span></h1>
-        <h1>전체 대회 수<br> <span th:text="${totalTournaments}"></span></h1>
+        <div id="doughnut">
+            <canvas id="genderChart"></canvas>
+        </div>
+        <div id="count">
+            <div id="memberCount">
+                전체 회원 수
+                <span th:text="${totalUserCount}"></span>
+            </div>
+            <div id="tournamentCount">
+                <span th:text="${totalTournaments}"></span>
+            </div>
+        </div>
     </div>
 
     <div class="line-chart-container">
