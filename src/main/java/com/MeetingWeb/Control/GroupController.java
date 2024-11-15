@@ -7,6 +7,7 @@ import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -222,25 +223,55 @@ public class GroupController {
             @PathVariable Long boardId,
             RedirectAttributes redirectAttributes) {
 
-        // postId를 사용하여 해당 게시글을 업데이트
+        Long userId = getLoggedUserId(); // 로그인된 사용자의 ID 가져오기
+
+        // 게시글 작성자 또는 모임장인지 확인하여 수정 권한 체크
+        if (!groupService.canDeletePost(userId, groupId, boardId)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "수정 권한이 없습니다.");
+            return "redirect:/group/" + groupId + "/groupBoard"; // 수정 불가 시 게시글 목록 페이지로 리다이렉트
+        }
+
+        // 그룹 회원인지 확인
+        if (!groupService.isMemberOfGroup(userId, groupId)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "모임 회원이 아니므로 수정할 수 없습니다.");
+            return "redirect:/group/" + groupId; // 모임 상세 페이지로 리다이렉트
+        }
+
+        // 게시글 업데이트 수행
         groupBoardDto.setGroupId(groupId);
         groupBoardDto.setBoardId(boardId);
 
         // 게시글 업데이트 수행
         GroupBoardDto updatedGroupBoard = groupService.updateBoard(boardId, groupBoardDto);
 
-        // 메시지를 Flash Attribute로 추가하여 리다이렉트 시 전달
+        // 성공 메시지를 Flash Attribute로 추가
         redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 수정되었습니다.");
-
-        // 수정 완료 후 게시글 목록 페이지로 리다이렉트
-        return "redirect:/group/" + groupId + "/groupBoard";
+        return "redirect:/group/" + groupId + "/groupBoard"; // 수정 완료 후 게시글 목록 페이지로 리다이렉트
     }
+
+
+    //활동피드삭제
+    @DeleteMapping("/group/{groupId}/groupBoard/{boardId}")
+    public ResponseEntity<String> deletePost(@PathVariable Long groupId,
+                                             @PathVariable Long boardId,
+                                             @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
+        if (!groupService.canDeletePost(userId, groupId, boardId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한이 없습니다.");
+        }
+        // 권한이 있으면 삭제 수행
+        groupService.deletePost(boardId);
+        return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
+    }
+
+
+
     //모임 관리 페이지
     @GetMapping("/group/{groupId}/groupAdmin")
     public String groupAdmin(@PathVariable Long groupId, Model model) {
         GroupDto groupDto = groupService.findGroupById(groupId); // 그룹 정보를 가져옵니다.
         model.addAttribute("groupDetail", groupDto); // 그룹 정보를 모델에 추가합니다.
-        return "group/groupAdmin";
+        return "/groupAdmin/groupAdmin";
     }
 
     //회원관리페이지
@@ -250,7 +281,7 @@ public class GroupController {
         GroupDto groupDto = groupService.findGroupById(groupId);
         model.addAttribute("groupOwner", groupDto.getCreatedBy());
         model.addAttribute("groupDetail", groupDto);
-        return "group/memberAdmin";
+        return "groupAdmin/memberAdmin";
     }
 
     //회원강퇴
@@ -271,8 +302,16 @@ public class GroupController {
     @GetMapping("/group/{groupId}/application")
     public String applicationAdmin(@PathVariable Long groupId,Model model) {
         GroupDto groupDto = groupService.findGroupById(groupId);
+        List<GroupApplicationDto> applicationDtoList=groupService.getApplicationId(groupId);
         model.addAttribute("groupDetail", groupDto);
-        return "group/applicationAdmin";
+        model.addAttribute("applicationDtoList", applicationDtoList);
+        return "groupAdmin/applicationAdmin";
+    }
+    //신청수락 후 해당모임 가입저장
+    @PostMapping("/group/{groupId}/application/{userId}")
+    public String acceptApplication(@PathVariable Long groupId, @PathVariable Long userId, Model model) {
+        groupService.acceptApplication(groupId, userId);
+        return "redirect:/group/" + groupId + "/application";
     }
 
 

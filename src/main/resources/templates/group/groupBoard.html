@@ -4,12 +4,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragment/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>모임 게시판</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <meta charset="UTF-8">
+  <title>모임 게시판</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.tiny.cloud/1/v66zwuo2z8kbdl4t3rglfdpi9lmstor02zcg46dlh7k7q83b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
@@ -29,8 +29,8 @@
                     const noticeList = document.getElementById("noticeList");
                     noticeList.innerHTML = ''; // 기존 목록 초기화
 
-                    const isGroupOwner = response.isGroupOwner; // 서버에서 전달된 isGroupOwner 값
-                    const notices = response.notices;
+          const isGroupOwner = response.isGroupOwner; // 서버에서 전달된 isGroupOwner 값
+          const notices = response.notices;
 
                     notices.forEach(notice => {
                         console.log(notice.id);
@@ -91,23 +91,38 @@
             });
         }
 
-        function openPostModal(post, groupId) {
-            document.getElementById("modalTitle").innerText = post.title;
-            document.getElementById("modalContent").innerHTML = post.content;
-            document.getElementById("modalUserName").innerText = post.userName;
-            document.getElementById("modalImg").src = post.profileImgUrl;
-            document.getElementById("editButton").setAttribute("onclick", `editPost(${post.boardId}, ${groupId})`);
-            $('#postModal').modal('show'); // 모달 열기
-        }
+    function openPostModal(post, groupId) {
+      document.getElementById("modalTitle").innerText = post.title;
+      document.getElementById("modalContent").innerHTML = post.content;
+      document.getElementById("modalUserName").innerText = post.userName;
+      document.getElementById("editButton").setAttribute("onclick", `editPost(${post.boardId}, ${groupId})`);
+      document.getElementById("deleteButton").setAttribute("onclick", `deletePost(${post.boardId}, ${groupId})`);
+      $('#postModal').modal('show'); // 모달 열기
+    }
 
-        function editPost(boardId, groupId) {
-            if (!boardId || !groupId) {
-                alert("게시글 ID 또는 그룹 ID를 가져올 수 없습니다.");
-                return;
-            }
-            const url = `/group/${groupId}/updateWrite/${boardId}`;
-            window.location.href = url;
+    function editPost(boardId, groupId) {
+      if (!boardId || !groupId) {
+        alert("게시글 ID 또는 그룹 ID를 가져올 수 없습니다.");
+        return;
+      }
+      const url = `/group/${groupId}/updateWrite/${boardId}`;
+      window.location.href = url;
+    }
+    function deletePost(boardId, groupId) {
+      if (!confirm("정말 삭제하시겠습니까?")) return;
+
+      $.ajax({
+        url: `/group/${groupId}/groupBoard/${boardId}`,
+        method: 'DELETE',
+        success: function(response) {
+          alert("게시글이 삭제되었습니다.");
+          location.reload(); // 페이지 새로고침하여 목록 업데이트
+        },
+        error: function() {
+          alert("삭제 권한이 없습니다.");
         }
+      });
+    }
 
         function deleteNotice(id) {
             if (!confirm("정말 삭제하시겠습니까?")) return;
@@ -142,15 +157,21 @@
     </script>
 </head>
 
-<div layout:fragment="body" id="groupBoardMain">
+<div layout:fragment="body" id="groupDetailMain">
+  <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+    <p th:text="${errorMessage}"></p>
+  </div>
 
-    <div th:if="${errorMessage}">
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            showAlert([[${errorMessage}]]);
-            /*]]>*/
-        </script>
-    </div>
+  <div th:if="${message}" class="alert alert-success" role="alert">
+    <p th:text="${message}"></p>
+  </div>
+  <div th:if="${errorMessage}">
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      showAlert([[${errorMessage}]]);
+      /*]]>*/
+    </script>
+  </div>
 
     <th:block th:replace="group/groupTop :: groupTop"></th:block>
 
@@ -178,53 +199,42 @@
                 <i class="btn btn-sm bi bi-plus-circle" onclick="moveToWritePage()"></i>
             </div>
 
-            <div id="postBox" th:each="post : ${posts}" >
-                <a href="javascript:void(0)" th:onclick="openPostModal([[${post}]], [[${groupDetail.groupId}]])">
-                    <div id="writer">
-                        <div id="img">
-                            <img th:src="${post.profileImgUrl}" alt="Profile Image" />
-                        </div>
-                        <span th:text="${post.userName}"></span>
-                    </div>
-                    <div id="post">
-                        <div id="title" th:text="${post.title}"></div>
-                        <div class="post-content" th:utext="${post.content}"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
+  <ul>
+    <li th:each="post : ${posts}">
+      <h5><a href="javascript:void(0)" th:text="${post.title}"
+             th:onclick="openPostModal([[${post}]], [[${groupDetail.groupId}]])">제목</a>
+      </h5>
+      <p th:utext="${post.content}">내용</p>
+      <img th:src="${post.profileImgUrl}" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;" />
+      <span th:text="${post.userName}">작성자</span>
+<!--      <span th:text="${post.boardId}">게시글 ID</span>-->
+<!--      <span th:text="${groupDetail.groupId}">그룹 ID</span>-->
+      <hr>
+    </li>
+  </ul>
 
-        <!-- 모달 HTML -->
-        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                            <div class="modal-title" id="modalTitle">제목</div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="modalContent">내용</div>
-                    </div>
-                    <div class="modal-footer">
-                        <div id="modal-writer">
-                            <div id="modal-img">
-                                <img id="modalImg" alt="Profile Image" />
-                            </div>
-                            <span id="modalUserName">작성자</span>
-<!--                            <img id="modalImg">-->
-<!--                            <p><span id="modalUserName"></span></p>-->
-                        </div>
-                        <div id="bt">
-                            <button type="button" class="btn btn-primary" id="editButton">수정</button>
-                            <button type="button" class="btn" onclick="deletePost()">삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- 모달 HTML -->
+  <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">제목</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <p><strong>작성자:</strong> <span id="modalUserName"></span></p>
+          <div id="modalContent">내용</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-primary" id="editButton">수정</button>
+          <button type="button" class="btn btn-danger" id="deleteButton">삭제</button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 </html>

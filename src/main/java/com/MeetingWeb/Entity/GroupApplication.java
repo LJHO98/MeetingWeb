@@ -29,6 +29,9 @@ public class GroupApplication {//모임신청
 
     private LocalDateTime approvalDate; // 승인 시간 필드
 
+
+    private boolean isApproved = false; // 가입 승인 여부, 기본값은 미승인 상태
+
     @PrePersist
     protected void onPrePersist() {
         this.approvalDate = LocalDateTime.now(); // 승인 시간 자동 설정

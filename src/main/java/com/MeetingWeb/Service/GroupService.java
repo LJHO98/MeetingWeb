@@ -9,6 +9,7 @@ import com.MeetingWeb.Entity.*;
 //import com.MeetingWeb.Repository.GroupDescriptionRepository;
 import com.MeetingWeb.Repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -34,6 +35,7 @@ public class GroupService {
     private final GroupApplicationRepository groupApplicationRepository;
     private final TournamentRepository tournamentRepository;
     private final GroupBoardRepository groupBoardRepository;
+    private final DataSourceTransactionManagerAutoConfiguration dataSourceTransactionManagerAutoConfiguration;
 
     @Transactional
     public GroupDto createGroup(GroupDto groupDto, User createdBy) throws IOException {
@@ -340,6 +342,64 @@ public class GroupService {
         }
 
     }
+
+    //신청서목록보여주기
+    public List<GroupApplicationDto> getApplicationId(Long groupId) {
+        List<GroupApplication>applicationList = groupApplicationRepository.findByGroup_GroupId(groupId);
+        List<GroupApplicationDto> groupApplicationDtoList = new ArrayList<>();
+        for (GroupApplication groupApplication : applicationList) {
+            GroupApplicationDto groupApplicationDto = GroupApplicationDto.of(groupApplication);
+            groupApplicationDtoList.add(groupApplicationDto);
+        }
+        return groupApplicationDtoList;
+
+    }
+
+    //승인가입 수락 후 모임가입저장
+    public void acceptApplication(Long groupId, Long userId) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException("Group not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        GroupApplication groupApplication = groupApplicationRepository.findByUser_Id(userId);
+
+        // 그룹의 현재 인원 수 증가
+        addMemberToGroup(groupId, user);
+        groupApplicationRepository.deleteById(groupApplication.getApplicationId());
+
+
+    }
+
+    //활동피드삭제
+    public void deletePost(Long boardId) {
+        groupBoardRepository.deleteById(boardId); // postId로 게시글 삭제
+    }
+
+
+    //활동피드권한 (작성자,모임장만 가능)
+    public boolean canDeletePost(Long userId, Long groupId, Long boardId) {
+        // 게시글 정보를 가져옴
+        GroupBoardDto post = findBoardById(boardId);
+        if (post == null) {
+            throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
+        }
+
+        // 작성자인지 확인 지금작성자 확인이 안되는중
+          boolean isAuthor =userId.equals(post.getUserId());
+//        User user=userRepository.findByUserName(userId);
+//        boolean isAuthor=user.getUserName().equals(post.getUserName());
+        System.out.println("ssssssssssssssssss"+isAuthor);
+        // 모임장인지 확인
+          boolean isGroupOwner = isGroupOwner(userId, groupId);
+
+        return isAuthor || isGroupOwner;
+    }
+
+
+
+
+
+
 
 }
 

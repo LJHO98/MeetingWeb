@@ -33,6 +33,7 @@ public class GroupBoardDto {
 
     public static GroupBoardDto of(GroupBoard groupBoard) {
         GroupBoardDto dto = new GroupBoardDto();
+        dto.setUserId(groupBoard.getUser().getId());
         dto.setGroupId(groupBoard.getGroup().getGroupId());
         dto.setBoardId(groupBoard.getBoardId());
         dto.setTitle(groupBoard.getTitle());

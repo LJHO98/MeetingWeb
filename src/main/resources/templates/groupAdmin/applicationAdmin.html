@@ -12,24 +12,137 @@
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
 
-    <link rel="stylesheet" href="/css/groupAdmin/groupAdminTop.css">
-    <link rel="stylesheet" href="/css/groupAdmin/applicationAdmin.css">
+    <script src="/js/groupAdmin.js"></script>
+
+
+<link rel="stylesheet" href="/css/group/groupInfo.css">
+<link rel="stylesheet" href="/css/group/groupTop.css">
+    <script>
+            function openApplicationModal(applicationDto, groupId) {
+                    // 신청서 정보를 모달에 표시
+                        document.getElementById("modalReason").innerText = applicationDto.reason;
+                    document.getElementById("modalSay").innerText = applicationDto.say;
+
+                        // 수락 버튼에 groupId와 userId를 설정
+                            const acceptButton = document.getElementById("accept");
+                    acceptButton.setAttribute("data-group-id", groupId);
+                    acceptButton.setAttribute("data-user-id", applicationDto.user.userId);
+
+                        // 모달 열기
+                            $('#applicationModal').modal('show');
+                }
+
+            function acceptApplication() {
+                // 수락 버튼에서 groupId와 userId를 읽어오기
+                const acceptButton = document.getElementById("accept");
+                const groupId = acceptButton.getAttribute("data-group-id");
+                const userId = acceptButton.getAttribute("data-user-id");
+
+                const url = `/group/${groupId}/application/${userId}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("가입 신청이 수락되었습니다.");
+                            window.location.reload(); // 페이지 새로고침하여 변경 사항 반영
+                        } else {
+                            alert("가입 신청 처리 중 오류가 발생했습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("가입 신청 처리 중 오류가 발생했습니다.");
+                    });
+            }
+        </script>
 
 </head>
-
-<div layout:fragment="body" id="applicationAdminMain">
-
-
+<div layout:fragment="body" id="memberAdminMain">
     <th:block th:replace="groupAdmin/groupAdminTop :: groupAdminTop"></th:block>
 
+<p>신청서목록</p>
+    <ul>
+            <li th:each="applicationDto : ${applicationDtoList}"
+                 +            th:if="${applicationDto.user.userId} != ${groupDetail.createdBy}">
+                <img th:src="${applicationDto.getUser().getProfileImgUrl()}" alt="Profile Image"
+                      +                 style="width: 50px; height: 50px; border-radius: 50%;" />
+                <span th:text="${applicationDto.user.name}" th:onclick="openMemberModal([[${applicationDto}]])"></span>
+    <!--            <button th:onclick="openApplicationModal([[${applicationDto}]])">신청서</button>-->
+                <button type="button" class="btn btn-primary"
+                         +                    th:onclick="openApplicationModal([[${applicationDto}]], [[${groupId}]])">
+                    신청서
+                </button>
+            </li>
+        </ul>
 
-    <p>신청서목록</p>
+
+
+
+
+
+
+
+
+
+
+    <!-- 모달 HTML -->
+    <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalMemberName">회원 이름</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modalProfileImg" src="" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;" />
+                        <p><strong>성별:</strong> <span id="modalGender"></span></p>
+                        <p><strong>출생년도:</strong> <span id="modalBirthdate"></span></p>
+                        <p><strong>활동 지역:</strong> <span id="modalActivityArea"></span></p>
+                        <p><strong>카테고리:</strong> <span id="modalCategories"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- 신청서 모달 -->
+    <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="applicationModalLabel">신청서 정보</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>가입 이유:</strong> <span id="modalReason"></span></p>
+                        <p><strong>하고 싶은 말:</strong> <span id="modalSay"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="accept" onclick="acceptApplication()">수락</button>
+                        <button type="button" class="btn btn-danger" onclick="rejectApplication()">거절</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+    <!--                <div class="modal-footer">-->
+    <!--                    &lt;!&ndash; groupId와 userId를 직접 출력 &ndash;&gt;-->
+    <!--                    <button type="button" class="btn btn-success" >수락</button>-->
+    <!--                    <button type="button" class="btn btn-danger" onclick="rejectApplication()">거절</button>-->
+    <!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>-->
+    <!--                </div>-->
+                </div>
+            </div>
+        </div>
 
 </div>
-
-
-
-
-
-
 </html>
+
