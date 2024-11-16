@@ -395,6 +395,58 @@ public class GroupService {
 
         return isAuthor || isGroupOwner;
     }
+    //모임장탈퇴
+    @Transactional
+    public void groupLeave(Long groupId, Long userId) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException("Group not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // 모임장 여부 확인
+        if (isGroupOwner(userId, groupId)) {
+            // 다음 모임장 찾기
+            GroupMember nextOwner = groupMemberRepository.findFirstByGroup_GroupIdOrderByJoinedAtAsc(groupId)
+                    .orElseThrow(() -> new IllegalStateException("No members available to take ownership"));
+
+            group.setCreatedBy(nextOwner.getUser()); // 다음 모임장을 설정
+            groupRepository.save(group);
+        }
+
+        // 현재 회원 삭제
+        GroupMember currentGroupOwner = groupMemberRepository.findByGroupAndUser(group, user);
+
+        groupMemberRepository.delete(currentGroupOwner);
+
+        // 모임 인원 감소
+        group.setCurrentHeadCount(group.getCurrentHeadCount() - 1);
+        groupRepository.save(group);
+    }
+
+    //일반회원탈퇴
+    @Transactional
+    public void memberLeave(Long groupId, Long userId) {
+        Groups group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityNotFoundException("Group not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // 현재 회원 삭제
+        GroupMember member = groupMemberRepository.findByGroupAndUser(group, user);
+
+        groupMemberRepository.delete(member);
+
+        // 모임 인원 감소
+        group.setCurrentHeadCount(group.getCurrentHeadCount() - 1);
+        groupRepository.save(group);
+
+    }
+
+
+
+
+
+
 
 
 
@@ -403,6 +455,7 @@ public class GroupService {
 
 
 }
+
 
 
 

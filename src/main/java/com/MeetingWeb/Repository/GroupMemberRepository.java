@@ -25,4 +25,9 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
     @Query("SELECT COUNT(gm) FROM GroupMember gm WHERE gm.group = :group")
     int countByGroup(@Param("group") Groups group);
 
+    //모임장탈퇴시 가입순 리더
+    Optional<GroupMember> findFirstByGroup_GroupIdOrderByJoinedAtAsc(Long groupId);
+
+
+    GroupMember findByGroupAndUser(Groups group, User user);
 }

@@ -66,6 +66,7 @@ public class GroupDto {
 
     public Groups toEntity(String profileImageUrl, User createdBy, GroupCategory groupCategory) {
         Groups group = new Groups();
+        group.setGroupId(this.groupId);
         group.setName(this.name);
         group.setIntroduce(this.introduce);
         group.setDescription(this.description);
@@ -117,5 +118,8 @@ public class GroupDto {
                 .map(UserDto::of)
                 .collect(Collectors.toList());
     }
+
+
+
 
 }

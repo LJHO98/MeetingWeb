@@ -19,7 +19,7 @@
 
 
     <div id="groupMenu">
-        <div id="schedule"><a th:href="@{'/groupAdmin/'+${groupDetail.groupId}+'/groupAdmin'}">일정</a></div>
+        <div id="schedule"><a th:href="@{'/groupAdmin/'+${groupDetail.groupId}+'/eventAdmin'}">일정</a></div>
         <div id="application">
             <a th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL }"
                th:href="@{/group/{groupId}/application(groupId=${groupDetail.groupId})}">
@@ -32,7 +32,9 @@
         <div id="exit">
             <a th:href="@{/group/{groupId}(groupId=${groupDetail.groupId})}">나가기</a>
         </div>
-        <div id="secession"><a href="">탈퇴</a></div>
+        <form th:action="@{/group/{groupId}/leave(groupId=${groupDetail.groupId})}" method="post">
+            <button type="submit" class="btn btn-danger">탈퇴</button>
+        </form>
 <!--        <div th:text="${groupDetail.registrationType}"></div>-->
 
 

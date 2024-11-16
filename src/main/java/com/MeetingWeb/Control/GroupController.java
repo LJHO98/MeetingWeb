@@ -1,6 +1,8 @@
 package com.MeetingWeb.Control;
 
 import com.MeetingWeb.Dto.*;
+import com.MeetingWeb.Entity.GroupMember;
+import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Repository.UserRepository;
 import com.MeetingWeb.Service.GroupService;
@@ -82,6 +84,10 @@ public class GroupController {
         Long userId = userService.findByUserName(userDetails.getUsername()).getId();
         boolean isGroupOwner = groupService.isGroupOwner(userId, id);
         model.addAttribute("isGroupOwner", isGroupOwner); // 결과를 모델에 추가
+
+        // 현재 로그인한 사용자가 그룹에 가입되어있는지확인하고 탈퇴버튼 생성
+        boolean isMember=groupService.isMemberOfGroup(userId, id);
+        model.addAttribute("isMember", isMember);
 
         return "group/groupInfo";
     }
@@ -311,8 +317,32 @@ public class GroupController {
     @PostMapping("/group/{groupId}/application/{userId}")
     public String acceptApplication(@PathVariable Long groupId, @PathVariable Long userId, Model model) {
         groupService.acceptApplication(groupId, userId);
-        return "redirect:/group/" + groupId + "/application";
+        return "redirect:/group/" + groupId + "/applicationAdmin";
     }
+
+    //모임장 탈퇴시 가입오래된 순서로 자동위임
+    @PostMapping("/group/{groupId}/leave")
+    public String groupLeave(@PathVariable Long groupId, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
+        groupService.groupLeave(groupId, userId);
+        return "redirect:/group/" + groupId;
+    }
+    //일반회원탈퇴
+    @PostMapping("/group/leave/{groupId}")
+    public String leaveGroup(@PathVariable Long groupId, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
+        groupService.memberLeave(groupId, userId);
+        return "redirect:/group/" + groupId;
+    }
+    //일정관리페이지 이동
+    @GetMapping("/groupAdmin/{groupId}/eventAdmin")
+    public String eventAdmin(@PathVariable Long groupId, Model model) {
+        GroupDto groupDto = groupService.findGroupById(groupId);
+        model.addAttribute("eventsDto", new EventsDto());
+        model.addAttribute("groupDetail", groupDto);
+        return "groupAdmin/eventAdmin";
+    }
+
 
 
 

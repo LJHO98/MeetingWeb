@@ -30,22 +30,27 @@
         <div id="groupTournament"><a th:href="@{/group/{groupId}/tournament(groupId=${groupDetail.groupId})}">참가대회</a></div>
 
         <div id="admin">
-            <a th:if="${isGroupOwner}" th:href="@{'/group/'+${groupDetail.groupId}+'/groupAdmin'}">
+            <a th:if="${isGroupOwner}" th:href="@{|/group/${groupDetail.groupId}/groupAdmin|}">
                 관리
             </a>
         </div>
-<!--        <button type="button" data-toggle="modal" data-target="#applyModal">가입</button>-->
-        <!-- 자유 가입 (FREE) 방식: POST로 그룹 가입 요청 -->
-        <form th:if="${groupDetail.registrationType.name() == 'FREE'}"
-              th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
-            <button type="submit" id="freeBt" class="btn custom-green-button mt-3">가입</button>
+        <!-- 자유 가입 (FREE) 방식 -->
+        <form th:if="${groupDetail.registrationType.name() == 'FREE' && !isGroupOwner}" th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
+            <button th:if="${!isMember}" type="submit" id="freeBt" class="btn custom-green-button mt-3">가입</button>
+        </form>
+        <form th:if="${groupDetail.registrationType.name() == 'FREE' && isMember && !isGroupOwner}" th:action="@{/group/leave/{groupId}(groupId=${groupDetail.groupId})}" method="post">
+            <button type="submit" id="leaveBt" class="btn custom-red-button mt-3">탈퇴</button>
         </form>
 
-        <!-- 승인 필요 (APPROVAL) 방식: 모달을 통해 신청서 작성 -->
-        <button type="button" id="approvalBt" th:if="${groupDetail.registrationType.name() == 'APPROVAL'}"
+        <!-- 승인 필요 (APPROVAL) 방식 -->
+        <button type="button" id="approvalBt" th:if="${groupDetail.registrationType.name() == 'APPROVAL' && !isMember && !isGroupOwner}"
                 class="btn custom-green-button mt-3" data-toggle="modal" data-target="#applyModal">
             가입
         </button>
+        <form th:if="${groupDetail.registrationType.name() == 'APPROVAL' && isMember && !isGroupOwner}" th:action="@{/group/leave/{groupId}(groupId=${groupDetail.groupId})}" method="post">
+            <button type="submit" id="leaveBt2" class="btn custom-red-button mt-3">탈퇴</button>
+        </form>
+
 
         <!-- 모달 -->
         <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true" >

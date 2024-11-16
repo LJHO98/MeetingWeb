@@ -18,13 +18,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,10 +54,11 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUserName(userName);
         return user;
     }
-    public void findByUserId(Long userId) {
+    public User findByUserId(Long userId) {
         // Optional을 사용하여 존재 여부를 확인한 후 User 객체를 반환
        userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 유저가 존재하지 않습니다. ID: " + userId));
+        return null;
     }
 
     public void singUp(UserDto userDto, PasswordEncoder passwordEncoder) {
