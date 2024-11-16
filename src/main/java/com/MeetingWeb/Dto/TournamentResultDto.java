@@ -7,8 +7,9 @@ import lombok.Setter;
 @Setter
 public class TournamentResultDto {
     private Long tournamentId;
-    private Long GroupId;
-    private int firstScore;
-    private int secondScore;
+    private Long windId;
+    private int scoreA;
+    private int scoreB;
+    private int matchNumber;
 
 }

@@ -29,4 +29,8 @@ public interface GroupRepository extends JpaRepository<Groups, Long> {
     // 전체 회원 수 카운트
     @Query("SELECT COUNT(g) FROM Groups g")
     long countTotalGroups();
+
+    @Query("SELECT g FROM Groups g WHERE g.category.groupCategoryId = :categoryId ORDER BY g.win DESC")
+    List<Groups> findByCategoryOrderByWinDesc(@Param("categoryId") Long categoryId);
+
 }

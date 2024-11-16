@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="tournamentTop" id="tournamentTop">
-    <div th:text="${errorMessage}" id="error-message"></div>
+    <div th:text="${errorMessage}" id="error-message" style="display: none"></div>
     <div id="topWrap">
         <div id="tournamentImg">
             <img th:src="${tournament.tournamentImgUrl}" alt="Profile Image">

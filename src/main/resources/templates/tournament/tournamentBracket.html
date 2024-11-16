@@ -1,77 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout}">
 <head>
     <title>대회 대진표</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <style>
-        .tournament {
-
-            display: flex;
-            column-gap: 100px;
-            padding: 20px;
-            align-items: center;
-        }
-        .participatingBox {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 150px;
-            margin: 0 20px;
-        }
-        .team {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            text-align: center;
-
-        }
-        .team img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 5px;
-        }
-        /* 연결선 스타일 */
-        .line {
-            border-left: 2px solid #000;
-            height: 20px;
-            margin: 10px auto;
-        }
-        .participatingBox h3 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/tournament/tournamentBracket.css">
+    <link rel="stylesheet" href="/css/tournament/tournamentTop.css">
 </head>
-<body>
+<div layout:fragment="body" id="tournamentBracket">
+<div th:text="${errorMessage}" id="error-message" style="display: none"></div>
+<h1>대진표</h1>
 <form action="/match" th:object="${trnDto}">
     <input type="hidden" th:field="*{tournamentId}">
-    <button>랜덤</button>
+    <button>대진표 섞기</button>
 </form>
 <!-- 대진표 동적 생성 -->
 <div class="tournament">
 
 </div>
 
-<div> <!-- 경기결과 모달 -->
-    <div class="ab">
-        <span class="a1 resSelect"></span>
-        <span class="b1 resSelect"></span>
-        <div>
-            <input type="hidden" id="win">
-            <input type="hidden" id="matchNum">
-            <input type="text" id="score">
+<!--<div> &lt;!&ndash; 경기결과 모달 &ndash;&gt;-->
+<!--    <div class="ab">-->
+<!--        <span class="a1 resSelect"></span>-->
+<!--        <span class="b1 resSelect"></span>-->
+<!--        <div>-->
+<!--            <input type="hidden" id="win">-->
+<!--            <input type="hidden" id="matchNum">-->
+<!--            <input type="text" id="score">-->
+<!--        </div>-->
+<!--        <button type="button" id="resultSave">저장</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!-- 경기결과 모달 -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resultModalLabel">경기 결과 선택</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="team-selection">
+                    <div class="team-box left resSelect a1" data-id="" data-match=""></div>
+                    <div class="team-box right resSelect b1" data-id="" data-match=""></div>
+                </div>
+                <div>
+                    <input type="number" id="scoreA" class="score-input form-control d-inline" placeholder="0" min="0" value="0" oninput="validateScores()">
+                    <span>스코어</span>
+                    <input type="number" id="scoreB" class="score-input form-control d-inline" placeholder="0" min="0" value="0" oninput="validateScores()">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <input type="hidden" id="win">
+                    <input type="hidden" id="matchNum">
+                </div>
+                <button type="button" id="resultSave" class="btn btn-primary">확인</button>
+            </div>
         </div>
-        <button type="button" id="resultSave">저장</button>
     </div>
 </div>
+
 
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -236,52 +231,80 @@
         var aMatchNum = $(this).find("span").data("match");
         var bgid = $(".team").eq(bNum - 1).find("span").data("id");
         var bMatchNum = $(".team").eq(bNum - 1).find("span").data("match");
-        var aName = $(this).find("span").text();
-        var bName = $(".team").eq(bNum - 1).find("span").text();
+        var aName = $(this).find("span[data-id]").text();
+        var bName = $(".team").eq(bNum - 1).find("span[data-id]").text();
 
-        $(".ab .a1").data("id", agid).text(aName);
-        $(".ab .b1").data("id", bgid).text(bName);
-        $(".ab .a1").data("match", aMatchNum);
-        $(".ab .b1").data("match", bMatchNum);
+        $(".team-selection .a1").data("id", agid).text(aName);
+        $(".team-selection .b1").data("id", bgid).text(bName);
+        $(".team-selection .a1").data("match", aMatchNum);
+        $(".team-selection .b1").data("match", bMatchNum);
+
+        $("#resultModal").modal("show");
     });
 
     $(".resSelect").on("click", function() {
-        $(".resSelect").removeAttr("style");
-        $(this).css("color", "red");
+        // $(".resSelect").removeAttr("style");
+        // $(this).css("color", "red");
+        $(".resSelect").css("border", "none"); // 모든 선택 요소의 스타일 초기화
+        $(this).css("border", "3px solid red"); // 선택된 팀에 빨간 테두리
         $("#win").val($(this).data("id"));
         $("#matchNum").val($(this).data("match"));
     });
 
     $("#resultSave").on("click", function() {
         var wingid = $("#win").val();
-        var score = $("#score").val();
+        var scoreA = $("#scoreA").val();
+        var scoreB = $("#scoreB").val();
         var tid = $("input[name='tournamentId']").val();
         var matchNum = $("#matchNum").val();
 
-        if (!wingid || !score || !tid || !matchNum) {
+        if (!wingid || !scoreA || !tid || !matchNum || !scoreB) {
             alert("모든 필드를 입력해주세요.");
             return;
         }
 
-        location.href = "/tournament/matchResult?wgid=" + wingid + "&tid=" + tid + "&score=" + score + "&matchNum=" + matchNum;
+        // 무승부 검사: scoreA와 scoreB가 같을 때 경고 메시지 표시 및 초기화
+        if (!isNaN(scoreA) && !isNaN(scoreB) && scoreA === scoreB) {
+            alert("무승부는 기록할 수 없습니다. 다른 점수를 입력해주세요.");
+            $("#scoreA").val(0);
+            $("#scoreB").val(0);
+            return;
+        }
+
+        location.href = "/tournament/matchResult?wgid=" + wingid + "&tid=" + tid + "&scoreA=" + scoreA + "&scoreB="+ scoreB + "&matchNum=" + matchNum;
+    });
+
+    function validateScores() {
+        var scoreA = parseInt($("#scoreA").val(), 10);
+        var scoreB = parseInt($("#scoreB").val(), 10);
+
+        // 음수 방지: 유효하지 않은 경우 값을 초기화
+        if ($("#scoreA")[0].validity.valid === false) {
+            $("#scoreA").val(0);
+        }
+        if ($("#scoreB")[0].validity.valid === false) {
+            $("#scoreB").val(0);
+        }
+
+
+    }
+
+    $(document).ready(function() {
+        var errorMessage = $("#error-message").text();
+        if (errorMessage) {
+            alert(errorMessage);
+        }
     });
 
     // $(document).ready(function() {
     //     var errorMessage = $("#error-message").text();
     //     if (errorMessage) {
-    //         alert(errorMessage);
+    //         $("#modal-error-message").text(errorMessage);
+    //         $("#errorModal").modal('show');
     //     }
     // });
-    $(document).ready(function() {
-        var errorMessage = $("#error-message").text();
-        if (errorMessage) {
-            $("#modal-error-message").text(errorMessage);
-            $("#errorModal").modal('show');
-        }
-    });
 
 
 </script>
-
-</body>
+</div>
 </html>

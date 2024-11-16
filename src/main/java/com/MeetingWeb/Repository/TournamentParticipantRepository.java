@@ -35,4 +35,5 @@ public interface TournamentParticipantRepository extends JpaRepository<Tournamen
     List<TournamentParticipant> findDistinctParticipantsByGroup(@Param("group") Groups group);
 
 
+    TournamentParticipant findByTournamentAndMatchNumber(Tournaments tournament, int loserNum);
 }

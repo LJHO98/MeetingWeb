@@ -16,14 +16,24 @@
 
     <div id="rankingText">랭킹</div>
 
+    <div id="searchBox">
+        <form th:action="@{/ranking/search}" method="get">
+            <select id="categoryId" name="categoryId">
+                <!-- 카테고리 옵션 목록 추가 -->
+                <option th:each="category : ${categories}" th:value="${category.groupCategoryId}" th:text="${category.category}"></option>
+            </select>
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
     <div id="rankingWrap">
-        <div class="rankingBox">
-            <a href="">
+        <div class="rankingBox" th:each="group :${rankingList}">
+            <a href="@{/group/{groupId}(groupId=${group.groupId})}">
                 <div class="num"><div id="img1"></div></div>
-                <div class="rankingImg"><div id="img2"></div></div>
-                <div class="rankingName">선화동 배드민턴</div>
-                <div class="rankingCategory">스포츠</div>
-                <div class="winCount">52</div>
+                <div class="rankingImg"><img th:src="${group.profileImgUrl}"></div>
+                <div class="rankingName" th:text="${group.name}"></div>
+                <div class="rankingCategory" th:text="${group.categoryName}"></div>
+                <div class="winCount" th:text="${group.win}"></div>
             </a>
         </div>
     </div>

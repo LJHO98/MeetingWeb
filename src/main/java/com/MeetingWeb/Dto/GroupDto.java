@@ -60,6 +60,8 @@ public class GroupDto {
     private String profileImgUrl;
     private List<UserDto> members; // 회원 목록
 
+    private int win;
+
 
 
     public Groups toEntity(String profileImageUrl, User createdBy, GroupCategory groupCategory) {
@@ -92,6 +94,7 @@ public class GroupDto {
         groupDto.currentHeadCount = groups.getCurrentHeadCount();
         groupDto.capacity = groups.getCapacity();
         groupDto.profileImgUrl = groups.getProfileImgUrl();
+        groupDto.win = groups.getWin();
         return groupDto;
     }
 

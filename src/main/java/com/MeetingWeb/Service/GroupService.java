@@ -48,8 +48,8 @@ public class GroupService {
         if(!createdBy.getRole().equals(Role.ADMIN)) {
             createdBy.setRole(Role.READER);
         }
+        group.setCurrentHeadCount(1);
         groupRepository.save(group);
-
         GroupMember groupMember = new GroupMember();
         groupMember.setGroup(group);
         groupMember.setUser(createdBy);
@@ -221,6 +221,7 @@ public class GroupService {
                 .map(GroupDto::of)
                 .collect(Collectors.toList());
     }
+
     public void deleteGroup(Long id){
         if (groupRepository.existsById(id)) {
             groupRepository.deleteById(id);

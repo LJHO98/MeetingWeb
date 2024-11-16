@@ -1,18 +1,11 @@
 package com.MeetingWeb.Control;
 
 import com.MeetingWeb.Dto.*;
-import com.MeetingWeb.Entity.TournamentCategory;
-import com.MeetingWeb.Entity.Tournaments;
-import com.MeetingWeb.Entity.User;
-import com.MeetingWeb.Excption.ParticipantNotFoundException;
-import com.MeetingWeb.Excption.TournamentAlreadyCompletedException;
 import com.MeetingWeb.Repository.TournamentParticipantRepository;
 import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +18,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -170,7 +162,7 @@ public class TournamentController {
     }
     //대진표 페이지 맵핑
     @GetMapping("/tournament/bracket/{tournamentId}")
-    public String tournamentGraph(@PathVariable Long tournamentId,Model model) {
+    public String tournamentGraph(@PathVariable Long tournamentId, Model model, RedirectAttributes redirectAttributes) {
         boolean isOk = tournamentService.isOkCreateBracket(tournamentId);
 
         if(isOk) {
@@ -179,17 +171,18 @@ public class TournamentController {
             List<TournamentParticipantDto> groupList = tournamentService.getParticipantList(tournamentId);
             model.addAttribute("groupList", groupList);
         }else{
+            redirectAttributes.addFlashAttribute("errorMessage", "아직 모집이 끝나지 않아 대진표 열람이 불가합니다." );
             return "redirect:/tournament/" + tournamentId;
         }
         return "tournament/tournamentBracket";
     }
     //대회 대진표 섞기
     @GetMapping("/match")
-    public String random(@RequestParam("tournamentId") Long tournamentId, Model model) {
-        if(!tournamentService.isStartTournament(tournamentId)) {
+    public String random(@RequestParam("tournamentId") Long tournamentId, RedirectAttributes redirectAttributes) {
+        try {
             tournamentService.shuffle(tournamentId);
-        }else{
-            throw new IllegalArgumentException("대회 중에는 셔플 금지");
+        }catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
 
         return"redirect:/tournament/bracket/"+tournamentId;
@@ -197,20 +190,16 @@ public class TournamentController {
 
     @GetMapping("/tournament/matchResult")
     public String macthResult(@RequestParam("wgid") Long winId, @RequestParam("tid") Long tournamentId,
-                              @RequestParam("score") int score, @RequestParam("matchNum") int matchNumber, Model model) {
+                              @RequestParam("scoreA") int scoreA, @RequestParam("matchNum") int matchNumber,
+                              @RequestParam("scoreB") int scoreB ,Model model) {
 //        if(tournamentService.isStartTournament(tournamentId)) {
-            tournamentService.selectResult(winId, tournamentId, score, matchNumber);
+            tournamentService.selectResult(winId, tournamentId, scoreA,scoreB, matchNumber);
 //        }else{
 //            throw new IllegalArgumentException("대회 시작전입니다.");
 //        }
         return "redirect:/tournament/bracket/"+tournamentId;
     }
 
-    @GetMapping("/shuffle")
-    public String shuffle(@RequestParam("tournamentId") Long tournamentId, Model model) {
-        tournamentService.shuffle(tournamentId);
-        return"redirect:/tournament/bracket/"+tournamentId;
-    }
 
 
 }
