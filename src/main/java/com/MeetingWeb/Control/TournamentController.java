@@ -6,6 +6,9 @@ import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -162,14 +165,16 @@ public class TournamentController {
     }
     //대진표 페이지 맵핑
     @GetMapping("/tournament/bracket/{tournamentId}")
-    public String tournamentGraph(@PathVariable Long tournamentId, Model model, RedirectAttributes redirectAttributes) {
+    public String tournamentGraph(@PathVariable Long tournamentId, Model model, RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails userDetails) {
         boolean isOk = tournamentService.isOkCreateBracket(tournamentId);
+        boolean isLeader = tournamentService.isUserLeader(tournamentId, userDetails.getUsername());
 
         if(isOk) {
             TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
             model.addAttribute("trnDto", trnDto);
             List<TournamentParticipantDto> groupList = tournamentService.getParticipantList(tournamentId);
             model.addAttribute("groupList", groupList);
+            model.addAttribute("isLeader", isLeader);
         }else{
             redirectAttributes.addFlashAttribute("errorMessage", "아직 모집이 끝나지 않아 대진표 열람이 불가합니다." );
             return "redirect:/tournament/" + tournamentId;
@@ -188,16 +193,32 @@ public class TournamentController {
         return"redirect:/tournament/bracket/"+tournamentId;
     }
 
-    @GetMapping("/tournament/matchResult")
-    public String macthResult(@RequestParam("wgid") Long winId, @RequestParam("tid") Long tournamentId,
-                              @RequestParam("scoreA") int scoreA, @RequestParam("matchNum") int matchNumber,
-                              @RequestParam("scoreB") int scoreB ,Model model) {
+//    @GetMapping("/tournament/matchResult")
+//    public String macthResult(@RequestParam("wgid") Long winId, @RequestParam("tid") Long tournamentId,
+//                              @RequestParam("scoreA") int scoreA, @RequestParam("matchNum") int matchNumber,
+//                              @RequestParam("scoreB") int scoreB ,Model model) {
 //        if(tournamentService.isStartTournament(tournamentId)) {
-            tournamentService.selectResult(winId, tournamentId, scoreA,scoreB, matchNumber);
+//            tournamentService.selectResult(winId, tournamentId, scoreA,scoreB, matchNumber);
 //        }else{
 //            throw new IllegalArgumentException("대회 시작전입니다.");
 //        }
-        return "redirect:/tournament/bracket/"+tournamentId;
+//        return "redirect:/tournament/bracket/"+tournamentId;
+//    }
+
+    @PostMapping("/tournament/matchResult")
+    @ResponseBody // AJAX 요청에 JSON 응답을 반환
+    public ResponseEntity<String> matchResult(
+            @RequestParam("wgid") Long winId,
+            @RequestParam("tid") Long tournamentId,
+            @RequestParam("scoreA") int scoreA,
+            @RequestParam("matchNum") int matchNumber,
+            @RequestParam("scoreB") int scoreB) {
+        try {
+            tournamentService.selectResult(winId, tournamentId, scoreA, scoreB, matchNumber);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok("경기 결과가 성공적으로 저장되었습니다.");
     }
 
 

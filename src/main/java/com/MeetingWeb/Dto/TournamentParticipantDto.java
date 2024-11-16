@@ -15,6 +15,8 @@ public class TournamentParticipantDto {
     private String profileImgUrl;
     private int matchNumber;
     private int score;
+    private boolean isCompleted;
+    private int bracketNumber;
 
     public static TournamentParticipantDto of(Groups group, TournamentParticipant tournamentParticipant) {
         TournamentParticipantDto dto = new TournamentParticipantDto();
@@ -23,6 +25,8 @@ public class TournamentParticipantDto {
         dto.setProfileImgUrl(group.getProfileImgUrl());
         dto.setMatchNumber(tournamentParticipant.getMatchNumber());
         dto.setScore(tournamentParticipant.getScore());
+        dto.setCompleted(tournamentParticipant.isCompleted());
+        dto.setBracketNumber(tournamentParticipant.getBracketNumber());
         return dto;
     }
 }

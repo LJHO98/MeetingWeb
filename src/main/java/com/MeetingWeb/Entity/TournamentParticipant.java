@@ -30,6 +30,8 @@ public class TournamentParticipant {
 
     private int score=0;
     private String matchResult;
+    private int bracketNumber; // 브라켓 번호
+    private boolean isCompleted = false; // 경기 완료 여부 추가
 
     @Column(updatable = false)
     private LocalDateTime joinedAt;

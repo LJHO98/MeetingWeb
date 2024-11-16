@@ -4,37 +4,25 @@
       layout:decorate="~{fragment/layout}">
 <head>
     <title>대회 대진표</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/css/tournament/tournamentBracket.css">
-    <link rel="stylesheet" href="/css/tournament/tournamentTop.css">
 </head>
 <div layout:fragment="body" id="tournamentBracket">
 <div th:text="${errorMessage}" id="error-message" style="display: none"></div>
-<h1>대진표</h1>
-<form action="/match" th:object="${trnDto}">
-    <input type="hidden" th:field="*{tournamentId}">
-    <button>대진표 섞기</button>
-</form>
+    <div id="bracketHeader">
+    <h1 id="tournament-title">대진표</h1>
+    <form id="shuffleForm" action="/match" th:object="${trnDto}">
+        <input type="hidden" th:field="*{tournamentId}">
+        <button class="button" id="shuffle-button">대진팀 섞기</button>
+    </form>
+    <button class="button back-button" onclick="location.href='/tournament/' + tournamentId">뒤로가기</button>
+    </div>
 <!-- 대진표 동적 생성 -->
 <div class="tournament">
 
 </div>
-
-<!--<div> &lt;!&ndash; 경기결과 모달 &ndash;&gt;-->
-<!--    <div class="ab">-->
-<!--        <span class="a1 resSelect"></span>-->
-<!--        <span class="b1 resSelect"></span>-->
-<!--        <div>-->
-<!--            <input type="hidden" id="win">-->
-<!--            <input type="hidden" id="matchNum">-->
-<!--            <input type="text" id="score">-->
-<!--        </div>-->
-<!--        <button type="button" id="resultSave">저장</button>-->
-<!--    </div>-->
-<!--</div>-->
-
 <!-- 경기결과 모달 -->
 <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -89,222 +77,12 @@
 
 
 <script th:inline="javascript">
-
-
-    var groupList = /*[[${groupList}]]*/[];
-    groupList = groupList.map(group => {
-        return {
-            ...group,
-            name: decodeURI((group.name))
-        };
-    });
-
-    var gang=/*[[${trnDto.format}]]*/[];
-    var depth=new Array();
-    do{
-        depth.push({라운드:gang,풀:0});
-        gang/=2;
-    }while(gang>=1);
-
-    gang=/*[[${trnDto.format}]]*/[];
-
-    // 아래 세가지 만 변경 가능!!!!!
-    var team_width=160; // 모임 너비
-    var team_height=120;// 모임 높이
-    var wadd=0; // 라운드별 간격 조절용 변수 ! 이것만 변경!!!!
-
-
-    var line_depth = [team_height/4, team_height, team_height*2+team_height/2,team_height*5+team_height/2];
-    console.log(line_depth);
-    for(var i in groupList){
-        var $d=$(`<div class="team quarterfinals" data-num="${i}">
-            <img src="${groupList[i].profileImgUrl}">
-            <span data-id="${groupList[i].groupId}" data-match="${groupList[i].matchNumber}">${groupList[i].name}</span>
-            <span class='score'>${groupList[i].score}</span>
-        </div>`);
-        $d.css({"width":team_width,"height":team_height});
-        $(".tournament").append($d);
-    }
-
-    var hg=h=100; // top 값
-    var hinc=team_height+team_height/2; // top 증가 값  .team의  높이에 따라 변해야 되는값
-    var depth_hinc=team_height/2+team_height/4; // 라운드마다 top 시작 위치 증가값
-    var w=20; //라운드 간격
-    var tp=0; //모임영역 인덱스
-    var line_width=4;
-
-
-    for(var i in depth){
-        var k=1;
-        for(; k<=depth[i].라운드; k++){
-            if( tp == $(".team").length) break;
-            $(".team").eq(tp).css("position","absolute");
-            $(".team").eq(tp).css("top",hg);
-            $(".team").eq(tp++).css("left",w);
-            depth[i].풀++;
-            console.log(tp+" "+depth[i].라운드);
-            hg+=hinc;
-        }
-        // if( tp == $(".team").length && k-1!=depth[i].라운드) break;
-        // depth[i].풀=1;
-        if(i!=0) depth_hinc=depth_hinc*2;
-        hg=h=h+depth_hinc;
-        hinc *=2;
-        w+=(team_width*2)+wadd; // 라운드별 간격 조절시 현재 계산식에  늘리고 싶은만큼 + 하기
-    }
-    console.log(depth);
-
-    if(gang < $(".team").length){
-        var end=0;
-        var i=0;
-        for(var di=1; di<depth.length &&depth[di].풀!=0; di++){
-            end+=depth[di].풀*2;
-            console.log(di);
-            for(; i< end; i++){
-                var left = $(".team").eq(i-1);
-                var left_offset=left.offset();
-                var right=$(".team").eq(i);
-                var right_offset=right.offset();
-                // for(var k=1; k<=2; k++){
-                line_make(i,di-1);
-                //}
-                if(i%2==0){
-                    var $line4 = $(`<div class='line_dp'></div>`);
-                    $line4.css("width",(team_width/2)+(wadd/2)+line_width+"px");  //  위에  라운드별 간격에 추가 한값의
-                    $line4.css("border",line_width/2+"px solid red");
-                    $line4.css("position","absolute");
-                    $line4.css("top",$(".team").eq(i).offset().top+($(".team").outerHeight())+line_depth[di-1]-2);
-                    $line4.css("left",$(".team").eq(i).offset().left+$(".team").outerWidth()+team_width/2-line_width+(wadd/2));
-                    $(".tournament").append($line4);
-                }
-            }
-        }
-    }
-
-    function line_make(idx,depth_idx){
-        var line_color="black";
-
-        var $line = $(`<div class='line_dp'></div>`);
-        $line.css("width",(team_width/2)+(wadd/2)+"px");
-        $line.css("height",((team_height/2+team_height/4)*(2**depth_idx))+"px");
-        $line.css("position","absolute");
-        if(idx%2==0){
-            if($(".team").eq(idx).find(".score").text() > $(".team").eq(idx+1).find(".score").text()) line_color="red";
-            $line.css({"border-top":line_width+"px solid "+line_color,"border-right":line_width+"px solid "+line_color });
-            $line.css("top",$(".team").eq(idx).offset().top+($(".team").outerHeight()/2)-2);
-        }else{
-            if($(".team").eq(idx).find(".score").text() > $(".team").eq(idx-1).find(".score").text()) line_color="red";
-            $line.css({"border-bottom":"4px solid "+line_color,"border-right":"4px solid "+line_color});
-            $line.css("top",$(".team").eq(idx).offset().top-(line_depth[depth_idx]));
-            console.log("bbb  "+line_depth)
-        }
-
-        $line.css("left",$(".team").eq(idx).offset().left+$(".team").width()+22);
-        $(".tournament").append($line);
-    }
-
-    // var pt=``;
-    // var ft=gang;
-    // for(var i in groupList) {
-    //     if(i==gang) {
-    //         var $ptbox = $('<div class="participatingBox"></div>');
-    //         $ptbox.append(pt);
-    //         ft = ft/2;
-    //         gang = gang+ft;
-    //         $(".tournament").append($ptbox);
-    //         pt=``;
-    //     }
-    //     pt +=`<div class="team quarterfinals" data-num="${i}">
-    //         <img src="${groupList[i].profileImg}">
-    //         <span data-id="${groupList[i].groupId}" data-match="${groupList[i].matchNumber}">${groupList[i].name}</span>
-    //         <span>${groupList[i].score}</span>
-    //     </div>`;
-    // }
-    // var $ptbox = $('<div class="participatingBox"></div>');
-    // $ptbox.append(pt);
-    // $(".tournament").append($ptbox);
-
-    $(".team").on("click", function() {
-        var aNum = $(this).data("num") + 1;
-        var bNum = aNum % 2 == 0 ? aNum - 1 : aNum + 1;
-        var agid = $(this).find("span").data("id");
-        var aMatchNum = $(this).find("span").data("match");
-        var bgid = $(".team").eq(bNum - 1).find("span").data("id");
-        var bMatchNum = $(".team").eq(bNum - 1).find("span").data("match");
-        var aName = $(this).find("span[data-id]").text();
-        var bName = $(".team").eq(bNum - 1).find("span[data-id]").text();
-
-        $(".team-selection .a1").data("id", agid).text(aName);
-        $(".team-selection .b1").data("id", bgid).text(bName);
-        $(".team-selection .a1").data("match", aMatchNum);
-        $(".team-selection .b1").data("match", bMatchNum);
-
-        $("#resultModal").modal("show");
-    });
-
-    $(".resSelect").on("click", function() {
-        // $(".resSelect").removeAttr("style");
-        // $(this).css("color", "red");
-        $(".resSelect").css("border", "none"); // 모든 선택 요소의 스타일 초기화
-        $(this).css("border", "3px solid red"); // 선택된 팀에 빨간 테두리
-        $("#win").val($(this).data("id"));
-        $("#matchNum").val($(this).data("match"));
-    });
-
-    $("#resultSave").on("click", function() {
-        var wingid = $("#win").val();
-        var scoreA = $("#scoreA").val();
-        var scoreB = $("#scoreB").val();
-        var tid = $("input[name='tournamentId']").val();
-        var matchNum = $("#matchNum").val();
-
-        if (!wingid || !scoreA || !tid || !matchNum || !scoreB) {
-            alert("모든 필드를 입력해주세요.");
-            return;
-        }
-
-        // 무승부 검사: scoreA와 scoreB가 같을 때 경고 메시지 표시 및 초기화
-        if (!isNaN(scoreA) && !isNaN(scoreB) && scoreA === scoreB) {
-            alert("무승부는 기록할 수 없습니다. 다른 점수를 입력해주세요.");
-            $("#scoreA").val(0);
-            $("#scoreB").val(0);
-            return;
-        }
-
-        location.href = "/tournament/matchResult?wgid=" + wingid + "&tid=" + tid + "&scoreA=" + scoreA + "&scoreB="+ scoreB + "&matchNum=" + matchNum;
-    });
-
-    function validateScores() {
-        var scoreA = parseInt($("#scoreA").val(), 10);
-        var scoreB = parseInt($("#scoreB").val(), 10);
-
-        // 음수 방지: 유효하지 않은 경우 값을 초기화
-        if ($("#scoreA")[0].validity.valid === false) {
-            $("#scoreA").val(0);
-        }
-        if ($("#scoreB")[0].validity.valid === false) {
-            $("#scoreB").val(0);
-        }
-
-
-    }
-
-    $(document).ready(function() {
-        var errorMessage = $("#error-message").text();
-        if (errorMessage) {
-            alert(errorMessage);
-        }
-    });
-
-    // $(document).ready(function() {
-    //     var errorMessage = $("#error-message").text();
-    //     if (errorMessage) {
-    //         $("#modal-error-message").text(errorMessage);
-    //         $("#errorModal").modal('show');
-    //     }
-    // });
-
+    var groupList = /*[[${groupList}]]*/ [];
+    var trnFormat = /*[[${trnDto.format}]]*/ [];
+    window.isLeader = /*[[${isLeader}]]*/ false;
+    var tournamentId = /*[[${trnDto.tournamentId}]]*/;
 
 </script>
+    <script src="/js/tournamentBracket.js"></script>
 </div>
 </html>

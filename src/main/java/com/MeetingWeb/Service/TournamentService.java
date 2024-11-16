@@ -64,6 +64,7 @@ public class TournamentService {
         tournamentParticipant.setTournament(tournament);
         tournamentParticipant.setGroup(group);
         tournamentParticipant.setMatchNumber(1);
+        tournamentParticipant.setBracketNumber(1); // 새로운 브라켓 번호
         tournamentParticipantRepository.save(tournamentParticipant);
 
         //대회 만든팀도 카운트, 대회 저장
@@ -120,6 +121,8 @@ public class TournamentService {
                 int count = tournamentParticipantRepository.getCount(tournament);
                 System.out.println("count = " + count);
                 participant.setMatchNumber(count + 1);
+                int matchNumber = participant.getMatchNumber();
+                participant.setBracketNumber((matchNumber + 1) / 2);
 
                 //처음에 등록할때 팀 카운트
                 if (tournamentParticipantRepository.findByGroupAndTournament(group, tournament) == null) {
@@ -253,17 +256,42 @@ public class TournamentService {
         int currentCount = tournamentParticipantRepository.getCount(tournament);
 
         if(currentCount == (tournament.getFormat()*2) -2) {
+            //패자 매치넘버
+            int loserNum = 0;
+            if(matchNumber%2==0){
+                loserNum = matchNumber-1;
+            }else{
+                loserNum = matchNumber+1;
+            }
+
             //대회 상태 종료로 변경
             tournament.setStatus(TournamentStatus.COMPLETED);
             TournamentParticipant winner = tournamentParticipantRepository.findByGroupAndTournamentAndMatchNumber(group, tournament, matchNumber);
-
+            TournamentParticipant loser = tournamentParticipantRepository.findByTournamentAndMatchNumber(tournament, loserNum);
 
             //우승자 기록
             if(winner.getMatchResult()==null) {
+                //스코어 저장
+                if(scoreA>scoreB){
+                    winner.setScore(scoreA);
+                    loser.setScore(scoreB);
+                }else{
+                    winner.setScore(scoreB);
+                    winner.setScore(scoreA);
+                }
+                //결과 저장
+                winner.setMatchResult("승");
+                loser.setMatchResult("패");
+                // 경기 완료 상태 업데이트
+                winner.setCompleted(true);
+                loser.setCompleted(true);
+
                 TournamentParticipant finalWinner = new TournamentParticipant();
                 finalWinner.setTournament(tournament);
                 finalWinner.setGroup(group);
                 finalWinner.setMatchNumber(currentCount + 1);
+                finalWinner.setBracketNumber(currentCount+1); // 최종 브라켓 번호
+
 
                 //승리한 모임의 승리 횟수 증가
                 int winCount = group.getWin();
@@ -307,19 +335,25 @@ public class TournamentService {
                 //결과 저장
                 winner.setMatchResult("승");
                 loser.setMatchResult("패");
+                // 경기 완료 상태 업데이트
+                winner.setCompleted(true);
+                loser.setCompleted(true);
 
                 TournamentParticipant participant = new TournamentParticipant();
                 participant.setTournament(tournament);
                 participant.setGroup(group);
                 participant.setMatchNumber(currentCount + 1);
+                participant.setBracketNumber((participant.getMatchNumber() + 1) / 2); // 새로운 브라켓 번호
                 tournamentParticipantRepository.save(participant);
             }else{
                 //결과 저장
                 winner.setMatchResult("승");
                 loser.setMatchResult("패");
+                winner.setCompleted(true);
+                loser.setCompleted(true);
             }
         }else{
-            throw new IllegalArgumentException("대회 종료");
+            throw new IllegalArgumentException("대회 종료되었습니다.");
         }
 
     }
@@ -353,6 +387,14 @@ public class TournamentService {
     public boolean isGroupOwner(String name) {
         User user = userService.findByUserName(name);
         return user.getRole().equals(Role.READER);
+    }
+
+    public boolean isUserLeader(Long tournamentId, String username) {
+        // 데이터베이스에서 대회 ID와 리더 정보 확인
+        Tournaments tournament = tournamentRepository.findById(tournamentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 대회가 없습니다."));
+        User user = userService.findByUserName(username);
+        return tournament.getCreatedBy().getId().equals(user.getId());
     }
 
 }
