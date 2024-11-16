@@ -37,6 +37,9 @@ public class MainController {
             List<GroupDto> groupDto = groupService.getCustomGroupsForUser(username);
             model.addAttribute("groups", groupDto);
         }
+        List<GroupDto> popularGroup = groupService.getPopularGroup();
+        model.addAttribute("popularGroups", popularGroup);
+
 
         return "home";
     }

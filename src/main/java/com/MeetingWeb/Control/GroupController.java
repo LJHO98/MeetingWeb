@@ -334,14 +334,14 @@ public class GroupController {
         groupService.memberLeave(groupId, userId);
         return "redirect:/group/" + groupId;
     }
-    //일정관리페이지 이동
-    @GetMapping("/groupAdmin/{groupId}/eventAdmin")
-    public String eventAdmin(@PathVariable Long groupId, Model model) {
-        GroupDto groupDto = groupService.findGroupById(groupId);
-        model.addAttribute("eventsDto", new EventsDto());
-        model.addAttribute("groupDetail", groupDto);
-        return "groupAdmin/eventAdmin";
-    }
+//    //일정관리페이지 이동
+//    @GetMapping("/groupAdmin/{groupId}/eventAdmin")
+//    public String eventAdmin(@PathVariable Long groupId, Model model) {
+//        GroupDto groupDto = groupService.findGroupById(groupId);
+//        model.addAttribute("eventsDto", new EventsDto());
+//        model.addAttribute("groupDetail", groupDto);
+//        return "groupAdmin/eventAdmin";
+//    }
 
 
 

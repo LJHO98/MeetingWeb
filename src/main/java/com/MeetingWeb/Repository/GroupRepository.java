@@ -2,7 +2,6 @@ package com.MeetingWeb.Repository;
 
 import com.MeetingWeb.Entity.GroupCategory;
 import com.MeetingWeb.Entity.Groups;
-import com.MeetingWeb.Entity.Tournaments;
 import com.MeetingWeb.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +12,9 @@ import java.util.Optional;
 
 public interface GroupRepository extends JpaRepository<Groups, Long> {
     Groups findByGroupId(Long id);
+
     List<Groups> findAllByOrderByCreatedAtDesc();
+
     List<Groups> findByCategoryIn(List<GroupCategory> categories);
 
     //만드사람 userId로 모임 찾기
@@ -33,4 +34,5 @@ public interface GroupRepository extends JpaRepository<Groups, Long> {
     @Query("SELECT g FROM Groups g WHERE g.category.groupCategoryId = :categoryId ORDER BY g.win DESC")
     List<Groups> findByCategoryOrderByWinDesc(@Param("categoryId") Long categoryId);
 
+    List<Groups> findAllByOrderByCurrentHeadCountDesc();
 }

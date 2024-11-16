@@ -77,6 +77,15 @@ public class GroupService {
                 .collect(Collectors.toList());
     }
 
+    public List<GroupDto> getPopularGroup() {
+        List<GroupDto> popularGroup = groupRepository.findAllByOrderByCurrentHeadCountDesc().stream()
+                .map(GroupDto::of)
+                .collect(Collectors.toList());
+
+        return popularGroup;
+    }
+
+
     public GroupDto findGroupById(Long id) { //목록상세
         Groups group = groupRepository.findByGroupId(id);
         if (group != null) {//객체안에 값 존재여부//있다면 안에 내용 실행
@@ -441,16 +450,6 @@ public class GroupService {
         groupRepository.save(group);
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -95,15 +95,16 @@
             <div class="groupWrap">
                 <div class="name">인기 모임</div>
                 <div class="boxWrap">
-                    <div class="box">
-                        <a href="">
+                    <div class="box" th:each="popularGroup, iterStat : ${popularGroups}" th:if="${iterStat.index < 4}">
+                        <a th:href="@{|/group/${popularGroup.groupId}|}">
                             <div class="img">
-                                <p class="category">카테고리</p>
+                                <img th:src="${popularGroup.profileImgUrl}" alt="Profile Image">
+                                <p class="category" th:text="${popularGroup.categoryName}">카테고리</p>
                             </div>
                             <div class="detail">
-                                <p class="title">모임 이름</p>
-                                <p class="description">여기는 모임 설명</p>
-                                <p class="capacity">18/20</p>
+                                <p class="title" th:text="${popularGroup.name}">모임 이름</p>
+                                <p class="description" th:text="${popularGroup.introduce}">여기는 모임 설명</p>
+                                <p class="capacity" th:text="${popularGroup.currentHeadCount + ' / ' + popularGroup.capacity}"></p>
                             </div>
                         </a>
                     </div>
