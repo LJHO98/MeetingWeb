@@ -82,6 +82,11 @@ public class TournamentController {
             model.addAttribute("categories", tournamentService.getTournamentCategories());
             return "tournament/createTournament";
         }
+        System.out.println("컨트롤 if문 밖에 : "+trnDto.getTournamentId());
+        if(tournamentService.isExistTournament(trnDto.getTournamentId())){
+            tournamentService.updateTournament(trnDto, trnDto.getCreatedBy());
+            System.out.println("컨트롤 : "+trnDto.getTournamentId());
+        }
         try {
             // 대회 생성 호출
             tournamentService.createTournament(trnDto,userName);
@@ -104,7 +109,7 @@ public class TournamentController {
     @GetMapping("/tournament/edit/{tournamentId}")
     public String updateTournament(@PathVariable Long tournamentId , Model model, Principal principal, RedirectAttributes redirectAttributes) {
         TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
-
+        System.out.println("수정페이지 : "+trnDto.getTournamentId());
         if(trnDto.getStatus() == TournamentStatus.UPCOMING) {
             List<GroupDto> groupList = tournamentService.getMyGroupList(principal.getName());
             model.addAttribute("groupList" ,groupList);
@@ -116,6 +121,7 @@ public class TournamentController {
         }
         return "tournament/createTournament";
     }
+
 
     //대회 상세 페이지
     @GetMapping("/tournament/{tournamentId}")

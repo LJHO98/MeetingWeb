@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NonUniqueResultException;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -397,6 +398,25 @@ public class TournamentService {
         return tournament.getCreatedBy().getId().equals(user.getId());
     }
 
+    public boolean isExistTournament(Long tournamentId) {
+        System.out.println("서비스 : "+tournamentId);
+        Tournaments tournaments = tournamentRepository.findById(tournamentId).orElse(null);
+        if(tournaments==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void updateTournament(TrnDto trnDto, Long createdBy) {
+        User user = userService.findByUserId(createdBy);
+        TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
+        Groups group = groupRepository.findById(trnDto.getGroupId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
+        Tournaments tournament = trnDto.toEntity(trnDto.getTournamentImgUrl(),user, tournamentCategory, group);
+        tournamentRepository.save(tournament);
+    }
 }
 
 

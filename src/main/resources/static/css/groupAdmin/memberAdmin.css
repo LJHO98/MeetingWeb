@@ -4,6 +4,7 @@
     margin: 50px auto;
 }
 
+
 #schedule{
     font-size: 23px;
     font-family: 'NanumSquareAcr';
@@ -111,4 +112,19 @@
     background: #fff;
     border: 1px solid #aaa;
     color: #8C8C8C;
+}
+
+.modal {
+    display: none; /* 모달 기본 상태 */
+    z-index: 1050; /* Bootstrap 모달 기본 z-index */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+}
+
+.modal.show {
+    display: block; /* 모달 활성화 시 표시 */
+}
+
+.modal-backdrop {
+    z-index: 1040; /* 모달 배경의 z-index */
+    background-color: rgba(0, 0, 0, 0.5); /* 모달 백그라운드 색상 */
 }
