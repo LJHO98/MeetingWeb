@@ -5,6 +5,7 @@ import com.MeetingWeb.Entity.GroupMember;
 import com.MeetingWeb.Entity.Groups;
 import com.MeetingWeb.Entity.User;
 import com.MeetingWeb.Repository.UserRepository;
+import com.MeetingWeb.Service.EventsService;
 import com.MeetingWeb.Service.GroupService;
 import com.MeetingWeb.Service.TournamentService;
 import com.MeetingWeb.Service.UserService;
@@ -35,6 +36,7 @@ public class GroupController {
     private final UserService userService;
     private final TournamentService tournamentService;
     private final UserRepository userRepository;
+    private final EventsService eventsService;
 
     @PostMapping("/group/createGroup")
     public String createGroup(@Valid GroupDto groupDto, BindingResult bindingResult, Model model,
@@ -88,6 +90,9 @@ public class GroupController {
         // 현재 로그인한 사용자가 그룹에 가입되어있는지확인하고 탈퇴버튼 생성
         boolean isMember=groupService.isMemberOfGroup(userId, id);
         model.addAttribute("isMember", isMember);
+
+        List<EventsDto> events = eventsService.getEventsByGroupId(id);
+        model.addAttribute("events", events);
 
         return "group/groupInfo";
     }
@@ -339,14 +344,16 @@ public class GroupController {
         groupService.memberLeave(groupId, userId);
         return "redirect:/group/" + groupId;
     }
-//    //일정관리페이지 이동
-//    @GetMapping("/groupAdmin/{groupId}/eventAdmin")
-//    public String eventAdmin(@PathVariable Long groupId, Model model) {
-//        GroupDto groupDto = groupService.findGroupById(groupId);
-//        model.addAttribute("eventsDto", new EventsDto());
-//        model.addAttribute("groupDetail", groupDto);
-//        return "groupAdmin/eventAdmin";
-//    }
+    //일정관리페이지 이동(일정리스트도 같이 보여줌)
+    @GetMapping("/groupAdmin/{groupId}/eventAdmin")
+    public String eventAdmin(@PathVariable Long groupId, Model model) {
+        GroupDto groupDto = groupService.findGroupById(groupId);
+        model.addAttribute("eventsDto", new EventsDto());
+        model.addAttribute("groupDetail", groupDto);
+        List<EventsDto> events = eventsService.getEventsByGroupId(groupId);
+        model.addAttribute("events", events); // 조회된 일정을 모델에 추가
+        return "groupAdmin/eventAdmin";
+    }
 
 
 

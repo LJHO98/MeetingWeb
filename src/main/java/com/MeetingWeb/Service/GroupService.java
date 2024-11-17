@@ -86,6 +86,13 @@ public class GroupService {
     }
 
 
+    //그룹타입의 그룹가져오기
+    public Groups findGroupId(Long groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 그룹을 찾을 수 없습니다: " + groupId));
+    }
+
+
     public GroupDto findGroupById(Long id) { //목록상세
         Groups group = groupRepository.findByGroupId(id);
         if (group != null) {//객체안에 값 존재여부//있다면 안에 내용 실행

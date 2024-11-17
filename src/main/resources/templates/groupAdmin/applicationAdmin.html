@@ -68,13 +68,13 @@
 <p>신청서목록</p>
     <ul>
             <li th:each="applicationDto : ${applicationDtoList}"
-                 +            th:if="${applicationDto.user.userId} != ${groupDetail.createdBy}">
+                             th:if="${applicationDto.user.userId} != ${groupDetail.createdBy}">
                 <img th:src="${applicationDto.getUser().getProfileImgUrl()}" alt="Profile Image"
-                      +                 style="width: 50px; height: 50px; border-radius: 50%;" />
+                                       style="width: 50px; height: 50px; border-radius: 50%;" />
                 <span th:text="${applicationDto.user.name}" th:onclick="openMemberModal([[${applicationDto}]])"></span>
     <!--            <button th:onclick="openApplicationModal([[${applicationDto}]])">신청서</button>-->
                 <button type="button" class="btn btn-primary"
-                         +                    th:onclick="openApplicationModal([[${applicationDto}]], [[${groupId}]])">
+                                             th:onclick="openApplicationModal([[${applicationDto}]], [[${groupId}]])">
                     신청서
                 </button>
             </li>

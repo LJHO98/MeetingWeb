@@ -28,6 +28,8 @@ public class Groups {
     @JoinColumn(name = "category_id")
     private GroupCategory category;
 
+    private String categoryName; //이거11월17일에 추가했음 혹시문제생기면 지울것
+
     private String location;
     @Enumerated(EnumType.STRING)
     private Gender genderPreference;
