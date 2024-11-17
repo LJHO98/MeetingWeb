@@ -38,6 +38,7 @@ public class GroupController {
     private final UserRepository userRepository;
     private final EventsService eventsService;
 
+    //모임 만들기
     @PostMapping("/group/createGroup")
     public String createGroup(@Valid GroupDto groupDto, BindingResult bindingResult, Model model,
                               @AuthenticationPrincipal UserDetails userDetails) throws IOException {
@@ -52,6 +53,7 @@ public class GroupController {
         return "home";
     }
 
+    //모임 생성폼
     @GetMapping("/group/createGroup")
     public String showCreateForm(Model model) {
         model.addAttribute("categories", userService.getGroupCategories());
@@ -59,6 +61,18 @@ public class GroupController {
         return "group/createGroup";
     }
 
+    //모임 정보 수정
+    @GetMapping("/group/edit/{groupId}")
+    public String updateGroup(@PathVariable Long groupId, Model model) {
+        GroupDto groupDto = groupService.getGroupById(groupId);
+        model.addAttribute("categories", userService.getGroupCategories());
+        model.addAttribute("groupDto", groupDto);
+
+        return "group/createGroup";
+
+    }
+
+    //모임 목록
     @GetMapping("/group/list")
     public String groupList(Model model,
                             @RequestParam(required = false) String keyword,
@@ -76,6 +90,7 @@ public class GroupController {
         return "group/groupList";
     }
 
+    //모임 상세 페이지
     @GetMapping("/group/{id}")
     public String groupDetail(@PathVariable Long id, Model model,@AuthenticationPrincipal UserDetails userDetails) {
         // 그룹 정보를 가져옴
@@ -97,6 +112,7 @@ public class GroupController {
         return "group/groupInfo";
     }
 
+    //모임 자유 가입
     @PostMapping("/group/join/{groupId}")
     public String joinGroup(@PathVariable Long groupId, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
@@ -111,6 +127,7 @@ public class GroupController {
         return "redirect:/group/" + groupId + "?message=" + message;
     }
 
+    //모임 가입 신청
     @PostMapping("/group/approval/{groupId}")
     public String approveGroup(@PathVariable Long groupId,
                                @AuthenticationPrincipal UserDetails userDetails,
@@ -175,8 +192,8 @@ public class GroupController {
 
         return "group/groupBoard"; // groupBoard 템플릿으로 이동합니다.
     }
-
-    @GetMapping("/group/{id}/write") // 게시글 작성 페이지 이동
+    // 게시글 작성 페이지 이동
+    @GetMapping("/group/{id}/write")
     public String groupBoard(Model model, @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         Long userId = userService.findByUserName(userDetails.getUsername()).getId();
         model.addAttribute("groupBoard", new GroupBoardDto());
@@ -186,20 +203,12 @@ public class GroupController {
         model.addAttribute("isMember", groupService.isMemberOfGroup(userId, id));
         return "group/writePage";
     }
-    // 로그인된 사용자 ID를 가져오는 메서드
-    private Long getLoggedUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User user = userRepository.findByUserName(userDetails.getUsername());
-            return user.getId();
-        }
-        throw new IllegalStateException("로그인된 사용자가 없습니다.");
-    }
 
-    @PostMapping("/group/{groupId}/write")//게시글 저장
+
+    //게시글 저장
+    @PostMapping("/group/{groupId}/write")
     public String saveBoard(@ModelAttribute GroupBoardDto groupBoardDto, @PathVariable Long groupId, RedirectAttributes redirectAttributes) {
-        Long userId = getLoggedUserId(); // 로그인된 사용자 ID 가져오기
+        Long userId = userService.getLoggedUserId(); // 로그인된 사용자 ID 가져오기
         if (!groupService.isMemberOfGroup(userId, groupId)) {//해당그룹회원이 아닐시
             redirectAttributes.addFlashAttribute("errorMessage", "모임 회원이 아니므로 작성할 수 없습니다.");
             return "redirect:/group/" + groupId; // 모임 상세 페이지로 리다이렉트
@@ -239,7 +248,7 @@ public class GroupController {
             @PathVariable Long boardId,
             RedirectAttributes redirectAttributes) {
 
-        Long userId = getLoggedUserId(); // 로그인된 사용자의 ID 가져오기
+        Long userId = userService.getLoggedUserId(); // 로그인된 사용자의 ID 가져오기
 
         // 게시글 작성자 또는 모임장인지 확인하여 수정 권한 체크
         if (!groupService.canDeletePost(userId, groupId, boardId)) {
@@ -354,13 +363,5 @@ public class GroupController {
         model.addAttribute("events", events); // 조회된 일정을 모델에 추가
         return "groupAdmin/eventAdmin";
     }
-
-
-
-
-
-
-
-
 
 }

@@ -23,9 +23,12 @@
             <input type="text" id="userName" name="userName" placeholder="아이디" required/>
             <label for="password"></label>
             <input type="password" id="password" name="password" placeholder="비밀번호" required/>
+            <p th:if="${loginFailMsg}" th:text="${loginFailMsg}"
+               style="color:red; padding-bottom:20px;"></p>
             <button type="submit" class="button">로그인</button>
         </div>
     </form>
+
     <div class="link-container">
         <a href="#" class="link" onclick="idOpenModal(this)">아이디 찾기</a>
         <a href="#" class="link" onclick="pwOpenModal(this)">비밀번호 찾기</a>

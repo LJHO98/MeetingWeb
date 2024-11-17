@@ -23,15 +23,16 @@ public class SercurityConfig {
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/img/**").permitAll()// 정적 리소스는 접근 허용
                 .mvcMatchers("/home", "/start/**","/login/searchPw","/mail","/join-Mail","/verifyCode","/join-VerifyCode","/login/searchId" ).permitAll()
+                .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 .and()
                 .formLogin()  // 기본 제공 로그인 페이지 사용
                 .loginPage("/start/login") // 커스텀 로그인 페이지를 사용할 경우 설정 (기본 페이지 사용 시 생략 가능)
+                .failureUrl("/start/login/error")
                 .loginProcessingUrl("/login") // 로그인 폼에서 처리할 URL 설정 (default는 "/login")
                 .usernameParameter("userName")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home", true)
-                .permitAll()
                 .and()
                 .logout()
                 .logoutRequestMatcher( new AntPathRequestMatcher("/logout"))

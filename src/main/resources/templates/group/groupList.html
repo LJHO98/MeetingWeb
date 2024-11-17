@@ -53,7 +53,7 @@
         <div class="groupListBox" th:each="group : ${groupList}">
             <a th:href="@{|/group/${group.groupId}|}">
                 <div class="img">
-                    <img th:src="'..' + ${group.profileImgUrl}" alt="Profile Image">
+                    <img th:src="'..' + ${group.profileImgUrl}" onerror="this.src='/img/default.png'" alt="Profile Image">
                     <p class="category" th:text="${group.categoryName}"></p>
                 </div>
                 <div class="detail">

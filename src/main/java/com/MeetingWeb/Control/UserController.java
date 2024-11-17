@@ -31,6 +31,7 @@ public class UserController {
         return "start/agreement";
     }
 
+
     @GetMapping("/start/join")
     public String signUp(Model model) {
         model.addAttribute("userDto", new UserDto());
@@ -94,31 +95,6 @@ public class UserController {
         return ResponseEntity.ok("Password changed successfully");
     }
 
-
-//    @PostMapping("/login/changePw")
-//    public String changePassword(@RequestParam("password") String password,
-//                                 @RequestParam("passwordCheck") String passwordCheck,
-//                                 Model model) {
-//
-//        model.addAttribute(password,userService.findByPassword(password));
-//
-//
-//        // 비밀번호 확인
-//        if (!password.equals(passwordCheck)) {
-//            // 비밀번호 불일치 시 에러 메시지 설정
-//            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-//
-//        }
-//
-//        // 비밀번호 변경 처리
-//        userService.changePassword(password); // 서비스에서 비밀번호 변경 처리
-//
-//        // 비밀번호 변경 성공 메시지 설정
-//        model.addAttribute("success", "비밀번호가 성공적으로 변경되었습니다.");
-//         return null;
-//    }
-
-
     @PostMapping("/start/check-username")
     @ResponseBody public boolean checkUsername(@RequestParam String userName) {
         return !userService.isUserNameTaken(userName);
@@ -126,6 +102,13 @@ public class UserController {
 
     @GetMapping("/start/login")
     public String login(Model model) {
+        return "start/login";
+    }
+
+    // 로그인 실패 - 아이디나 비밀번호 틀린경우
+    @GetMapping("/start/login/error")
+    public String loginFailHandler(Model model) {
+        model.addAttribute("loginFailMsg", "아이디 또는 비밀번호가 올바르지 않습니다.");
         return "start/login";
     }
 

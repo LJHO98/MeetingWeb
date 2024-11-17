@@ -12,7 +12,9 @@ import com.MeetingWeb.Repository.UserRepository;
 import com.MeetingWeb.Repository.UserSelectCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,7 +42,7 @@ public class UserService implements UserDetailsService {
     private String userProfileImgPath;
 
 
-
+    //유저가 선택할 모임 카테고리
     public List<GroupCategoryDto> getGroupCategories() {
         List<GroupCategory> categories = groupCategoryRepository.findAllByOrderByGroupCategoryIdAsc();
         return categories.stream()
@@ -48,12 +50,17 @@ public class UserService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
-
-
+    //유저 아이디로 유저 찾기
     public User findByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
         return user;
     }
+
+    public Long getUserId(String userName){
+        User user = userRepository.findByUserName(userName);
+        return user.getId();
+    }
+
     public User findByUserId(Long userId) {
         // Optional을 사용하여 존재 여부를 확인한 후 User 객체를 반환
        userRepository.findById(userId)
@@ -61,6 +68,18 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
+    // 로그인된 사용자 ID를 가져오는 메서드
+    public Long getLoggedUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = userRepository.findByUserName(userDetails.getUsername());
+            return user.getId();
+        }
+        throw new IllegalStateException("로그인된 사용자가 없습니다.");
+    }
+
+    //회원가입
     public void singUp(UserDto userDto, PasswordEncoder passwordEncoder) {
         try {
             String profileImageUrl = profileUploadService.saveProfile(userDto.getProfileImage());
@@ -73,6 +92,7 @@ public class UserService implements UserDetailsService {
             e.printStackTrace();
         }
     }
+
     //member 테이블에 이메일 존재여부 확인
     public void isExistEmail(String email) {
         User find = userRepository.findByEmail(email);
@@ -81,6 +101,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    //이메일로 유저 찾기
     public User findByEmail(String email) {
         if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("이메일은 null이거나 빈 값일 수 없습니다.");
@@ -89,6 +110,7 @@ public class UserService implements UserDetailsService {
 
         return userRepository.findByEmail(email);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -107,6 +129,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUserName(userName) != null;
     }
 
+    //유저가 선택한 카테고리 리스트
     public List<GroupCategory> getUserSelectedCategories(String userName) {
         //// 유저가 선택한 카테고리를 가져와 리스트로 반환하는 메서드입니다.
         User user = userRepository.findByUserName(userName);
@@ -126,7 +149,7 @@ public class UserService implements UserDetailsService {
         return UserProfileDto.of(user);
     }
 
-
+    //유저 정보 업데이트
     public void updateUserProfile(UserProfileDto userProfileDto) throws IOException {
         // 사용자 이름을 통해 사용자 찾기
         User user = userRepository.findByUserName(userProfileDto.getUserName());
@@ -233,12 +256,6 @@ public class UserService implements UserDetailsService {
                 });
     }
 
-
-//    public User findByPassword(String password) {
-//        User user = userRepository.findByPassword(password);
-//        return user;
-//    }
-
     //비밀번호 변경
     public boolean changePassword(String pw, String email) {
         // 비밀번호 암호화
@@ -254,15 +271,13 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+
+    //유저 PK로 찾아서 삭제
     public void deleteUser(Long id){
-
-
-
         userRepository.deleteById(id);
-
-
     }
 
+    //유저 아이디로 유저 찾아서 삭제
     public void deleteAccountByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
         if (user != null) {
