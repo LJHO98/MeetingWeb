@@ -126,8 +126,10 @@
             <div id="eventText">일정</div>
             <div id="eventBox" th:each="event : ${events}">
                 <div id="eventTop">
-                    <div id=eventTitle th:text="${event.title}"></div>
-                    <div id="eventCapacity" th:text="${event.capacity}"></div>
+                    <div id="titleWrap">
+                        <div id="eventTitle" th:text="${event.title}"></div>
+                        <div id="eventCapacity" th:text="${event.capacity}"></div>
+                    </div>
                     <button>참석</button>
                 </div>
                 <div id="eventMiddle">
@@ -139,9 +141,9 @@
                             <div class="text">날짜</div>
                             <div id="eventDate" th:text="${event.date}"></div>
                         </div>
-                        <div class="textBox">
+                        <div class="textBox" id="locationBox">
                             <div class="text">위치</div>
-                            <div th:text="${event.location}"></div>
+                            <div id="location" th:text="${event.location}"></div>
                         </div>
                         <div class="textBox">
                             <div class="text">내용</div>

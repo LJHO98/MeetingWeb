@@ -132,6 +132,7 @@
 
 #reasonWrap{
     width: 100%;
+    margin-bottom: 30px;
 }
 
 #reasonText, #sayText{
@@ -139,7 +140,7 @@
     font-size: 20px;
     font-family: 'NanumSquareacr';
     color: #747474;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 #modalReason, #modalSay{
@@ -148,13 +149,14 @@
     font-family: 'NanumSquare';
     border: 1px solid #aaa;
     padding: 10px;
+    border-radius: 5px;
 }
 
 .btn-success{
     background: #fffee8;
     color: #5D5D5D;
     border: 1px solid #aaa;
-    width: 8%;
+    width: 13%;
     height: 35px;
     margin: 0 1% 0 3%;
 }

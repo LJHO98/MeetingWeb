@@ -192,8 +192,8 @@
     padding-top: 70px;
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
     border-top: 1px solid #aaa;
+    margin-bottom: 40px;
 }
 
 #eventText{
@@ -201,18 +201,99 @@
     flex-wrap: wrap;
     font-size: 25px;
     font-family: 'NanumSquareAcr';
-    gap: 10px;
+    margin-bottom: 20px;
     color: #4C4C4C;
 }
 
 #eventBox{
     width: 100%;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 15px 25px;
     border: 1px solid #aaa;
+    background: #fffee8;
+    margin-bottom: 30px;
+}
+
+#eventTop{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#titleWrap{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#eventTitle{
+    font-size: 20px;
+    font-family: 'NanumSquareAceB';
+}
+
+#eventCapacity{
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    padding: 3px 8px;
+    background: #fff;
+}
+
+#eventTop button{
+    padding: 3px 13px;
+    font-family: 'NanumSquareAcr';
+    border-radius: 7px;
+    background: #c8ffdc;
+    border: 1px solid #aaa;
+    color: #8C8C8C;
 }
 
 #eventMiddle{
     width: 100%;
     margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3%;
+}
+
+#eventImg{
+    width: 40%;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+}
+
+#eventImg img{
+    position: absolute;
+    top: 50%; /* 부모 div 중심으로 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 이미지의 중심을 부모 div의 중심에 맞춤 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 부모 div를 기준으로 꽉 채우기 */
+}
+
+#eventDetail{
+    width: 57%%;
+    padding: 5px 10px;
+}
+
+.textBox{
+    width: 100%;
+    gap: 5px;
+}
+
+#locationBox{
+    margin: 5px 0;
+}
+
+.text{
+    font-size: 15px;
+    font-family: 'NanumSquareBold';
+}
+
+#eventDate, #location, #eventContent{
+    font-size: 15px;
+    font-family: 'NanumSquare';
 }
