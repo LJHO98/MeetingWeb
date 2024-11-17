@@ -320,9 +320,9 @@ public class GroupController {
     }
     //신청수락 후 해당모임 가입저장
     @PostMapping("/group/{groupId}/application/{userId}")
-    public String acceptApplication(@PathVariable Long groupId, @PathVariable Long userId, Model model) {
+    public ResponseEntity<String> acceptApplication(@PathVariable Long groupId, @PathVariable Long userId, Model model) {
         groupService.acceptApplication(groupId, userId);
-        return "redirect:/group/" + groupId + "/applicationAdmin";
+        return ResponseEntity.ok("신청 수락 완료");
     }
 
     //모임장 탈퇴시 가입오래된 순서로 자동위임

@@ -17,7 +17,7 @@
         </div>
 
         <!-- 로그인한 사용자용 (ADMIN 또는 USER 권한) -->
-        <div sec:authorize="hasAnyRole('ADMIN', 'USER', 'READER')">
+        <div sec:authorize="hasAnyRole('ADMIN', 'USER', 'LEADER')">
             <div id="mypage" class="headerBox">
                 <a href="/start/myPage">마이페이지</a>
             </div>

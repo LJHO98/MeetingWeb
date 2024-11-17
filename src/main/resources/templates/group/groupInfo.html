@@ -121,7 +121,18 @@
 
     <div id="groupInfoWrap">
         <div id="description" th:utext="${groupDetail.description}"></div>
-
+<!--        <div id="eventWrap">-->
+<!--            <div id="eventBox" th:each="event : ${events}">-->
+<!--                <div id=eventTitle th:text="${event.title}"></div>-->
+<!--                <div id="eventImg">-->
+<!--                    <img th:src="${event.imageUrl}" alt="Event Image">-->
+<!--                </div>-->
+<!--                <div id="eventContent" th:text="${event.description}"></div>-->
+<!--                <div id="eventDate" th:text="${event.date}"></div>-->
+<!--                <div th:text="${event.location}"></div>-->
+<!--                <div id="eventCapacity" th:text="${event.capacity}"></div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div id="memberWrap">
             <div id="memberBox" th:each="member : ${groupDetail.members}">
                 <a href="javascript:void(0)" th:onclick="openMemberModal([[${member}]])">

@@ -334,7 +334,7 @@ public class GroupService {
         Groups group = groupRepository.findById(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
         int groupMemCount = groupMemberRepository.countByGroup(group);
 
-        if (group.getCurrentHeadCount() < group.getCapacity()) {
+        if (group.getCurrentHeadCount() < group.getCapacity() && !isMemberOfGroup(user.getId(), groupId)) {
             group.setCurrentHeadCount(groupMemCount + 1);
             groupRepository.save(group);
 
