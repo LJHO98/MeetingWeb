@@ -458,6 +458,20 @@ public class GroupService {
 
     }
 
+    //활동피드 삭제
+    public boolean deletePost(Long boardId, Long userId) {
+        GroupBoard groupBoard = groupBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
+        // 삭제 권한 확인: 작성자 또는 그룹 소유자만 삭제 가능
+        if (!groupBoard.getUser().getId().equals(userId) && !groupBoard.getGroup().getCreatedBy().equals(userId)) {
+            return false; // 권한 없음
+        }
+
+        groupBoardRepository.delete(groupBoard);
+        return true;
+    }
+
 
 
 }

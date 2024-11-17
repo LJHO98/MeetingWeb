@@ -219,6 +219,19 @@ public class GroupController {
         groupService.groupBoardSave(groupBoardDto);
         return "redirect:/group/" + groupId +"/groupBoard";
     }
+    //활동피드삭제
+    @DeleteMapping("/group/post/{boardId}")
+    public ResponseEntity<String> deletePost(@PathVariable Long boardId, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
+
+        boolean isDeleted = groupService.deletePost(boardId, userId);
+        if (isDeleted) {
+            return ResponseEntity.ok("게시글이 삭제되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한이 없습니다.");
+        }
+    }
+
 
     @GetMapping("/group/{groupId}/updateWrite/{boardId}")
     public String updateForm(@PathVariable Long groupId, @PathVariable Long boardId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -234,6 +247,8 @@ public class GroupController {
         // 모델에 그룹 정보와 게시글 정보 추가
         model.addAttribute("groupDetail", groupDto);
         model.addAttribute("groupBoard", groupBoardDto); // 기존 게시글 정보 추가
+        model.addAttribute("isGroupOwner", groupService.isGroupOwner(userId, groupId));
+        model.addAttribute("isMember", groupService.isMemberOfGroup(userId, groupId));
 
         // updateWrite 템플릿 반환
         return "group/updateWrite";

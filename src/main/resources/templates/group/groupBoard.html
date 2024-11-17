@@ -97,6 +97,7 @@
             document.getElementById("modalUserName").innerText = post.userName;
             document.getElementById("modalImg").src = post.profileImgUrl;
             document.getElementById("editButton").setAttribute("onclick", `editPost(${post.boardId}, ${groupId})`);
+            document.getElementById("deleteButton").setAttribute("onclick", `deletePost(${post.boardId}, ${groupId})`);
             $('#postModal').modal('show'); // 모달 열기
         }
 
@@ -139,6 +140,24 @@
         $(document).ready(function() {
             loadNotices();
         });
+        //활동피드 삭제
+        function deletePost(boardId) {
+            if (!confirm("정말 삭제하시겠습니까?")) {
+                return;
+            }
+
+            $.ajax({
+                url: `/group/post/${boardId}`, // 삭제 엔드포인트 호출
+                method: 'DELETE',
+                success: function(response) {
+                    alert("게시글이 삭제되었습니다.");
+                    location.reload(); // 페이지 새로고침
+                },
+                error: function() {
+                    alert("모임장과 작성자만 가능합니다.");
+                }
+            });
+        }
     </script>
 </head>
 
@@ -218,7 +237,7 @@
                         </div>
                         <div id="bt">
                             <button type="button" class="btn btn-primary" id="editButton">수정</button>
-                            <button type="button" class="btn" onclick="deletePost()">삭제</button>
+                            <button type="button" class="btn btn-danger" id="deleteButton">삭제</button>
                         </div>
                     </div>
                 </div>

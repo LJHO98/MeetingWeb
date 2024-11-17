@@ -44,6 +44,8 @@ function removeMember(groupId, userId) {
 
 // 회원 정보 모달을 여는 함수
 function openMemberModal(member) {
+
+
     document.getElementById("modalMemberName").innerText = member.name;
     document.getElementById("modalProfileImg").src = member.profileImgUrl;
     document.getElementById("modalCategories").innerText = member.selectedCategoryNames;
@@ -52,3 +54,5 @@ function openMemberModal(member) {
     document.getElementById("modalActivityArea").innerText = member.activityArea;
     $('#memberModal').modal('show');
 }
+
+
