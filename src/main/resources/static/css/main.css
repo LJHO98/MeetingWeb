@@ -231,7 +231,7 @@ a:hover{
 .name{
     font-size: 35px;
     font-family: 'NanumSquareAceb';
-    margin: 0 0 20px 80px;
+    margin: 0 0 20px 5%;
     color: #747474;
 }
 
@@ -240,11 +240,12 @@ a:hover{
     padding: 0 calc(303px / 10);
     display: flex;
     flex-wrap: wrap;
+    gap: 4%;
 }
 
 .box{
-    width: 280px;
-    margin: 0 calc(183px / 10);
+    width: 22%;
+    /*margin: 0 calc(183px / 10);*/
     /*padding: 20px;*/
     /*border: 4px solid #aaa;*/
     border-radius: 10%;

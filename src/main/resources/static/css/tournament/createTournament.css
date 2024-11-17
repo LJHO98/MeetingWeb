@@ -183,9 +183,8 @@
     background: #B778FF;
 }
 
-#format {
-    width: 100px;             /* 너비 설정 */
-    padding: 8px;             /* 패딩 추가 */
+.inputBox select {
+    padding: 8px 12px;             /* 패딩 추가 */
     font-size: 16px;          /* 폰트 크기 설정 */
     border: 1px solid #ccc;   /* 테두리 색상 설정 */
     border-radius: 4px;       /* 테두리 둥글게 */
@@ -195,7 +194,7 @@
 }
 
 /* select 요소가 포커스를 받을 때 스타일 */
-#format:focus {
+.inputBox select:focus {
     border-color: #8041D9; /* 포커스 시 테두리 색상을 #86E57F로 설정 */
     outline: none;         /* 기본 아웃라인 제거 */
     box-shadow: 0 4px 8px rgba(209, 178, 255, 0.5), /* 아래쪽 */

@@ -185,3 +185,34 @@
     font-family: 'NanumSquare';
     color: #5D5D5D;
 }
+
+/* 일정 */
+#eventWrap{
+    width: 100%;
+    padding-top: 70px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    border-top: 1px solid #aaa;
+}
+
+#eventText{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 25px;
+    font-family: 'NanumSquareAcr';
+    gap: 10px;
+    color: #4C4C4C;
+}
+
+#eventBox{
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: 1px solid #aaa;
+}
+
+#eventMiddle{
+    width: 100%;
+    margin-top: 10px;
+}

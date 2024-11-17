@@ -27,19 +27,19 @@
 .idModal_content1 {
     display: block;
     background-color: #fff;
-    margin: 250px auto 0 auto;
     padding: 20px 40px;
     border: 1px solid #888;
     width: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    justify-self: center;
+    margin-top: calc((100vh - 460px + 80px) / 2);
 }
 
 /* 두 번째 모달 콘텐츠 */
 .idModal_content2 {
     display: none;
     background-color: #fff;
-    margin: 250px auto 0 auto;
     padding: 20px 40px;
     border: 1px solid #888;
     width: 500px;
@@ -47,30 +47,34 @@
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    justify-self: center;
+    margin-top: calc((100vh - 460px + 80px) / 2);
 }
 
 .pwModal_content1 {
     display: block;
     background-color: #fff;
-    margin: 250px auto 0 auto;
     padding: 20px 40px;
     border: 1px solid #888;
     width: 500px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    justify-self: center;
+    margin-top: calc((100vh - 460px + 80px) / 2);
 }
 
 /* 두 번째 모달 콘텐츠 */
 .pwModal_content2 {
     display: none;
     background-color: #fff;
-    margin: 250px auto 0 auto;
     padding: 20px 40px;
     border: 1px solid #888;
     width: 500px;
     height: 451px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    justify-self: center;
+    margin-top: calc((100vh - 460px + 80px) / 2);
 }
 
 /* 헤더 */

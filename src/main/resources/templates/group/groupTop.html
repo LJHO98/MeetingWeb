@@ -20,26 +20,28 @@
     </div>
 
     <div id="groupMenu">
-        <div id="home"><a th:href="@{/group/{groupId}(groupId=${groupDetail.groupId})}">홈</a></div>
+        <div id="home">
+            <a th:href="@{/group/{groupId}(groupId=${groupDetail.groupId})}">홈</a>
+        </div>
         <div id="board">
-            <a th:href="@{'/group/'+${groupDetail.groupId}+'/groupBoard'}">
-                게시판
-            </a>
+            <a th:href="@{'/group/'+${groupDetail.groupId}+'/groupBoard'}">게시판</a>
         </div>
-        <div id="chat"><a href="">채팅</a></div>
-        <div id="groupTournament"><a th:href="@{/group/{groupId}/tournament(groupId=${groupDetail.groupId})}">참가대회</a></div>
+        <div id="chat">
+            <a href="">채팅</a>
+        </div>
+        <div id="groupTournament">
+            <a th:href="@{/group/{groupId}/tournament(groupId=${groupDetail.groupId})}">참가대회</a>
+        </div>
 
-        <div id="admin">
-            <a th:if="${isGroupOwner}" th:href="@{|/group/${groupDetail.groupId}/groupAdmin|}">
-                관리
-            </a>
+        <div id="admin" th:if="${isGroupOwner}">
+            <a th:href="@{|/group/${groupDetail.groupId}/groupAdmin|}">관리</a>
         </div>
-        <!-- 자유 가입 (FREE) 방식 -->
+    <!-- 자유 가입 (FREE) 방식 -->
         <form th:if="${groupDetail.registrationType.name() == 'FREE' && !isGroupOwner}" th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
             <button th:if="${!isMember}" type="submit" id="freeBt" class="btn custom-green-button mt-3">가입</button>
         </form>
         <form th:if="${groupDetail.registrationType.name() == 'FREE' && isMember && !isGroupOwner}" th:action="@{/group/leave/{groupId}(groupId=${groupDetail.groupId})}" method="post">
-            <button type="submit" id="leaveBt" class="btn custom-red-button mt-3">탈퇴</button>
+            <button type="submit" id="leaveBt" class="resignBt btn custom-red-button mt-3">탈퇴</button>
         </form>
 
         <!-- 승인 필요 (APPROVAL) 방식 -->
@@ -48,7 +50,7 @@
             가입
         </button>
         <form th:if="${groupDetail.registrationType.name() == 'APPROVAL' && isMember && !isGroupOwner}" th:action="@{/group/leave/{groupId}(groupId=${groupDetail.groupId})}" method="post">
-            <button type="submit" id="leaveBt2" class="btn custom-red-button mt-3">탈퇴</button>
+            <button type="submit" id="leaveBt2" class="resignBt btn custom-red-button mt-3">탈퇴</button>
         </form>
 
 

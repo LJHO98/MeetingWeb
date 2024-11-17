@@ -27,16 +27,38 @@
     </div>
 
     <div id="rankingWrap">
-        <div class="rankingBox" th:each="group :${rankingList}">
+        <div class="rankingBox" th:each="group, iterStat : ${rankingList}">
             <a th:href="@{'/group/' + ${group.groupId}}">
-                <div class="num"><div id="img1"></div></div>
-                <div class="rankingImg"><img th:src="${group.profileImgUrl}"></div>
-                <div class="rankingName" th:text="${group.name}"></div>
-                <div class="rankingCategory" th:text="${group.categoryName}"></div>
-                <div class="winCount" th:text="${group.win}"></div>
+                <!-- 첫 번째, 두 번째, 세 번째 rankingBox에 대해서는 폰트 크기를 28px로 설정 -->
+                <div class="num" th:style="${iterStat.index < 3} ? 'font-size: 28px;' : ''">
+                    <!-- 첫 번째, 두 번째, 세 번째 순위는 이미지 사용 -->
+                    <div th:if="${iterStat.index == 0}" id="img1"></div>
+                    <div th:if="${iterStat.index == 1}" id="img2"></div>
+                    <div th:if="${iterStat.index == 2}" id="img3"></div>
+                    <!-- 4번째 이후에는 숫자 표시 -->
+                    <div th:if="${iterStat.index > 2}" th:text="${iterStat.index + 1}"></div>
+                </div>
+
+                <div class="rankingImg">
+                    <img th:src="${group.profileImgUrl}">
+                </div>
+
+                <!-- rankingName, rankingCategory, winCount 폰트 크기를 첫 3개는 28px, 그 이후는 23px로 설정 -->
+                <div class="rankingName"
+                     th:style="${iterStat.index < 3} ? 'font-size: 28px;' : 'font-size: 21px;'"
+                     th:text="${group.name}"></div>
+
+                <div class="rankingCategory"
+                     th:style="${iterStat.index < 3} ? 'font-size: 28px;' : 'font-size: 21px;'"
+                     th:text="${group.categoryName}"></div>
+
+                <div class="winCount"
+                     th:style="${iterStat.index < 3} ? 'font-size: 28px;' : 'font-size: 21px;'"
+                     th:text="${group.win}"></div>
             </a>
         </div>
     </div>
+
 
 </div>
 

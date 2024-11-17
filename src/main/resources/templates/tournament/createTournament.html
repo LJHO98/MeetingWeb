@@ -17,6 +17,7 @@
             images_upload_url: '/img',
             automatic_uploads: true,
             file_picker_types: 'image',
+            height: 400,
             images_upload_handler: function (blobInfo, success, failure) {
                 const formData = new FormData();
                 formData.append('file', blobInfo.blob(), blobInfo.filename());
@@ -114,7 +115,7 @@
         </div>
 
 
-        <div id="groupList">
+        <div class="inputBox">
             <label th:for="group">대회 대상 모임</label>
             <select name="groupId" class="group-select">
                 <option value="">모임을 선택하세요</option>

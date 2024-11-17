@@ -202,3 +202,31 @@ a:hover {
 #submitGroupBt:hover{
     background: #47C83E;
 }
+
+.resignBt{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    margin-top: 0;
+    font-family: 'NanumSquareAceb';
+    border: none;
+    font-size: 15px;
+    background: linear-gradient(145deg, #f1f1f1, #c1bcc4); /* 연한 회색 그라데이션 */
+    color: #939886; /* 글자 색상 (어두운 회색) */
+    padding: 7px 17px; /* 패딩 조정 */
+    border-radius: 13px; /* 둥근 모서리 */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(255, 255, 255, 0.8); /* 입체감을 위한 그림자 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    cursor: pointer;
+    height: 40px;
+    letter-spacing: 1px;
+}
+
+.resignBt:hover{
+    background: linear-gradient(145deg, #dcdcdc, #aba4af); /* 호버 시 그라데이션 반전 */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.6); /* 입체감 증가 */
+}
+
+#groupMenu > div[style*="display: none"] {
+    display: none;  /* 숨겨진 div 요소가 공간을 차지하지 않도록 */
+}

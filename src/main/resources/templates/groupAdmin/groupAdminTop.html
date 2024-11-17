@@ -19,23 +19,23 @@
 
 
     <div id="groupMenu">
-        <div id="schedule"><a th:href="@{'/groupAdmin/'+${groupDetail.groupId}+'/eventAdmin'}">일정</a></div>
-        <div id="application">
-            <a th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL }"
-               th:href="@{/group/{groupId}/application(groupId=${groupDetail.groupId})}">
-                신청서목록
-            </a>
+        <div id="schedule">
+            <a th:href="@{'/groupAdmin/' + ${groupDetail.groupId} + '/eventAdmin'}">일정</a>
+        </div>
+        <div id="application" th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL }">
+            <a th:href="@{'/group/' + ${groupDetail.groupId} + '/application'}">신청서목록</a>
         </div>
         <div id="member">
             <a th:href="@{'/group/' + ${groupDetail.groupId} + '/memberAdmin'}">회원</a>
         </div>
         <div id="exit">
-            <a th:href="@{/group/{groupId}(groupId=${groupDetail.groupId})}">나가기</a>
+            <a th:href="@{'/group/' + ${groupDetail.groupId}}">나가기</a>
         </div>
-        <form th:action="@{/group/{groupId}/leave(groupId=${groupDetail.groupId})}" method="post">
-            <button type="submit" class="btn btn-danger">탈퇴</button>
+        <form th:action="@{'/group/' + ${groupDetail.groupId} + '/leave'}" method="post">
+            <button id="resignBt" type="submit" class="btn btn-danger">탈퇴</button>
         </form>
-<!--        <div th:text="${groupDetail.registrationType}"></div>-->
+
+    <!--        <div th:text="${groupDetail.registrationType}"></div>-->
 
 
 

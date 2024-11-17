@@ -41,11 +41,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 80px;
+    gap: 4%;
 }
 
 .makingBox {
-    width: 280px;
-    margin: 30px calc(183px / 10);
+    width: 22%;
+    margin: 30px 0;
     /*padding: 20px;*/
     border-radius: 10%;
     cursor: pointer;
@@ -78,11 +79,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 50px;
+    gap: 4%;
 }
 
 .participatingBox{
-    width: 280px;
-    margin: 30px calc(183px / 10);
+    width: 22%;
+    margin: 30px 0;
     /*padding: 20px;*/
     border-radius: 10%;
     cursor: pointer;

@@ -121,19 +121,37 @@
 
     <div id="groupInfoWrap">
         <div id="description" th:utext="${groupDetail.description}"></div>
-        <div>일정</div>
+
         <div id="eventWrap">
+            <div id="eventText">일정</div>
             <div id="eventBox" th:each="event : ${events}">
-                <div id=eventTitle th:text="${event.title}"></div>
-                <div id="eventImg">
-                    <img th:src="${event.imageUrl}" alt="Event Image">
+                <div id="eventTop">
+                    <div id=eventTitle th:text="${event.title}"></div>
+                    <div id="eventCapacity" th:text="${event.capacity}"></div>
+                    <button>참석</button>
                 </div>
-                <div id="eventContent" th:text="${event.description}"></div>
-                <div id="eventDate" th:text="${event.date}"></div>
-                <div th:text="${event.location}"></div>
-                <div id="eventCapacity" th:text="${event.capacity}"></div>
+                <div id="eventMiddle">
+                    <div id="eventImg">
+                        <img th:src="${event.imageUrl}" alt="Event Image">
+                    </div>
+                    <div id="eventDetail">
+                        <div class="textBox">
+                            <div class="text">날짜</div>
+                            <div id="eventDate" th:text="${event.date}"></div>
+                        </div>
+                        <div class="textBox">
+                            <div class="text">위치</div>
+                            <div th:text="${event.location}"></div>
+                        </div>
+                        <div class="textBox">
+                            <div class="text">내용</div>
+                            <div id="eventContent" th:text="${event.description}"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div id="memberWrap">
             <div id="memberBox" th:each="member : ${groupDetail.members}">
                 <a href="javascript:void(0)" th:onclick="openMemberModal([[${member}]])">
