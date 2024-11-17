@@ -222,3 +222,280 @@ const showAlert = (message) => {
 //         $("#emailVerificationMessage").text("");
 //     }
 // });
+
+let isUsernameChecked = false;
+
+// 아이디, 중복확인 기능 및 유효성 검사
+$(document).ready(function() {
+    // 중복확인 버튼 클릭 이벤트
+    $('#checkUsernameButton').on('click', function() {
+        let userName = $('#userName').val();
+        let usernameRegex = /^[a-zA-Z0-9]*$/;
+        let koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+        if (userName.trim() === "") {
+            $('#usernameMessage').text("아이디를 입력해주세요.").css("color", "red");
+            isUsernameChecked = false;
+        } else if (userName.length >= 4 && userName.length <= 10) {
+            if (koreanRegex.test(userName)) {
+                $('#usernameMessage').text("아이디에 한글을 사용할 수 없습니다.").css("color", "red");
+                isUsernameChecked = false;
+            } else if (usernameRegex.test(userName)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/start/check-username",
+                    data: { userName: userName },
+                    success: function(response) {
+                        let messageElement = $('#usernameMessage');
+                        if (response) {
+                            messageElement.text("사용 가능한 아이디입니다.").css("color", "green");
+                            isUsernameChecked = true;
+                        } else {
+                            messageElement.text("중복된 아이디입니다.").css("color", "red");
+                            isUsernameChecked = false;
+                        }
+                    },
+                    error: function() {
+                        $('#usernameMessage').text("중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.").css("color", "red");
+                        isUsernameChecked = false;
+                    }
+                });
+            } else {
+                $('#usernameMessage').text("아이디에 특수문자, 띄워쓰기를 사용할 수 없습니다.").css("color", "red");
+                isUsernameChecked = false;
+            }
+        } else {
+            $('#usernameMessage').text("아이디는 4~10자여야 합니다.").css("color", "red");
+            isUsernameChecked = false;
+        }
+    });
+
+    // 아이디 입력 필드 변경 시 중복확인 상태 초기화
+    $('#userName').on('input', function() {
+        isUsernameChecked = false; // 중복확인 상태 초기화
+        $('#usernameMessage').text("").css("color", "");
+    });
+
+    // 가입 버튼 클릭 시 중복확인 여부 및 유효성 검사
+    $('#submitBt').click(function(e) {
+        let userName = $('#userName').val();
+        let password = $('#password').val();
+        let usernameMessage = $('#usernameMessage');
+
+        // 아이디 유효성 검사
+        if (userName.trim() === "") {
+            e.preventDefault();
+            usernameMessage.text("아이디는 필수입니다.").css("color", "red").show();
+            return;
+        }
+
+        // 중복 확인 여부 검사
+        if (!isUsernameChecked) {
+            e.preventDefault();
+            usernameMessage.text("아이디 중복확인을 해주세요.").css("color", "red");
+            return;
+        }
+    });
+});
+
+// 비멀번호 유효성 검사
+$(document).ready(function() {
+    // 비밀번호 유효성 검사 이벤트 리스너 추가
+    $('#password').on('input', function() {
+        let password = $('#password').val();
+        let passwordRequiredMessage = $('#passwordRequiredMessage');
+
+        if (password.trim() === "") {
+            passwordRequiredMessage.text("비밀번호는 필수입니다.").css("display", "block");
+        }
+    });
+
+    // 가입 버튼 클릭 시 비밀번호 유효성 검사
+    $('#submitBt').click(function(e) {
+        let password = $('#password').val();
+        let passwordRequiredMessage = $('#passwordRequiredMessage');
+
+        // 비밀번호 유효성 검사 (최종 확인)
+        if (password.trim() === "") {
+            e.preventDefault();
+            passwordRequiredMessage.text("비밀번호는 필수입니다.").css("display", "block");
+        }else {
+            passwordRequiredMessage.css("display", "none");
+        }
+    });
+});
+
+// 비밀번호 확인 기능 및 유효성 검사
+$(document).ready(function() {
+    // 비밀번호 확인 필드가 변경될 때마다 비교
+    $('#passwordConfirm').on('input', function() {
+        var password = $('#password').val(); // 비밀번호 필드 값
+        var passwordConfirm = $('#passwordConfirm').val(); // 비밀번호 확인 필드 값
+        var mismatchMessage = $('#passwordMismatchMessage'); // 비밀번호 불일치 메시지
+
+        // 비밀번호가 일치하지 않으면 메시지 표시
+        if (password !== passwordConfirm) {
+            mismatchMessage.text("비밀번호가 일치하지 않습니다.").css("color", "red").show();
+        } else {
+            mismatchMessage.text("비밀번호가 일치합니다.").css("color", "green").show();
+        }
+    });
+
+    // 가입하기 버튼 클릭 시 비밀번호 확인 유효성 검사 추가
+    $('#submitBt').click(function(e) {
+        var password = $('#password').val(); // 비밀번호 값
+        var passwordConfirm = $('#passwordConfirm').val(); // 비밀번호 확인 값
+        var mismatchMessage = $('#passwordMismatchMessage'); // 비밀번호 불일치 메시지
+
+        // 비밀번호가 일치하지 않으면 메시지 표시
+        if (password !== passwordConfirm) {
+            e.preventDefault();  // 폼 제출 방지
+            mismatchMessage.text("비밀번호가 일치하지 않습니다.").css("color", "red").show();
+        }
+    });
+});
+
+$(function(){
+    $(".register-Btn").click(function(){
+        $(".certification-Btn").prop("disabled", false);
+        sendNumber();
+
+    });
+});
+
+// 이메일 유효성 검사
+$(document).ready(function() {
+    // 가입하기 버튼 클릭 시 이메일 필수 검사
+    $('#submitBt').click(function(e) {
+        var email = $('.email').val();  // 이메일 필드 값
+        var emailMessage = $('#emailVerificationMessage');  // 이메일 필수 메시지 요소
+
+        // 이메일이 비어 있으면
+        if (email.trim() === "") {
+            e.preventDefault();  // 폼 제출 방지
+            emailMessage.text("이메일은 필수입니다.").css("color", "red").show();
+        } else {
+            emailMessage.hide();  // 이메일이 유효하면 메시지 숨기기
+        }
+    });
+
+    // 이메일 인증 버튼 클릭 시 이메일 필수 여부 체크
+    $(".register-Btn").click(function(){
+        var email = $(".email").val(); // 이메일 값 가져오기
+        var emailMessage = $("#emailVerificationMessage");
+
+        // 이메일이 비어 있으면
+        if (email.trim() === "") {
+            emailMessage.text("이메일을 입력해주세요.").css("color", "red").show();
+        } else {
+            // 이메일 인증 절차 시작
+            $(".certification-Btn").prop("disabled", false);
+        }
+    });
+});
+
+
+// 이름 유효성 검사
+$(document).ready(function() {
+    $('#submitBt').click(function(e) {
+        var name = $('#nameInput').val(); // 이름 입력 필드 값 가져오기
+        var nameMessage = $('#nameMessage'); // 경고 메시지 요소
+
+        // 이름이 비어 있으면
+        if (name.trim() === "") {
+            e.preventDefault(); // 폼 제출 방지
+            nameMessage.text('이름을 입력해주세요'); // 메시지 설정
+            nameMessage.show(); // 경고 메시지 표시
+        } else {
+            nameMessage.hide(); // 이름이 입력되었으면 경고 메시지 숨기기
+        }
+    });
+});
+
+
+// 생년월일 유효성 검사 및 기능
+document.addEventListener("DOMContentLoaded", function() {
+    const birthDateInput = document.getElementById("birthdate");
+    const birthDateMessage = document.getElementById("birthDateMessage");
+
+    // 가입하기 버튼 클릭 시 생년월일 필수 검사
+    document.getElementById('submitBt').addEventListener('click', function(e) {
+        // 생년월일이 비어 있으면
+        if (!birthDateInput.value) {
+            e.preventDefault();  // 폼 제출 방지
+            birthDateMessage.textContent = "생년월일은 필수입니다.";
+            birthDateMessage.style.display = "block";
+        } else {
+            birthDateMessage.style.display = "none";
+        }
+    });
+
+    // 생년월일 필드 값 변경 시 14세 이하 검사
+    birthDateInput.addEventListener("change", function() {
+        const inputDate = new Date(birthDateInput.value);
+        const today = new Date();
+        const age = today.getFullYear() - inputDate.getFullYear();
+        const monthDifference = today.getMonth() - inputDate.getMonth();
+        const dayDifference = today.getDate() - inputDate.getDate();
+
+        const isUnder14 = age < 14 || (age === 14 && (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)));
+
+        if (isUnder14) {
+            birthDateMessage.textContent = "14세 이하의 사용자는 가입이 불가능합니다.";
+            birthDateMessage.style.display = "block";
+        } else {
+            birthDateMessage.style.display = "none";
+        }
+    });
+});
+
+
+// 성별 유효성 검사
+$(document).ready(function() {
+    $('#submitBt').click(function(e) {
+        let gender = $("input[name='gender']:checked").val();
+        let genderMessage = $('#genderMessage');
+        if (!gender) {
+            e.preventDefault();
+            genderMessage.remove();
+            let errorMessage = $('<div id="genderMessage" style="color: red;">성별을 선택해주세요.</div>');
+            $('.gender-options').after(errorMessage);
+        } else {
+            genderMessage.remove();
+        }
+    });
+});
+
+
+// 카테고리 유효성 검사
+$(document).ready(function() {
+    $('#submitBt').click(function(e) {
+        let checkedCategories = $('.categoryCheck:checked').length;
+        let categoryMessage = $('#categoryMessage');
+        if (checkedCategories === 0) {
+            e.preventDefault();
+            categoryMessage.remove();
+            let errorMessage = $('<div id="categoryMessage" style="color: red;">최소 1개 이상의 카테고리를 선택해주세요.</div>');
+            $('.categoryList').after(errorMessage);
+        } else {
+            categoryMessage.remove();
+        }
+    });
+});
+
+
+// 주소 유효성 검사
+$(document).ready(function() {
+    $('#submitBt').click(function(e) {
+        let address = $('#activityArea').val();
+        let addressMessage = $('#addressMessage');
+        if (address.trim() === "") {
+            e.preventDefault();
+            addressMessage.remove();  // 기존 메시지를 제거하고
+            let errorMessage = $('<div id="addressMessage" style="color: red;">주소를 입력해주세요.</div>');
+            $('.joinCheck').last().after(errorMessage);
+        } else {
+            addressMessage.remove();
+        }
+    });
+});

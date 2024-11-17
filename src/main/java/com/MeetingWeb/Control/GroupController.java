@@ -145,11 +145,14 @@ public class GroupController {
 
     //내 모임 참가대회
     @GetMapping("/group/{groupId}/tournament")
-    public String GroupTournamentPage(@PathVariable("groupId") Long groupId , Model model) {
+    public String GroupTournamentPage(@PathVariable("groupId") Long groupId , Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Long userId = userService.findByUserName(userDetails.getUsername()).getId();
         List<TrnDto> groupTournament = tournamentService.getGroupTournament(groupId);
         GroupDto groupDto = groupService.getGroupById(groupId);
         model.addAttribute("groupDetail", groupDto);
         model.addAttribute("groupTournament", groupTournament);
+        model.addAttribute("isGroupOwner", groupService.isGroupOwner(userId, groupId));
+        model.addAttribute("isMember", groupService.isMemberOfGroup(userId, groupId));
         return "group/groupTournament";
 
     }
@@ -163,6 +166,7 @@ public class GroupController {
         model.addAttribute("groupDetail", groupDto); // 그룹 정보를 모델에 추가합니다.
         model.addAttribute("posts", posts); // 게시글 리스트를 모델에 추가합니다.
         model.addAttribute("isGroupOwner", groupService.isGroupOwner(userId, groupId));
+        model.addAttribute("isMember", groupService.isMemberOfGroup(userId, groupId));
 
         return "group/groupBoard"; // groupBoard 템플릿으로 이동합니다.
     }
@@ -174,6 +178,7 @@ public class GroupController {
         GroupDto groupDto = groupService.findGroupById(id); // 여기서 id 사용
         model.addAttribute("groupDetail", groupDto);
         model.addAttribute("isGroupOwner", groupService.isGroupOwner(userId, id));
+        model.addAttribute("isMember", groupService.isMemberOfGroup(userId, id));
         return "group/writePage";
     }
     // 로그인된 사용자 ID를 가져오는 메서드

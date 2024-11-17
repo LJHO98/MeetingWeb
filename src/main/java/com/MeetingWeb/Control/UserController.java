@@ -131,6 +131,10 @@ public class UserController {
 
     @GetMapping("/start/myPage")
     public String viewMemberProfile(Principal principal , Model model) {
+        // principal이 null인 경우 (로그인되지 않은 경우)_회원탈퇴
+        if (principal == null) {
+            return "redirect:/start/login"; // 로그인 페이지로 리다이렉트
+        }
         //로그인할때 사용한 Id
         String userName = principal.getName();
         // 사용자 정보를 가져와서 모델에 추가
@@ -153,6 +157,22 @@ public class UserController {
             return "start/myPage";
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping("/start/deleteAccount")
+    @ResponseBody
+    public ResponseEntity<String> deleteAccount(Principal principal) {
+        // 현재 로그인한 사용자 이름을 가져옴
+        String userName = principal.getName();
+
+        try {
+            // 사용자 삭제 서비스 호출
+            userService.deleteAccountByUserName(userName);
+            return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
         }
     }
 }

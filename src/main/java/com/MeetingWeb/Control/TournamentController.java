@@ -1,5 +1,6 @@
 package com.MeetingWeb.Control;
 
+import com.MeetingWeb.Constant.TournamentStatus;
 import com.MeetingWeb.Dto.*;
 import com.MeetingWeb.Repository.TournamentParticipantRepository;
 import com.MeetingWeb.Service.GroupService;
@@ -76,6 +77,8 @@ public class TournamentController {
     public String createTournament(@Valid TrnDto trnDto, BindingResult bindingResult ,Principal principal, Model model, RedirectAttributes redirectAttributes) {
         String userName = principal.getName();
         if(bindingResult.hasErrors()){
+            List<GroupDto> groupDtoList = tournamentService.getMyGroupList(principal.getName());
+            model.addAttribute("groupList", groupDtoList);
             model.addAttribute("categories", tournamentService.getTournamentCategories());
             return "tournament/createTournament";
         }
@@ -97,6 +100,23 @@ public class TournamentController {
         return "redirect:/tournament/list"; // 성공 시 대회 목록으로 이동
     }
 
+    //대회 정보 수정
+    @GetMapping("/tournament/edit/{tournamentId}")
+    public String updateTournament(@PathVariable Long tournamentId , Model model, Principal principal, RedirectAttributes redirectAttributes) {
+        TrnDto trnDto = tournamentService.getTournamentInfo(tournamentId);
+
+        if(trnDto.getStatus() == TournamentStatus.UPCOMING) {
+            List<GroupDto> groupList = tournamentService.getMyGroupList(principal.getName());
+            model.addAttribute("groupList" ,groupList);
+            model.addAttribute("trnDto", trnDto);
+            model.addAttribute("categories",tournamentService.getTournamentCategories());
+        }else{
+            redirectAttributes.addFlashAttribute("errorMessage", "대회 상태가 수정할 수 없는 상태입니다.");
+            return "redirect:/tournament/"+tournamentId;
+        }
+        return "tournament/createTournament";
+    }
+
     //대회 상세 페이지
     @GetMapping("/tournament/{tournamentId}")
     public String tournamentInfo(@PathVariable Long tournamentId , Model model, Principal principal) {
@@ -106,6 +126,7 @@ public class TournamentController {
         model.addAttribute("groupList", groupDtoList);
         model.addAttribute("tournament", trnDto);
         model.addAttribute("groupProfileDto", groupProfileDto);
+        model.addAttribute("isUserLeader", tournamentService.isUserLeader(tournamentId, principal.getName()));
         return "tournament/tournamentInfo";
     }
 
@@ -135,14 +156,11 @@ public class TournamentController {
         model.addAttribute("groupList", groupDtoList);
         model.addAttribute("tournament", trnDto);
         model.addAttribute("groupProfileDto", groupProfileDto);
+        model.addAttribute("isUserLeader", tournamentService.isUserLeader(tournamentId, principal.getName()));
         return "tournament/participantList"; // 뷰 템플릿의 경로에 맞게 수정
     }
     
-    //대회 정보 업데이트
-    public String updateTournament(TrnDto trnDto, Model model) {
 
-        return "";
-    }
     //내 대회
     @GetMapping("/tournament/myTournament")
     public String myTournamentPage(Principal principal, Model model) {

@@ -321,3 +321,7 @@ a:hover{
     line-height: 1.6;
     padding: 70px;
 }
+
+#tournamentMenu #editTournamentBtn{
+    right:90px;
+}

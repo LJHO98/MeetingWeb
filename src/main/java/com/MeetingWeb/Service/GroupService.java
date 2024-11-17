@@ -46,7 +46,7 @@ public class GroupService {
 
         Groups group = groupDto.toEntity(profileImageUrl, createdBy, groupCategory);
         if(!createdBy.getRole().equals(Role.ADMIN)) {
-            createdBy.setRole(Role.READER);
+            createdBy.setRole(Role.LEADER);
         }
         group.setCurrentHeadCount(1);
         groupRepository.save(group);
@@ -317,16 +317,16 @@ public class GroupService {
     //모임장 위임
     public void delegateGroup(Long groupId, Long userId) {
         Groups group = groupRepository.findByGroupId(groupId);
-        User currentGroupReader = group.getCreatedBy();
-        User postGroupReader = userRepository.findById(userId).get();
+        User currentGroupLeader = group.getCreatedBy();
+        User postGroupLeader = userRepository.findById(userId).get();
 
-        group.setCreatedBy(postGroupReader);
-        currentGroupReader.setRole(Role.USER);
-        postGroupReader.setRole(Role.READER);
+        group.setCreatedBy(postGroupLeader);
+        currentGroupLeader.setRole(Role.USER);
+        postGroupLeader.setRole(Role.LEADER);
 
         groupRepository.save(group);
-        userRepository.save(currentGroupReader);
-        userRepository.save(postGroupReader);
+        userRepository.save(currentGroupLeader);
+        userRepository.save(postGroupLeader);
     }
 
 

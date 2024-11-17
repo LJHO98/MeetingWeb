@@ -35,6 +35,7 @@
         <div id="matchingList"><a th:href="'/tournament/bracket/' + ${tournament.tournamentId}">대진표</a></div>
         <div id="participatingGroup"><a th:href="'/tournament/' + ${tournament.tournamentId} + '/participants'">참가모임</a></div>
         <button type="button" id="applyBtn">신청</button>
+        <button type="button" id="editTournamentBtn" th:if="${isUserLeader}" th:onclick="'location.href=\'/tournament/edit/' + ${tournament.tournamentId} + '\''">대회 수정</button>
     </div>
 
     <!-- Modal HTML -->

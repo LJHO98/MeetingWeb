@@ -263,5 +263,14 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public void deleteAccountByUserName(String userName) {
+        User user = userRepository.findByUserName(userName);
+        if (user != null) {
+            userRepository.delete(user);
+        } else {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+        }
+    }
+
 }
 

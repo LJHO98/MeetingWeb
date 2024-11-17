@@ -54,3 +54,21 @@ function addAddr() {
         }
     }).open();
 }
+
+$(document).ready(function() {
+    $('#deleteAccountButton').on('click', function() {
+        if (confirm("정말로 회원 탈퇴를 하시겠습니까?")) {
+            $.ajax({
+                url: '/start/deleteAccount',
+                type: 'DELETE',
+                success: function(response) {
+                    alert("회원 탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.");
+                    window.location.href = '/'; // 메인 페이지로 이동
+                },
+                error: function(error) {
+                    alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+                }
+            });
+        }
+    });
+});

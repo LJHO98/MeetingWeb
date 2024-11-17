@@ -386,7 +386,7 @@ public class TournamentService {
 
     public boolean isGroupOwner(String name) {
         User user = userService.findByUserName(name);
-        return user.getRole().equals(Role.READER);
+        return user.getRole().equals(Role.LEADER);
     }
 
     public boolean isUserLeader(Long tournamentId, String username) {
