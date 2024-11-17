@@ -80,35 +80,39 @@
         </script>
 
 </head>
-<div layout:fragment="body" id="memberAdminMain">
+<div layout:fragment="body" id="applicationAdminMain">
+
     <th:block th:replace="groupAdmin/groupAdminTop :: groupAdminTop"></th:block>
 
-<p>신청서목록</p>
-    <ul>
-            <li th:each="applicationDto : ${applicationDtoList}"
-                             th:if="${applicationDto.user.userId} != ${groupDetail.createdBy}">
-                <img th:src="${applicationDto.getUser().getProfileImgUrl()}" alt="Profile Image"
-                                       style="width: 50px; height: 50px; border-radius: 50%;" />
-                <span th:text="${applicationDto.user.name}"
-                      th:onclick="openMemberModal([[${applicationDto}]])">
-                </span>
-    <!--            <button th:onclick="openApplicationModal([[${applicationDto}]])">신청서</button>-->
-                <button type="button" class="btn btn-primary"
-                                             th:onclick="openApplicationModal([[${applicationDto}]], [[${groupId}]])">
-                    신청서
-                </button>
-            </li>
-        </ul>
+    <div id="applicationAdminWrap">
+        <div th:each="applicationDto : ${applicationDtoList}">
+            <div id="memberBox" th:if="${applicationDto.user.userId} != ${groupDetail.createdBy}">
+                <div id="memberImg">
+                    <img th:src="${applicationDto.getUser().getProfileImgUrl()}" alt="Profile Image" />
+                </div>
+                <div id="memberDetail">
+                    <span th:text="${applicationDto.user.name}" th:onclick="openMemberModal([[${applicationDto}]])"></span>
+                    <button type="button" class="btn btn-primary" th:onclick="openApplicationModal([[${applicationDto}]], [[${groupId}]])">
+                        신청서
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-
-
-
-
-
-
-
+<!--    <ul>-->
+<!--            <li th:each="applicationDto : ${applicationDtoList}"-->
+<!--                 +            th:if="${applicationDto.user.userId} != ${groupDetail.createdBy}">-->
+<!--                <img th:src="${applicationDto.getUser().getProfileImgUrl()}" alt="Profile Image"-->
+<!--                      +                 style="width: 50px; height: 50px; border-radius: 50%;" />-->
+<!--                <span th:text="${applicationDto.user.name}" th:onclick="openMemberModal([[${applicationDto}]])"></span>-->
+<!--    &lt;!&ndash;            <button th:onclick="openApplicationModal([[${applicationDto}]])">신청서</button>&ndash;&gt;-->
+<!--                <button type="button" class="btn btn-primary"-->
+<!--                         +                    th:onclick="openApplicationModal([[${applicationDto}]], [[${groupId}]])">-->
+<!--                    신청서-->
+<!--                </button>-->
+<!--            </li>-->
+<!--        </ul>-->
 
     <!-- 모달 HTML -->
     <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
@@ -139,19 +143,24 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="applicationModalLabel">신청서 정보</h5>
+                        <div class="modal-title" id="applicationModalLabel">신청서</div>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p><strong>가입 이유:</strong> <span id="modalReason"></span></p>
-                        <p><strong>하고 싶은 말:</strong> <span id="modalSay"></span></p>
+                        <div id="reasonWrap">
+                            <div id="reasonText">가입 이유</div>
+                            <div id="modalReason"></div>
+                        </div>
+                        <div id="sayWrap">
+                            <div id="sayText">가입 이유</div>
+                            <div id="modalSay"></div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="accept" onclick="acceptApplication()">수락</button>
                         <button type="button" class="btn btn-danger" onclick="rejectApplication()">거절</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
     <!--                <div class="modal-footer">-->
     <!--                    &lt;!&ndash; groupId와 userId를 직접 출력 &ndash;&gt;-->
