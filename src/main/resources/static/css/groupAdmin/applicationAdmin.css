@@ -204,6 +204,8 @@
 
 #modal-top button{
     height: 25px;
+    margin: 0;
+    padding: 0;
 }
 
 #modal-member{

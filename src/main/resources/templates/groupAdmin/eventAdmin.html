@@ -21,7 +21,7 @@
     <th:block th:replace="groupAdmin/groupAdminTop :: groupAdminTop"></th:block>
 
         <!-- 모달 버튼 -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal">
+        <button id="plusBt" type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal">
             +
         </button>
 
@@ -29,15 +29,18 @@
         <div id="eventList" class="mt-4">
             <div th:each="event : ${events}" class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${event.title}">제목</h5>
+                    <div class="card-top">
+                        <div class="card-title" th:text="${event.title}">제목</div>
+                        <form th:action="@{/events/{eventId}/delete/{groupId}(eventId=${event.id},groupId=${groupDetail.groupId})}" method="post">
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form>
+                    </div>
+
                     <p class="card-text" th:text="'일시: ' + ${event.date}">일시</p>
                     <p class="card-text" th:text="'위치: ' + ${event.location}">위치</p>
                     <p class="card-text" th:text="'내용: ' + ${event.description}">내용</p>
                     <p class="card-text" th:text="'정원: ' + ${event.capacity} + '명'">정원</p>
                     <img th:src="${event.imageUrl}" alt="이벤트 이미지" class="img-fluid">
-                    <form th:action="@{/events/{eventId}/delete/{groupId}(eventId=${event.id},groupId=${groupDetail.groupId})}" method="post">
-                        <button type="submit" class="btn btn-danger">삭제</button>
-                    </form>
                 </div>
             </div>
         </div>

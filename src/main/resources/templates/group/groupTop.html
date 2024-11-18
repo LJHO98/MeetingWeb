@@ -34,7 +34,7 @@
         </div>
 
         <div id="admin" th:if="${isGroupOwner}">
-            <a th:href="@{|/group/${groupDetail.groupId}/groupAdmin|}">관리</a>
+            <a th:href="@{|/groupAdmin/${groupDetail.groupId}/eventAdmin|}">관리</a>
         </div>
     <!-- 자유 가입 (FREE) 방식 -->
         <form th:if="${groupDetail.registrationType.name() == 'FREE' && !isGroupOwner}" th:action="@{/group/join/{groupId}(groupId=${groupDetail.groupId})}" method="post">
