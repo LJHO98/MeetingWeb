@@ -18,9 +18,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -34,9 +36,17 @@ public class EventsController {
     //일정저장
     @PostMapping("/events/{groupId}/save")
     public String saveEvent(
-            @ModelAttribute EventsDto eventsDto,
+            @Valid EventsDto eventsDto,
+            BindingResult bindingResult,
             @PathVariable Long groupId,
             @AuthenticationPrincipal UserDetails userDetails,Model model) {
+        if(bindingResult.hasErrors()) {
+            GroupDto groupDto = groupService.findGroupById(groupId);
+            model.addAttribute("groupDetail", groupDto);
+            model.addAttribute("eventError", true);
+            return "groupAdmin/eventAdmin";
+        }
+
         try {
             // 그룹 및 유저 조회
             Groups group = groupService.findGroupId(groupId);

@@ -12,7 +12,14 @@
     <th:block layout:fragment="script"></th:block>
 
     <script src="/js/groupAdmin.js"></script>
-
+    <script>
+        $(document).ready(function () {
+            /* 모달 열기 플래그 확인 */
+            if ([[${eventError}]] === true) {
+                $('#eventModal').modal('show');
+            }
+        });
+    </script>
     <link rel="stylesheet" href="/css/groupAdmin/groupAdminTop.css">
     <link rel="stylesheet" href="/css/groupAdmin/groupAdmin.css">
 </head>
@@ -63,26 +70,31 @@
                             <div class="form-group">
                                 <label for="eventTitle">제목</label>
                                 <input type="text" class="form-control" id="eventTitle" th:field="*{title}" required>
+                                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;"></div>
                             </div>
                             <!-- 일시 -->
                             <div class="form-group">
                                 <label for="eventDate">일시</label>
                                 <input type="datetime-local" class="form-control" id="eventDate" th:field="*{date}" required>
+                                <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}" style="color: red;"></div>
                             </div>
                             <!-- 위치 -->
                             <div class="form-group">
                                 <label for="eventLocation">위치</label>
                                 <input type="text" class="form-control" id="eventLocation" th:field="*{location}" required>
+                                <div th:if="${#fields.hasErrors('location')}" th:errors="*{location}" style="color: red;"></div>
                             </div>
                             <!-- 내용 -->
                             <div class="form-group">
                                 <label for="eventDescription">내용</label>
                                 <textarea class="form-control" id="eventDescription" th:field="*{description}" rows="3" required></textarea>
+                                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red;"></div>
                             </div>
                             <!-- 정원 -->
                             <div class="form-group">
                                 <label for="eventCapacity">정원</label>
                                 <input type="number" class="form-control" id="eventCapacity" th:field="*{capacity}" required>
+                                <div th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}" style="color: red;"></div>
                             </div>
                             <!-- 이미지 -->
                             <div class="form-group">

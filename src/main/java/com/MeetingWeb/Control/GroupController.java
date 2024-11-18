@@ -35,7 +35,6 @@ public class GroupController {
     private final GroupService groupService;
     private final UserService userService;
     private final TournamentService tournamentService;
-    private final UserRepository userRepository;
     private final EventsService eventsService;
 
     //모임 만들기

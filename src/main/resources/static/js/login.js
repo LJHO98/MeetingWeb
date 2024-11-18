@@ -185,7 +185,9 @@ $(function(){
             }),
             success: function(data) {
                 console.log(data);
+                showAlert("비밀번호 변경 완료 !");
                 clearInterval(countdown);
+                pwCloseModal();
             },
             error: function(xhr) {
                 alert("User not found");

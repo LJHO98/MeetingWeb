@@ -35,6 +35,7 @@ public class MailController {
     public @ResponseBody ResponseEntity<String> sendJoinEmailPath(String email) throws MessagingException {
         try{
             userService.isExistEmail(email);
+            userService.findByEmail(email);
         }catch(IllegalStateException e1){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일입니다. 다른 이메일을 입력해주세요.");
         }
