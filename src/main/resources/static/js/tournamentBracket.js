@@ -27,8 +27,8 @@ var wadd=0; // 라운드별 간격 조절용 변수 ! 이것만 변경!!!!
 
 
 var line_depth = [team_height/4, team_height, team_height*2+team_height/2,team_height*5+team_height/2];
-console.log(line_depth);
-console.log(groupList); // groupList가 제대로 값이 전달되는지 확인
+//console.log(line_depth);
+//console.log(groupList); // groupList가 제대로 값이 전달되는지 확인
 for(var i in groupList){
     var bracket = Math.floor(groupList[i].matchNumber / 2) + 1; // 브라켓 번호 계산
     var $d=$(`<div class="team quarterfinals" data-num="${i}" >
@@ -60,7 +60,7 @@ for(var i in depth){
         $(".team").eq(tp).css("top",hg);
         $(".team").eq(tp++).css("left",w);
         depth[i].풀++;
-        console.log(tp+" "+depth[i].라운드);
+        //console.log(tp+" "+depth[i].라운드);
         hg+=hinc;
     }
     // if( tp == $(".team").length && k-1!=depth[i].라운드) break;
@@ -76,27 +76,22 @@ if(gang < $(".team").length){
     var i=0;
     for(var di=1; di<depth.length &&depth[di].풀!=0; di++){
         end+=depth[di].풀*2;
-        console.log(di);
+        //console.log(di);
         for(; i< end; i++){
-            var left = $(".team").eq(i-1);
-            var left_offset=left.offset();
-            var right=$(".team").eq(i);
-            var right_offset=right.offset();
-            // for(var k=1; k<=2; k++){
+
             line_make(i,di-1);
-            //}
             if(i%2==0){
                 var $line4 = $(`<div class='line_dp'></div>`);
                 $line4.css("width",(team_width/2)+(wadd/2)+line_width+"px");  //  위에  라운드별 간격에 추가 한값의
                 $line4.css("border",line_width/2+"px solid red");
                 $line4.css("position","absolute");
-                $line4.css("top",$(".team").eq(i).offset().top+($(".team").outerHeight())+line_depth[di-1]-2);
-                $line4.css("left",$(".team").eq(i).offset().left+$(".team").outerWidth()+team_width/2-line_width+(wadd/2));
+                $line4.css("top",$(".team").eq(i).position().top+($(".team").outerHeight())+line_depth[di-1]-2);
+                $line4.css("left",$(".team").eq(i).position().left+$(".team").outerWidth()+team_width/2-line_width+(wadd/2));
                 $(".tournament").append($line4);
             }
         }
     }
-    moveAllLines(-130, -606);
+    //moveAllLines(-130, -606);
 }
 
 function line_make(idx,depth_idx){
@@ -109,15 +104,16 @@ function line_make(idx,depth_idx){
     if(idx%2==0){
         if($(".team").eq(idx).find(".score").text() > $(".team").eq(idx+1).find(".score").text()) line_color="red";
         $line.css({"border-top":line_width+"px solid "+line_color,"border-right":line_width+"px solid "+line_color });
-        $line.css("top",$(".team").eq(idx).offset().top+($(".team").outerHeight()/2)-2);
+        $line.css("top",$(".team").eq(idx).position().top+($(".team").outerHeight()/2)-2);
+        //console.log(idx+" : " + $(".team").eq(idx).position().top+"  "+($(".team").outerHeight()/2));
     }else{
         if($(".team").eq(idx).find(".score").text() > $(".team").eq(idx-1).find(".score").text()) line_color="red";
         $line.css({"border-bottom":"4px solid "+line_color,"border-right":"4px solid "+line_color});
-        $line.css("top",$(".team").eq(idx).offset().top-(line_depth[depth_idx]));
-        console.log("bbb  "+line_depth)
+        $line.css("top",$(".team").eq(idx).position().top-(line_depth[depth_idx]));
+        //console.log("bbb  "+line_depth)
     }
 
-    $line.css("left",$(".team").eq(idx).offset().left+$(".team").width()+22);
+    $line.css("left",$(".team").eq(idx).position().left+$(".team").width()+22);
     $(".tournament").append($line);
 }
 
