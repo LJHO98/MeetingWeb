@@ -128,3 +128,68 @@
     z-index: 1040; /* 모달 배경의 z-index */
     background-color: rgba(0, 0, 0, 0.5); /* 모달 백그라운드 색상 */
 }
+
+/* 회원 모달 */
+.modal-content{
+    padding: 20px 30px;
+}
+
+#modal-body{
+    padding: 0;
+}
+
+#modal-top{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#modal-top button{
+    height: 25px;
+}
+
+#modal-member{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+#modal-name{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#modalMemberName{
+    font-size: 25px;
+    font-family: 'NanumSquareAcB';
+    color: #353535;
+}
+
+#modalBirthdate, #modalActivityArea{
+    font-size: 15px;
+    font-family: 'NanumSquare';
+}
+
+#modal-categoryWrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#modalCategories{
+    margin-right: 5px;
+    display: inline-block;
+}
+
+#modalCategories span{
+    margin-right: 10px;
+    display: inline-block;
+    padding: 5px 15px;
+    background: rgb(215 255 212);
+    border: 1px solid rgb(165 165 165);
+    border-radius: 7px;
+    font-family: 'NanumSquare';
+    color: #5D5D5D;
+}

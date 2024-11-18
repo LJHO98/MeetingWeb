@@ -58,22 +58,32 @@
     <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalMemberName">회원 이름</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <img id="modalProfileImg" src="" alt="Profile Image"
-                         style="width: 100px; height: 100px; border-radius: 50%;"/>
-                    <p><strong>성별:</strong> <span id="modalGender"></span></p>
-                    <p><strong>출생년도:</strong> <span id="modalBirthdate"></span></p>
-                    <p><strong>활동 지역:</strong> <span id="modalActivityArea"></span></p>
-                    <p><strong>카테고리:</strong> <span id="modalCategories"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <!--                    <div class="modal-header">-->
+                <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                <!--                            <span aria-hidden="true">&times;</span>-->
+                <!--                        </button>-->
+                <!--                    </div>-->
+                <div id="modal-body">
+                    <div id="modal-top">
+                        <div id="modal-member">
+                            <img id="modalProfileImg" src="" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;" />
+                            <div id="modal-detail">
+                                <div id="modal-name">
+                                    <div id="modalMemberName"></div>
+                                    <div id="modalGender" data-gender><i id="genderIcon"></i></div>
+                                </div>
+                                <div id="modalBirthdate"></div>
+                                <div id="modalActivityArea"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div id="modalCategoriesContainer">
+                        <span id="modalCategories"></span>
+                    </div>
                 </div>
             </div>
         </div>

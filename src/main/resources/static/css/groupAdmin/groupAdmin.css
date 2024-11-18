@@ -43,12 +43,16 @@
 /* 일정 */
 #plusBt{
     border-radius: 50%;
-    font-size: 30px;
-    color: #fff;
-    border: 1px solid #aaa;
+    font-size: 25px;
+    color: #aaa;
+    background: #fff;
+    border: 3px solid #aaa;
     justify-self: center;
     display: flex;
     margin-top: 30px;
+    padding: 0;
+    justify-content: center;
+    width: 43px;
 }
 
 .card{
@@ -60,6 +64,12 @@
     margin-bottom: 30px;
 }
 
+.card-top{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .card-title{
     font-size: 20px;
     font-family: 'NanumSquareAceB';
@@ -67,4 +77,38 @@
 
 .card-body form{
     width: 56px;
+}
+
+#deleteBt{
+    padding: 3px 13px;
+    font-family: 'NanumSquareAcr';
+    border-radius: 7px;
+    background: #fff;
+    border: 1px solid #aaa;
+    color: #8C8C8C;
+}
+
+/* 일정 추가 모달 */
+#eventModalLabel{
+    font-size: 27px;
+    font-family: 'NanumSquareAceb';
+    color: #5D5D5D;
+}
+
+.form-group label{
+    font-family: 'NanumSquareAcr';
+}
+
+#eventSaveBt{
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    font-family: 'NanumSquareBold';
+    color: #fff;
+    cursor: pointer;
+    background: #74D36D;
+    border: none;
+    display: grid;
+    justify-self: center;
 }
