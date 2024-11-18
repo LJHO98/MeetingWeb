@@ -51,6 +51,8 @@
 
     <form id="createTournamentForm" action="/tournament/createTournament" th:object="${trnDto}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:field="*{tournamentId}" th:value="*{tournamentId}">
+        <input type="hidden" th:field="*{status}" th:value="*{status}">
+        <input type="hidden" th:field="*{tournamentImgUrl}" th:value="*{tournamentImgUrl}">
         <div class="inputBox" id="imgBox">
             <label th:for="tournamentImg">대표 이미지</label>
             <input type="file" th:field="*{tournamentImg}" accept="image/*"/><br>

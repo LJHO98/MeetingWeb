@@ -83,7 +83,13 @@ public class TournamentController {
         System.out.println("컨트롤 if문 밖에 : "+trnDto.getTournamentId());
         if(trnDto.getTournamentId()!=null){
             if(tournamentService.isExistTournament(trnDto.getTournamentId())){
-                tournamentService.updateTournament(trnDto, trnDto.getCreatedBy());
+                System.out.println("유저 아이디 : "+trnDto.getCreatedBy());
+                try{
+                    tournamentService.updateTournament(trnDto, trnDto.getCreatedBy());
+                }catch (IOException e){
+                    model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
+                }
+
                 System.out.println("컨트롤 : "+trnDto.getTournamentId());
             }
         }else {

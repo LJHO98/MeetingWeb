@@ -79,14 +79,23 @@ public class TournamentService {
     }
 
     //대회 수정
-    public void updateTournament(TrnDto trnDto, Long createdBy) {
+    public void updateTournament(TrnDto trnDto, Long createdBy) throws IOException {
         User user = userService.findByUserId(createdBy);
         TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
         Groups group = groupRepository.findById(trnDto.getGroupId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
-        Tournaments tournament = trnDto.toEntity(trnDto.getTournamentImgUrl(),user, tournamentCategory, group);
-        tournamentRepository.save(tournament);
+        if(trnDto.getTournamentImg()!=null){
+            String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
+            trnDto.setTournamentImgUrl(tournamentImgUrl);
+            Tournaments tournament = trnDto.toEntity(tournamentImgUrl, user, tournamentCategory, group);
+            tournament.setCurrentTeamCount(tournamentParticipantRepository.getCount(tournament));
+            tournamentRepository.save(tournament);
+        }else{
+            Tournaments tournament = trnDto.toEntityForUpdate(user, tournamentCategory, group);
+            tournament.setCurrentTeamCount(tournamentParticipantRepository.getCount(tournament));
+            tournamentRepository.save(tournament);
+        }
     }
 
 

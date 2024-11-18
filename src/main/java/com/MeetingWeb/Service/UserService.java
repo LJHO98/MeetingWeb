@@ -63,9 +63,8 @@ public class UserService implements UserDetailsService {
 
     public User findByUserId(Long userId) {
         // Optional을 사용하여 존재 여부를 확인한 후 User 객체를 반환
-       userRepository.findById(userId)
+       return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 유저가 존재하지 않습니다. ID: " + userId));
-        return null;
     }
 
     // 로그인된 사용자 ID를 가져오는 메서드

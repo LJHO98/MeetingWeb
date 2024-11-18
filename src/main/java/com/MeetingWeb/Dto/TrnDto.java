@@ -105,6 +105,24 @@ public class TrnDto {
         tournaments.setGroup(group);
         return tournaments;
     }
+    public Tournaments toEntityForUpdate(User createdBy, TournamentCategory tournamentCategory, Groups group) {
+        Tournaments tournaments = new Tournaments();
+        tournaments.setId(this.tournamentId);
+        tournaments.setTitle(this.title);
+        tournaments.setDescription(this.description);
+        tournaments.setCategory(tournamentCategory);
+        tournaments.setReceiptStart(this.receiptStart);
+        tournaments.setReceiptEnd(this.receiptEnd);
+        tournaments.setStartDate(this.startDate);
+        tournaments.setEndDate(this.endDate);
+        tournaments.setStatus(this.status);
+        tournaments.setFormat(this.format);
+        tournaments.setCapacity(this.format);
+        tournaments.setCreatedBy(createdBy);
+        tournaments.setGroup(group);
+        return tournaments;
+    }
+
     public static TrnDto of(Tournaments tournaments){
         TrnDto trnDto = new TrnDto();
         trnDto.tournamentId = tournaments.getId();
