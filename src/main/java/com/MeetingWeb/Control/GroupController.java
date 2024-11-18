@@ -353,6 +353,12 @@ public class GroupController {
         groupService.acceptApplication(groupId, userId);
         return ResponseEntity.ok("신청 수락 완료");
     }
+    //신청거절 데이터삭제
+    @PostMapping("/group/{groupId}/application/{userId}/reject")
+    public ResponseEntity<String> acceptApplicationRefusal(@PathVariable Long groupId, @PathVariable Long userId, Model model) {
+        groupService.refusalApplication(groupId, userId);
+        return ResponseEntity.ok("신청 거절 완료");
+    }
 
     //모임장 탈퇴시 가입오래된 순서로 자동위임
     @PostMapping("/group/{groupId}/leave")
