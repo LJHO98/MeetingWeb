@@ -33,6 +33,9 @@ public class ProfileUploadService {
         String fileName = UUID.randomUUID() + fileExtension;
         Path filePath = Paths.get(userProfileImgPath, fileName);
 
+        // 디렉토리 생성
+        Files.createDirectories(filePath.getParent());
+
         // 파일 저장
         Files.write(filePath, file.getBytes());
 

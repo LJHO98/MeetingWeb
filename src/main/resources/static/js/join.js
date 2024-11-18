@@ -126,7 +126,7 @@ function sendNumber(){
             console.log("Error Status:", status); // 상태 코드
             console.log("Error:", error); // 에러 메시지
             console.log("Response:", xhr.responseText); // 서버 응답 메시지
-            showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
+            showAlert(xhr.responseText);
             $(".register-Btn").prop('disabled', false);
         }
 
@@ -355,13 +355,6 @@ $(document).ready(function() {
     });
 });
 
-$(function(){
-    $(".register-Btn").click(function(){
-        $(".certification-Btn").prop("disabled", false);
-        sendNumber();
-
-    });
-});
 
 // 이메일 유효성 검사
 $(document).ready(function() {

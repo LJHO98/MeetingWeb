@@ -83,23 +83,26 @@ public class TournamentController {
             return "tournament/createTournament";
         }
         System.out.println("컨트롤 if문 밖에 : "+trnDto.getTournamentId());
-        if(tournamentService.isExistTournament(trnDto.getTournamentId())){
-            tournamentService.updateTournament(trnDto, trnDto.getCreatedBy());
-            System.out.println("컨트롤 : "+trnDto.getTournamentId());
-        }
-        try {
-            // 대회 생성 호출
-            tournamentService.createTournament(trnDto,userName);
-        } catch (EntityNotFoundException e) {
-            // 권한 부족 시 메시지
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect: /tournament/createTournament";
-        } catch (IllegalArgumentException e) {
-            // 다른 예외 처리 (필요 시)
-            model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
-            return "tournament/createTournament";
-        } catch (IOException e) {
-            model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
+        if(trnDto.getTournamentId()!=null){
+            if(tournamentService.isExistTournament(trnDto.getTournamentId())){
+                tournamentService.updateTournament(trnDto, trnDto.getCreatedBy());
+                System.out.println("컨트롤 : "+trnDto.getTournamentId());
+            }
+        }else {
+            try {
+                // 대회 생성 호출
+                tournamentService.createTournament(trnDto, userName);
+            } catch (EntityNotFoundException e) {
+                // 권한 부족 시 메시지
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return "redirect: /tournament/createTournament";
+            } catch (IllegalArgumentException e) {
+                // 다른 예외 처리 (필요 시)
+                model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
+                return "tournament/createTournament";
+            } catch (IOException e) {
+                model.addAttribute("errorMessage", "대회 생성 중 오류가 발생했습니다.");
+            }
         }
 
         return "redirect:/tournament/list"; // 성공 시 대회 목록으로 이동
@@ -146,6 +149,7 @@ public class TournamentController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/tournament/" + tournamentId;
         }
+        redirectAttributes.addFlashAttribute("errorMessage", "대회신청이 완료되었습니다.");
         return "redirect:/tournament/" + tournamentId; // 신청 후 상세 페이지로 리다이렉트
     }
 

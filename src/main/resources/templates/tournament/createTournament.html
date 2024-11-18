@@ -117,7 +117,7 @@
 
         <div class="inputBox">
             <label th:for="group">대회 대상 모임</label>
-            <select name="groupId" class="group-select">
+            <select name="groupId" class="group-select" required>
                 <option value="">모임을 선택하세요</option>
                 <th:block th:each="group : ${groupList}">
                     <option th:value="${group.groupId}" th:text="${group.name}">모임 이름</option>

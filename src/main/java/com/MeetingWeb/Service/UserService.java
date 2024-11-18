@@ -110,6 +110,13 @@ public class UserService implements UserDetailsService {
 
         return userRepository.findByEmail(email);
     }
+    //중복 이메일 확인
+    public void validUserEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            throw new IllegalStateException("이미 가입된 이메일 입니다.");
+        }
+    }
 
 
     @Override

@@ -12,6 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NonUniqueResultException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -44,9 +45,12 @@ public class TournamentService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
 
         User createdBy = userRepository.findByUserName(userName);
+        if(trnDto.getGroupId()==null){
+            throw new EntityNotFoundException("모임을 만들지 않으면 대회 생성이 불가능합니다.");
+        }
+            Groups group = groupRepository.findById(trnDto.getGroupId())
+                    .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
 
-        Groups group = groupRepository.findById(trnDto.getGroupId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
 
         String tournamentImgUrl = profileUploadService.saveProfile(trnDto.getTournamentImg());
 
@@ -74,7 +78,16 @@ public class TournamentService {
 
     }
 
-    //대회 수정하기
+    //대회 수정
+    public void updateTournament(TrnDto trnDto, Long createdBy) {
+        User user = userService.findByUserId(createdBy);
+        TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
+        Groups group = groupRepository.findById(trnDto.getGroupId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
+        Tournaments tournament = trnDto.toEntity(trnDto.getTournamentImgUrl(),user, tournamentCategory, group);
+        tournamentRepository.save(tournament);
+    }
 
 
     //대회 목록 조회(내림차순)
@@ -256,6 +269,10 @@ public class TournamentService {
                 .orElseThrow(() -> new EntityNotFoundException("모임 조회실패"));
         int currentCount = tournamentParticipantRepository.getCount(tournament);
 
+        if(tournament.getStatus()!=TournamentStatus.IN_PROGRESS){
+            throw new IllegalArgumentException("대회가 아직 시작되지 않아 경기 결과 선택이 불가능합니다.");
+        }
+
         if(currentCount == (tournament.getFormat()*2) -2) {
             //패자 매치넘버
             int loserNum = 0;
@@ -387,6 +404,10 @@ public class TournamentService {
 
     public boolean isGroupOwner(String name) {
         User user = userService.findByUserName(name);
+        Groups group = groupRepository.findByCreatedById(user.getId()).orElse(null);
+        if(group==null){
+            return false;
+        }
         return user.getRole().equals(Role.LEADER);
     }
 
@@ -408,15 +429,6 @@ public class TournamentService {
         }
     }
 
-    public void updateTournament(TrnDto trnDto, Long createdBy) {
-        User user = userService.findByUserId(createdBy);
-        TournamentCategory tournamentCategory = tournamentCategoryRepository.findById(trnDto.getCategory())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + trnDto.getCategory()));
-        Groups group = groupRepository.findById(trnDto.getGroupId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 사용자는 모임장이 아닙니다."));
-        Tournaments tournament = trnDto.toEntity(trnDto.getTournamentImgUrl(),user, tournamentCategory, group);
-        tournamentRepository.save(tournament);
-    }
 }
 
 

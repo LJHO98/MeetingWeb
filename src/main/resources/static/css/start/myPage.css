@@ -158,3 +158,9 @@
 #btWrap button:hover{
     background: #47C83E;
 }
+
+#previewImage{
+    width:150px;
+    position:relative;
+    left:175px;
+}
