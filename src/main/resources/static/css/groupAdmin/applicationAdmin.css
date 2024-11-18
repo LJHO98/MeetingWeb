@@ -158,7 +158,7 @@
     border-radius: 5px;
 }
 
-.btn-success{
+#accept{
     background: #fffee8;
     color: #5D5D5D;
     border: 1px solid #aaa;
@@ -169,7 +169,7 @@
     font-family: 'NanumSquareAcr';
 }
 
-.btn-danger{
+#reject{
     background: #fffee8;
     color: #5D5D5D;
     border: 1px solid #aaa;
@@ -179,7 +179,7 @@
     font-family: 'NanumSquareAcr';
 }
 
-.btn-success:hover, .btn-danger:hover{
+#accept:hover, #reject:hover{
     background: #faf7bb;
     color: #5D5D5D;
     border: 1px solid #aaa;

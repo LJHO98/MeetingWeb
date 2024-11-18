@@ -19,17 +19,18 @@
 <link rel="stylesheet" href="/css/groupAdmin/groupAdminTop.css">
     <script>
             function openApplicationModal(applicationDto, groupId) {
-                    // 신청서 정보를 모달에 표시
-                        document.getElementById("modalReason").innerText = applicationDto.reason;
-                    document.getElementById("modalSay").innerText = applicationDto.say;
+                // 신청서 정보를 모달에 표시
+                document.getElementById("modalReason").innerText = applicationDto.reason;
+                document.getElementById("modalSay").innerText = applicationDto.say;
 
-                        // 수락 버튼에 groupId와 userId를 설정
-                            const acceptButton = document.getElementById("accept");
-                    acceptButton.setAttribute("data-group-id", groupId);
-                    acceptButton.setAttribute("data-user-id", applicationDto.user.userId);
+                // 수락 버튼에 groupId와 userId를 설정
+                const acceptButton = document.getElementById("accept");
+                acceptButton.setAttribute("data-group-id", groupId);
+                acceptButton.setAttribute("data-user-id", applicationDto.user.userId);
 
-                        // 모달 열기
-                            $('#applicationModal').modal('show');
+                // 모달 열기
+                $('#applicationModal').modal('show');
+                console.log("모달 창이 열립니다.");
                 }
 
             function acceptApplication() {
@@ -65,14 +66,13 @@
                 document.getElementById("modalGender").innerText = applicationDto.user.gender;
                 document.getElementById("modalBirthdate").innerText = applicationDto.user.birthdate;
                 document.getElementById("modalActivityArea").innerText = applicationDto.user.activityArea;
-                document.getElementById("modalCategories").innerText = applicationDto.user.selectedCategoryNames;
 
                 // 프로필 이미지 설정
                 const profileImg = document.getElementById("modalProfileImg");
                 profileImg.src = applicationDto.user.profileImgUrl;
                 profileImg.alt = applicationDto.user.name;
 
-                let selectedCategoryNames = applicationDto.selectedCategoryNames;
+                let selectedCategoryNames = applicationDto.user.selectedCategoryNames;
 
                 // selectedCategoryNames가 배열인 경우, 문자열로 변환
                 if ($.isArray(selectedCategoryNames)) {
@@ -182,11 +182,6 @@
     <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <!--                    <div class="modal-header">-->
-                <!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                <!--                            <span aria-hidden="true">&times;</span>-->
-                <!--                        </button>-->
-                <!--                    </div>-->
                 <div id="modal-body">
                     <div id="modal-top">
                         <div id="modal-member">
@@ -194,7 +189,9 @@
                             <div id="modal-detail">
                                 <div id="modal-name">
                                     <div id="modalMemberName"></div>
-                                    <div id="modalGender" data-gender><i id="genderIcon"></i></div>
+                                    <div id="modalGender" data-gender>
+                                        <i id="genderIcon"></i>
+                                    </div>
                                 </div>
                                 <div id="modalBirthdate"></div>
                                 <div id="modalActivityArea"></div>
@@ -204,46 +201,39 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div id="modalCategoriesContainer">
                         <span id="modalCategories"></span>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
     <!-- 신청서 모달 -->
     <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="modal-title" id="applicationModalLabel">신청서</div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="applicationModalLabel">신청서</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="reasonWrap">
+                        <div id="reasonText">가입 이유</div>
+                        <div id="modalReason"></div>
                     </div>
-                    <div class="modal-body">
-                        <div id="reasonWrap">
-                            <div id="reasonText">가입 이유</div>
-                            <div id="modalReason"></div>
-                        </div>
-                        <div id="sayWrap">
-                            <div id="sayText">가입 이유</div>
-                            <div id="modalSay"></div>
-                        </div>
+                    <div id="sayWrap">
+                        <div id="sayText">가입 이유</div>
+                        <div id="modalSay"></div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="accept" onclick="acceptApplication()">수락</button>
-                        <button type="button" class="btn btn-danger" onclick="rejectApplication()">거절</button>
-                    </div>
-    <!--                <div class="modal-footer">-->
-    <!--                    &lt;!&ndash; groupId와 userId를 직접 출력 &ndash;&gt;-->
-    <!--                    <button type="button" class="btn btn-success" >수락</button>-->
-    <!--                    <button type="button" class="btn btn-danger" onclick="rejectApplication()">거절</button>-->
-    <!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>-->
-    <!--                </div>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="accept" onclick="acceptApplication()">수락</button>
+                    <button type="button" class="btn btn-danger" id="reject" onclick="rejectApplication()">거절</button>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

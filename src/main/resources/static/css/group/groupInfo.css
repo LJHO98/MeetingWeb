@@ -224,7 +224,7 @@
 #titleWrap{
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
 }
 
 #eventTitle{
@@ -235,8 +235,10 @@
 #eventCapacity{
     border-radius: 5px;
     border: 1px solid #aaa;
-    padding: 3px 8px;
+    padding: 0 15px;
     background: #fff;
+    line-height: 28px;
+    font-family: 'NanumSquareAcr';
 }
 
 #eventTop button{
