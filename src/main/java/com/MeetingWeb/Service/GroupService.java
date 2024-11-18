@@ -472,8 +472,16 @@ public class GroupService {
         return true;
     }
 
+    //승인가입신청 거절
+    public void refusalApplication(Long groupId, Long userId) {
 
-
+        GroupApplication groupApplication = groupApplicationRepository.findByGroup_GroupIdAndUser_Id(groupId, userId);
+        if (groupApplication == null) {
+            throw new IllegalArgumentException("해당 그룹 신청서가 존재하지 않습니다.");
+        }
+        // GroupApplication 삭제
+        groupApplicationRepository.delete(groupApplication);
+    }
 }
 
 

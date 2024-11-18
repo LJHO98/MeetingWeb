@@ -12,4 +12,7 @@ public interface GroupApplicationRepository extends JpaRepository<GroupApplicati
     List<GroupApplication> findByGroup_GroupId(Long groupId);//해당그룹의 신청목록
 
     GroupApplication findByUser_Id(Long userId);
+
+    //그룹 ID와 유저 ID로 GroupApplication 조회
+    GroupApplication findByGroup_GroupIdAndUser_Id(Long groupId, Long userId);
 }
