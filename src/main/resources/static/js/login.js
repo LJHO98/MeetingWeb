@@ -35,11 +35,11 @@ function sendNumber(){
             $("#number").focus();
         },
         error: function(xhr, status, error) {
-            console.log("Error Status:", status); // 상태 코드
-            console.log("Error:", error); // 에러 메시지
-            console.log("Response:", xhr.responseText); // 서버 응답 메시지
-            showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
-            $("#register-Btn").prop('disabled', false);
+             //console.log("Error Status:", status); // 상태 코드
+            // console.log("Error:", error); // 에러 메시지
+            // console.log("Response:", xhr.responseText); // 서버 응답 메시지
+            showAlert("이메일이 존재하지 않습니다 다시한번 확인해주세요");
+            // $("#register-Btn").prop('disabled', false);
         }
 
 
@@ -163,10 +163,7 @@ function pwSendNumber(){
             $("#pwNumber").focus();
         },
         error: function(xhr, status, error) {
-            console.log("Error Status:", status); // 상태 코드
-            console.log("Error:", error); // 에러 메시지
-            console.log("Response:", xhr.responseText); // 서버 응답 메시지
-            showAlert(xhr.responseText + "\n상태: " + status + "\n에러: " + error);
+            showAlert("존재하지 않는 이메일입니다 다시한번 확인해주세요");
             $("#pwRegister-Btn").prop('disabled', false);
         }
 
