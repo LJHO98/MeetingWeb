@@ -159,15 +159,15 @@ a:hover{
 
 .gender-chart-container {
     display: flex;
-    margin: 30px 0;
+    margin: 10px 0;
     flex-wrap: wrap;
-    gap: 5%;
+    gap: 10px;
     width: 85%;
 }
 
 #doughnut{
-    width: 45%;
-    aspect-ratio: 1.3 / 1;
+    width: calc((100% - 10px) / 2);
+    aspect-ratio: 1.5 / 1;
     border: 2px solid #747474;
     padding: 20px 0;
     font-size: 24px;
@@ -186,7 +186,7 @@ a:hover{
 }
 
 #count{
-    width: 50%;
+    width: calc((100% - 10px) / 2);
     display: flex;
     flex-wrap: wrap;
     border: 2px solid #747474;
@@ -210,7 +210,12 @@ a:hover{
 .line-chart-container {
     width: 85%;
     border: 2px solid #747474;
-    padding: 20px 30px;
+    padding: 20px 180px 0 180px;
+    font-size: 24px;
+    font-family: 'NanumSquareAcB';
+    text-align: center;
+    display: grid;
+    gap: 10px;
 }
 
 #myChart {
