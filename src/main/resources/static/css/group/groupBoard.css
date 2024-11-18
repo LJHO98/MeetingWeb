@@ -144,6 +144,10 @@
     width: 80%;
     margin-right: 3%;
     color: #5D5D5D;
+    white-space: nowrap;       /* 텍스트를 한 줄로 표시 */
+    overflow: hidden;          /* 넘친 텍스트를 숨김 */
+    text-overflow: ellipsis;   /* 넘친 부분을 말 줄임표(...)로 표시 */
+
 }
 
 #postBox{

@@ -24,7 +24,6 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @GetMapping("/start/agreement")
     public String agreement(){
@@ -101,7 +100,7 @@ public class UserController {
     }
 
     @GetMapping("/start/login")
-    public String login(Model model) {
+    public String login() {
         return "start/login";
     }
 

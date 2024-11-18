@@ -348,7 +348,7 @@ public class GroupController {
     }
     //신청수락 후 해당모임 가입저장
     @PostMapping("/group/{groupId}/application/{userId}")
-    public ResponseEntity<String> acceptApplication(@PathVariable Long groupId, @PathVariable Long userId, Model model) {
+    public ResponseEntity<String> acceptApplication(@PathVariable Long groupId, @PathVariable Long userId) {
         groupService.acceptApplication(groupId, userId);
         return ResponseEntity.ok("신청 수락 완료");
     }

@@ -184,7 +184,7 @@
 
             <div id="noticeList">
                 <div th:each="notice : ${notices}">
-                    <p th:text="${notice.content}">
+                    <p  th:text="${notice.content}">
                         <button th:if="${isGroupOwner}" class="btn btn-danger btn-sm" th:onclick="'deleteNotice(' + ${notice.id} + ')'">삭제</button>
                     </p>
                 </div>

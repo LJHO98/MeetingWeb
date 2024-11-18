@@ -27,9 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TournamentController {
     private final TournamentService tournamentService;
-    private final UserService userService;
     private final GroupService groupService;
-    private final TournamentParticipantRepository tournamentParticipantRepository;
 
 
     //대회 목록
