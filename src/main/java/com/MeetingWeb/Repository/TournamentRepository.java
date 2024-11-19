@@ -24,7 +24,7 @@ public interface TournamentRepository extends JpaRepository<Tournaments, Long> {
     @Query("SELECT e FROM Tournaments e WHERE e.id NOT IN :excludedIds")
     List<Tournaments> findAllExcludingIds(@Param("excludedIds") List<Long> excludedIds);
 
-    //모임 검색 기능
+    //대회 검색 기능
     @Query("SELECT t FROM Tournaments t " +
             "WHERE (:categoryId IS NULL OR t.category.tournamentCategoryId = :categoryId) " +
             "AND (:inputText IS NULL OR t.title LIKE %:inputText% OR t.description LIKE %:inputText%)")

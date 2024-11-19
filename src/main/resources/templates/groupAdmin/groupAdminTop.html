@@ -22,7 +22,7 @@
         <div id="schedule">
             <a th:href="@{'/groupAdmin/' + ${groupDetail.groupId} + '/eventAdmin'}">일정</a>
         </div>
-        <div id="application" th:if="${groupDetail.registrationType == T(com.MeetingWeb.Constant.RegistType).APPROVAL }">
+        <div id="application" th:if="${groupDetail.registrationType.equals(T(com.MeetingWeb.Constant.RegistType).APPROVAL) }">
             <a th:href="@{'/group/' + ${groupDetail.groupId} + '/application'}">신청서목록</a>
         </div>
         <div id="member">
